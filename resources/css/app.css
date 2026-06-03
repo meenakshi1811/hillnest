@@ -1,0 +1,95 @@
+@import 'tailwindcss';
+
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../storage/framework/views/*.php';
+@source '../**/*.blade.php';
+@source '../**/*.js';
+
+@theme {
+    --font-sans: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+    --font-display: 'Cormorant Garamond', 'Playfair Display', Georgia, serif;
+    --color-cream: #faf8f5;
+    --color-cream-dark: #f0ebe3;
+    --color-brand: #3d2914;
+    --color-brand-light: #5c4228;
+    --color-gold: #b8860b;
+    --color-gold-light: #d4a84b;
+    --color-gold-bg: #f5edd8;
+    --color-forest: #2d4a2a;
+    --color-forest-dark: #1e331c;
+    --color-hill-50: #faf8f5;
+    --color-hill-100: #f0ebe3;
+    --color-hill-200: #e5ddd0;
+    --color-hill-500: #b8860b;
+    --color-hill-600: #9a7209;
+    --color-forest-700: #2d4a2a;
+    --color-forest-800: #1e331c;
+}
+
+@layer base {
+    html {
+        font-size: 17px;
+    }
+
+    body {
+        @apply bg-cream text-brand antialiased;
+        font-feature-settings: 'kern' 1;
+    }
+
+    h1, h2, h3 {
+        @apply text-brand;
+    }
+}
+
+@layer utilities {
+    .font-display {
+        font-family: var(--font-display);
+    }
+
+    .section-title {
+        @apply font-display text-center text-3xl md:text-4xl font-semibold tracking-tight text-brand;
+    }
+
+    .btn-primary {
+        @apply inline-flex items-center justify-center rounded-sm bg-brand px-8 py-3.5 text-base font-semibold uppercase tracking-wider text-white transition hover:bg-brand-light;
+    }
+
+    .btn-gold {
+        @apply inline-flex items-center justify-center rounded-sm bg-gold px-8 py-3.5 text-base font-semibold uppercase tracking-wider text-white transition hover:bg-gold-light;
+    }
+
+    .btn-outline {
+        @apply inline-flex items-center justify-center rounded-sm border-2 border-brand px-8 py-3.5 text-base font-semibold uppercase tracking-wider text-brand transition hover:bg-brand hover:text-white;
+    }
+
+    .product-card-rosier {
+        @apply flex flex-col bg-white border border-hill-200 transition-shadow duration-300 hover:shadow-lg;
+    }
+
+    .announcement-bar {
+        @apply bg-gold-bg text-brand text-center text-sm md:text-base font-medium py-2.5 px-4 tracking-wide;
+    }
+
+    .logo-img {
+        @apply h-12 sm:h-14 md:h-[4.5rem] w-auto max-w-[min(280px,55vw)] object-contain object-left;
+    }
+
+    .scrollbar-hide {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-hide::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+/* Hero slider */
+.hero-slide {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+    pointer-events: none;
+}
+.hero-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+}
