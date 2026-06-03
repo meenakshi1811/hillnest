@@ -10,4 +10,8 @@
         loading="eager"
         onerror="this.onerror=null; this.src='{{ asset('images/logo.svg') }}';"
     >
+    <span class="d-none d-md-block lh-1">
+        <span class="d-block brand-title">Hillnest</span>
+        <span class="d-block brand-subtitle">Pure Bilona Ghee</span>
+    </span>
 </a>
