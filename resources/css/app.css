@@ -67,11 +67,12 @@
     }
 
     .announcement-bar {
-        @apply bg-gold-bg text-brand text-center text-sm md:text-base font-medium py-2.5 px-4 tracking-wide;
+        @apply bg-brand text-cream text-center text-sm md:text-base font-medium py-2.5 px-4 tracking-wide;
     }
 
     .logo-img {
-        @apply h-12 sm:h-14 md:h-[4.5rem] w-auto max-w-[min(280px,55vw)] object-contain object-left;
+        @apply h-12 sm:h-14 md:h-16 w-auto max-w-[min(240px,48vw)] object-contain object-left;
+        filter: drop-shadow(0 6px 14px rgb(61 41 20 / 0.16));
     }
 
     .scrollbar-hide {

@@ -16,51 +16,51 @@
     <div class="announcement-bar">
         <span class="inline-flex flex-wrap items-center justify-center gap-2">
             <span>☀️ Himalayan Purity Sale</span>
-            <span class="hidden sm:inline text-brand-light">|</span>
+            <span class="hidden sm:inline text-gold-light">|</span>
             <span class="font-semibold">Flat 10% OFF + Free Shipping on orders above ₹2,000</span>
         </span>
     </div>
 
-    <header class="sticky top-0 z-50 bg-white border-b border-hill-200 shadow-sm">
+    <header class="sticky top-0 z-50 border-b border-gold/20 bg-cream/95 shadow-[0_18px_45px_rgba(61,41,20,0.10)] backdrop-blur-xl">
         <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-            <div class="flex h-[72px] md:h-[80px] items-center justify-between gap-4">
+            <div class="flex h-[82px] md:h-[92px] items-center justify-between gap-4">
                 <x-logo />
 
-                <nav class="hidden lg:flex items-center gap-10 text-[15px] font-medium text-brand-light">
-                    <a href="{{ route('home') }}" class="hover:text-gold transition {{ request()->routeIs('home') ? 'text-gold' : '' }}">Home</a>
-                    <a href="{{ route('shop.index') }}" class="hover:text-gold transition {{ request()->routeIs('shop.*') ? 'text-gold' : '' }}">Shop</a>
-                    <a href="{{ route('about') }}" class="hover:text-gold transition {{ request()->routeIs('about') ? 'text-gold' : '' }}">Our Story</a>
-                    <a href="{{ route('shop.index') }}#collection" class="hover:text-gold transition">Bilona Ghee</a>
+                <nav class="hidden lg:flex items-center gap-2 rounded-full border border-hill-200/80 bg-white/75 p-1.5 text-[15px] font-semibold text-brand-light shadow-inner shadow-white/80">
+                    <a href="{{ route('home') }}" class="rounded-full px-5 py-2.5 transition hover:bg-gold-bg hover:text-brand {{ request()->routeIs('home') ? 'bg-gold text-white shadow-sm hover:bg-gold hover:text-white' : '' }}">Home</a>
+                    <a href="{{ route('shop.index') }}" class="rounded-full px-5 py-2.5 transition hover:bg-gold-bg hover:text-brand {{ request()->routeIs('shop.*') ? 'bg-gold text-white shadow-sm hover:bg-gold hover:text-white' : '' }}">Shop</a>
+                    <a href="{{ route('about') }}" class="rounded-full px-5 py-2.5 transition hover:bg-gold-bg hover:text-brand {{ request()->routeIs('about') ? 'bg-gold text-white shadow-sm hover:bg-gold hover:text-white' : '' }}">Our Story</a>
+                    <a href="{{ route('shop.index') }}#collection" class="rounded-full px-5 py-2.5 transition hover:bg-gold-bg hover:text-brand">Bilona Ghee</a>
                 </nav>
 
-                <div class="flex items-center gap-1 sm:gap-3">
-                    <a href="{{ route('shop.index') }}" class="hidden md:inline-flex p-2.5 text-brand-light hover:text-gold" aria-label="Search">
+                <div class="flex items-center gap-1.5 sm:gap-3">
+                    <a href="{{ route('shop.index') }}" class="hidden md:inline-flex h-11 w-11 items-center justify-center rounded-full border border-hill-200 bg-white text-brand-light shadow-sm transition hover:border-gold hover:bg-gold-bg hover:text-brand" aria-label="Search">
                         <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
                     </a>
 
                     @auth
-                        <a href="{{ route('account.orders') }}" class="hidden sm:inline text-[15px] font-medium text-brand-light hover:text-gold px-2">My Account</a>
+                        <a href="{{ route('account.orders') }}" class="hidden sm:inline-flex items-center rounded-full border border-hill-200 bg-white px-4 py-2.5 text-[15px] font-semibold text-brand-light shadow-sm transition hover:border-gold hover:bg-gold-bg hover:text-brand">My Account</a>
                     @else
-                        <a href="{{ route('login') }}" class="hidden sm:inline text-[15px] font-medium text-brand-light hover:text-gold px-2">Log in</a>
+                        <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center rounded-full border border-hill-200 bg-white px-4 py-2.5 text-[15px] font-semibold text-brand-light shadow-sm transition hover:border-gold hover:bg-gold-bg hover:text-brand">Log in</a>
                     @endauth
 
-                    <a href="{{ route('cart.index') }}" class="relative flex items-center gap-1.5 p-2.5 text-brand hover:text-gold transition" aria-label="Cart">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.25 10.5V6a2.25 2.25 0 114.5 0v4.5"/></svg>
+                    <a href="{{ route('cart.index') }}" class="relative flex items-center gap-1.5 rounded-full bg-brand px-3.5 py-2.5 text-white shadow-lg shadow-brand/15 transition hover:bg-gold" aria-label="Cart">
+                        <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.25 10.5V6a2.25 2.25 0 114.5 0v4.5"/></svg>
                         <span class="hidden sm:inline text-[15px] font-semibold">Cart</span>
                         @if(($cartCount ?? 0) > 0)
-                            <span class="absolute top-1 right-0 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold px-1 text-[11px] font-bold text-white">{{ $cartCount }}</span>
+                            <span class="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold-light px-1 text-[11px] font-bold text-brand ring-2 ring-cream">{{ $cartCount }}</span>
                         @endif
                     </a>
 
-                    <button type="button" id="mobile-menu-btn" class="lg:hidden p-2.5 text-brand" aria-label="Menu">
+                    <button type="button" id="mobile-menu-btn" class="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-full border border-hill-200 bg-white text-brand shadow-sm" aria-label="Menu">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
                     </button>
                 </div>
             </div>
         </div>
 
-        <div id="mobile-menu" class="hidden lg:hidden border-t border-hill-200 bg-white px-4 py-4">
-            <nav class="flex flex-col gap-3 text-base font-medium text-brand">
+        <div id="mobile-menu" class="hidden lg:hidden border-t border-gold/20 bg-cream/98 px-4 py-5 shadow-inner">
+            <nav class="flex flex-col gap-3 text-base font-semibold text-brand">
                 <a href="{{ route('home') }}">Home</a>
                 <a href="{{ route('shop.index') }}">Shop</a>
                 <a href="{{ route('about') }}">Our Story</a>
