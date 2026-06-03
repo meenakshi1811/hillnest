@@ -58,6 +58,7 @@ function initMobileMenu() {
     if (!btn || !menu) return;
 
     btn.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
+        const isOpen = !menu.classList.toggle('hidden');
+        btn.setAttribute('aria-expanded', String(isOpen));
     });
 }

@@ -66,13 +66,9 @@
         @apply flex flex-col bg-white border border-hill-200 transition-shadow duration-300 hover:shadow-lg;
     }
 
-    .announcement-bar {
-        @apply bg-brand text-cream text-center text-sm md:text-base font-medium py-2.5 px-4 tracking-wide;
-    }
-
     .logo-img {
-        @apply h-12 sm:h-14 md:h-16 w-auto max-w-[min(240px,48vw)] object-contain object-left;
-        filter: drop-shadow(0 6px 14px rgb(61 41 20 / 0.16));
+        @apply h-16 w-16 sm:h-20 sm:w-20 object-contain;
+        filter: drop-shadow(0 7px 16px rgb(61 41 20 / 0.14));
     }
 
     .scrollbar-hide {
