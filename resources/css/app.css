@@ -66,13 +66,170 @@
         @apply flex flex-col bg-white border border-hill-200 transition-shadow duration-300 hover:shadow-lg;
     }
 
-    .announcement-bar {
-        @apply bg-brand text-cream text-center text-sm md:text-base font-medium py-2.5 px-4 tracking-wide;
+    .site-header {
+        background: linear-gradient(180deg, #fffdf9 0%, rgb(250 248 245 / 0.98) 100%);
+        border-bottom: 1px solid rgb(184 134 11 / 0.14);
+        box-shadow: 0 10px 28px rgb(61 41 20 / 0.08);
+        backdrop-filter: blur(18px);
+        overflow: visible;
+    }
+
+    .site-header .navbar {
+        min-height: 116px;
+        overflow: visible;
+    }
+
+    .logo-link {
+        min-width: 158px;
+        overflow: visible;
     }
 
     .logo-img {
-        @apply h-12 sm:h-14 md:h-16 w-auto max-w-[min(240px,48vw)] object-contain object-left;
-        filter: drop-shadow(0 6px 14px rgb(61 41 20 / 0.16));
+        width: 158px;
+        height: 158px;
+        max-width: none;
+        object-fit: contain;
+        margin-block: -21px;
+        transform: scale(1.28);
+        transform-origin: center;
+        filter: drop-shadow(0 10px 18px rgb(61 41 20 / 0.16));
+    }
+
+    .header-nav {
+        background: #fff;
+        border: 1px solid rgb(229 221 208 / 0.95);
+        border-radius: 999px;
+        padding: 0.35rem;
+        box-shadow: 0 10px 24px rgb(61 41 20 / 0.06);
+    }
+
+    .header-nav-link {
+        border-radius: 999px;
+        color: var(--color-brand-light);
+        font-size: 1rem;
+        font-weight: 500;
+        line-height: 1;
+        padding: 0.78rem 1.15rem;
+        transition: background-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .header-nav-link:hover {
+        background: var(--color-gold-bg);
+        color: var(--color-brand);
+    }
+
+    .header-nav-link.active {
+        background: var(--color-brand);
+        color: #fff;
+        box-shadow: 0 8px 18px rgb(61 41 20 / 0.16);
+    }
+
+    .header-action,
+    .cart-button {
+        border-radius: 999px;
+        font-size: 0.96rem;
+        font-weight: 500;
+        line-height: 1;
+        padding: 0.8rem 1rem;
+        transition: background-color 0.2s ease, border-color 0.2s ease, color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .header-action {
+        background: #fff;
+        border: 1px solid var(--color-hill-200);
+        color: var(--color-brand-light);
+        box-shadow: 0 8px 20px rgb(61 41 20 / 0.05);
+    }
+
+    .header-action:hover {
+        background: var(--color-gold-bg);
+        border-color: var(--color-gold-light);
+        color: var(--color-brand);
+    }
+
+    .cart-button {
+        background: var(--color-brand);
+        border: 1px solid var(--color-brand);
+        color: #fff;
+        box-shadow: 0 10px 24px rgb(61 41 20 / 0.14);
+    }
+
+    .cart-button:hover {
+        background: var(--color-gold);
+        border-color: var(--color-gold);
+        color: #fff;
+        box-shadow: 0 12px 28px rgb(184 134 11 / 0.20);
+    }
+
+    .cart-badge {
+        background: var(--color-gold-light);
+        color: var(--color-brand);
+        font-size: 0.68rem;
+    }
+
+    .header-icon {
+        width: 1.18rem;
+        height: 1.18rem;
+    }
+
+    .mobile-menu {
+        background: rgb(250 248 245 / 0.99);
+        border-top: 1px solid var(--color-hill-200);
+        box-shadow: inset 0 1px 0 rgb(255 255 255 / 0.8);
+    }
+
+    .mobile-nav-link {
+        color: var(--color-brand);
+        font-size: 1rem;
+        font-weight: 500;
+        text-decoration: none;
+    }
+
+    @media (min-width: 1200px) {
+        .logo-link {
+            min-width: 184px;
+        }
+
+        .logo-img {
+            width: 184px;
+            height: 184px;
+            margin-block: -34px;
+            transform: scale(1.32);
+        }
+    }
+
+    @media (max-width: 991.98px) {
+        .site-header .navbar {
+            min-height: 104px;
+        }
+
+        .logo-link {
+            min-width: 138px;
+        }
+
+        .logo-img {
+            width: 138px;
+            height: 138px;
+            margin-block: -17px;
+            transform: scale(1.28);
+        }
+    }
+
+    @media (max-width: 575.98px) {
+        .site-header .navbar {
+            min-height: 92px;
+        }
+
+        .logo-link {
+            min-width: 118px;
+        }
+
+        .logo-img {
+            width: 118px;
+            height: 118px;
+            margin-block: -13px;
+            transform: scale(1.25);
+        }
     }
 
     .scrollbar-hide {

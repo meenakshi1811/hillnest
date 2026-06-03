@@ -9,70 +9,64 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="preconnect" href="https://images.unsplash.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen flex flex-col bg-cream">
-    {{-- Announcement bar (Rosier-style) --}}
-    <div class="announcement-bar">
-        <span class="inline-flex flex-wrap items-center justify-center gap-2">
-            <span>☀️ Himalayan Purity Sale</span>
-            <span class="hidden sm:inline text-gold-light">|</span>
-            <span class="font-semibold">Flat 10% OFF + Free Shipping on orders above ₹2,000</span>
-        </span>
-    </div>
-
-    <header class="sticky top-0 z-50 border-b border-gold/20 bg-cream/95 shadow-[0_18px_45px_rgba(61,41,20,0.10)] backdrop-blur-xl">
-        <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-            <div class="flex h-[82px] md:h-[92px] items-center justify-between gap-4">
+    <header class="site-header sticky-top">
+        <nav class="navbar navbar-expand-lg py-0">
+            <div class="container-xxl d-flex align-items-center justify-content-between gap-3 px-3 px-sm-4">
                 <x-logo />
 
-                <nav class="hidden lg:flex items-center gap-2 rounded-full border border-hill-200/80 bg-white/75 p-1.5 text-[15px] font-semibold text-brand-light shadow-inner shadow-white/80">
-                    <a href="{{ route('home') }}" class="rounded-full px-5 py-2.5 transition hover:bg-gold-bg hover:text-brand {{ request()->routeIs('home') ? 'bg-gold text-white shadow-sm hover:bg-gold hover:text-white' : '' }}">Home</a>
-                    <a href="{{ route('shop.index') }}" class="rounded-full px-5 py-2.5 transition hover:bg-gold-bg hover:text-brand {{ request()->routeIs('shop.*') ? 'bg-gold text-white shadow-sm hover:bg-gold hover:text-white' : '' }}">Shop</a>
-                    <a href="{{ route('about') }}" class="rounded-full px-5 py-2.5 transition hover:bg-gold-bg hover:text-brand {{ request()->routeIs('about') ? 'bg-gold text-white shadow-sm hover:bg-gold hover:text-white' : '' }}">Our Story</a>
-                    <a href="{{ route('shop.index') }}#collection" class="rounded-full px-5 py-2.5 transition hover:bg-gold-bg hover:text-brand">Bilona Ghee</a>
-                </nav>
+                <div class="d-none d-lg-flex align-items-center justify-content-center gap-2 mx-auto header-nav">
+                    <a href="{{ route('home') }}" class="nav-link header-nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
+                    <a href="{{ route('shop.index') }}" class="nav-link header-nav-link {{ request()->routeIs('shop.*') ? 'active' : '' }}">Shop</a>
+                    <a href="{{ route('about') }}" class="nav-link header-nav-link {{ request()->routeIs('about') ? 'active' : '' }}">Our Story</a>
+                    <a href="{{ route('shop.index') }}#collection" class="nav-link header-nav-link">Bilona Ghee</a>
+                </div>
 
-                <div class="flex items-center gap-1.5 sm:gap-3">
-                    <a href="{{ route('shop.index') }}" class="hidden md:inline-flex h-11 w-11 items-center justify-center rounded-full border border-hill-200 bg-white text-brand-light shadow-sm transition hover:border-gold hover:bg-gold-bg hover:text-brand" aria-label="Search">
-                        <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <div class="d-flex align-items-center gap-2 header-actions">
+                    <a href="{{ route('shop.index') }}" class="btn btn-light header-action d-none d-lg-inline-flex align-items-center gap-2" aria-label="Search products">
+                        <svg class="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                        <span>Search</span>
                     </a>
 
                     @auth
-                        <a href="{{ route('account.orders') }}" class="hidden sm:inline-flex items-center rounded-full border border-hill-200 bg-white px-4 py-2.5 text-[15px] font-semibold text-brand-light shadow-sm transition hover:border-gold hover:bg-gold-bg hover:text-brand">My Account</a>
+                        <a href="{{ route('account.orders') }}" class="btn btn-light header-action d-none d-lg-inline-flex">My Account</a>
                     @else
-                        <a href="{{ route('login') }}" class="hidden sm:inline-flex items-center rounded-full border border-hill-200 bg-white px-4 py-2.5 text-[15px] font-semibold text-brand-light shadow-sm transition hover:border-gold hover:bg-gold-bg hover:text-brand">Log in</a>
+                        <a href="{{ route('login') }}" class="btn btn-light header-action d-none d-lg-inline-flex">Log in</a>
                     @endauth
 
-                    <a href="{{ route('cart.index') }}" class="relative flex items-center gap-1.5 rounded-full bg-brand px-3.5 py-2.5 text-white shadow-lg shadow-brand/15 transition hover:bg-gold" aria-label="Cart">
-                        <svg class="h-5 w-5 sm:h-6 sm:w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.25 10.5V6a2.25 2.25 0 114.5 0v4.5"/></svg>
-                        <span class="hidden sm:inline text-[15px] font-semibold">Cart</span>
+                    <a href="{{ route('cart.index') }}" class="btn cart-button position-relative d-inline-flex align-items-center gap-2" aria-label="Cart">
+                        <svg class="header-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.7" d="M15.75 10.5V6a3.75 3.75 0 10-7.5 0v4.5m11.356-1.993l1.263 12c.07.665-.45 1.243-1.119 1.243H4.25a1.125 1.125 0 01-1.12-1.243l1.264-12A1.125 1.125 0 015.513 7.5h12.974c.576 0 1.059.435 1.119 1.007zM8.25 10.5V6a2.25 2.25 0 114.5 0v4.5"/></svg>
+                        <span class="d-none d-sm-inline">Cart</span>
                         @if(($cartCount ?? 0) > 0)
-                            <span class="absolute -top-1 -right-1 flex h-5 min-w-5 items-center justify-center rounded-full bg-gold-light px-1 text-[11px] font-bold text-brand ring-2 ring-cream">{{ $cartCount }}</span>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill cart-badge">{{ $cartCount }}</span>
                         @endif
                     </a>
 
-                    <button type="button" id="mobile-menu-btn" class="lg:hidden inline-flex h-11 w-11 items-center justify-center rounded-full border border-hill-200 bg-white text-brand shadow-sm" aria-label="Menu">
-                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+                    <button type="button" id="mobile-menu-btn" class="navbar-toggler d-lg-none" aria-label="Menu" aria-controls="mobile-menu" aria-expanded="false">
+                        <span class="navbar-toggler-icon"></span>
                     </button>
                 </div>
             </div>
-        </div>
+        </nav>
 
-        <div id="mobile-menu" class="hidden lg:hidden border-t border-gold/20 bg-cream/98 px-4 py-5 shadow-inner">
-            <nav class="flex flex-col gap-3 text-base font-semibold text-brand">
-                <a href="{{ route('home') }}">Home</a>
-                <a href="{{ route('shop.index') }}">Shop</a>
-                <a href="{{ route('about') }}">Our Story</a>
+        <div id="mobile-menu" class="d-none d-lg-none mobile-menu">
+            <nav class="container-xxl d-flex flex-column gap-3 px-4 py-4">
+                <a href="{{ route('home') }}" class="mobile-nav-link">Home</a>
+                <a href="{{ route('shop.index') }}" class="mobile-nav-link">Shop</a>
+                <a href="{{ route('about') }}" class="mobile-nav-link">Our Story</a>
+                <a href="{{ route('shop.index') }}#collection" class="mobile-nav-link">Bilona Ghee</a>
                 @auth
-                    <a href="{{ route('account.orders') }}">My Orders</a>
+                    <a href="{{ route('account.orders') }}" class="mobile-nav-link">My Orders</a>
                     @if(auth()->user()->isAdmin())
-                        <a href="{{ route('admin.dashboard') }}">Admin</a>
+                        <a href="{{ route('admin.dashboard') }}" class="mobile-nav-link">Admin</a>
                     @endif
-                    <form method="POST" action="{{ route('logout') }}">@csrf<button type="submit" class="text-left text-red-700">Logout</button></form>
+                    <form method="POST" action="{{ route('logout') }}">@csrf<button type="submit" class="mobile-nav-link text-danger border-0 bg-transparent p-0">Logout</button></form>
                 @else
-                    <a href="{{ route('login') }}">Log in</a>
-                    <a href="{{ route('register') }}">Register</a>
+                    <a href="{{ route('login') }}" class="mobile-nav-link">Log in</a>
+                    <a href="{{ route('register') }}" class="mobile-nav-link">Register</a>
                 @endauth
             </nav>
         </div>
