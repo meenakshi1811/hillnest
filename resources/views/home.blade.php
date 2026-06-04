@@ -109,8 +109,10 @@
         </div>
         <div class="hero-badge" aria-label="Traditional Bilona Method">
           <span class="hero-badge-kicker">Traditional</span>
-          <span class="hero-badge-title">Bilona</span>
-          <span class="hero-badge-subtitle">Method</span>
+          <span class="hero-badge-copy">
+            <span class="hero-badge-title">Bilona</span>
+            <span class="hero-badge-subtitle">Method</span>
+          </span>
         </div>
       </div>
     </div>
