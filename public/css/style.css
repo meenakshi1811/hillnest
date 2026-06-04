@@ -189,7 +189,7 @@
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 80px;
-      align-items: center;
+      align-items: start;
       position: relative;
       z-index: 2;
     }
@@ -346,6 +346,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
+      margin-top: -54px;
       animation: fadeSlideUp 0.9s 0.2s ease both;
     }
 
@@ -389,57 +390,74 @@
 
     .hero-badge {
       position: absolute;
-      top: 12px;
-      right: -4px;
-      width: 132px;
-      min-height: 132px;
-      padding: 20px 14px;
-      border-radius: 32px;
+      top: -18px;
+      right: -28px;
+      width: 158px;
+      min-height: 168px;
+      padding: 24px 18px 20px;
+      border-radius: 38px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      gap: 4px;
+      gap: 7px;
       overflow: hidden;
       color: var(--forest);
       text-align: center;
-      background: linear-gradient(145deg, rgba(255,255,255,0.96), rgba(246,229,180,0.94));
-      border: 1px solid rgba(201,151,58,0.38);
-      box-shadow: 0 18px 42px rgba(30,59,47,0.15), inset 0 1px 0 rgba(255,255,255,0.92);
+      background:
+        radial-gradient(circle at 22% 18%, rgba(255,255,255,0.98), transparent 34%),
+        linear-gradient(150deg, rgba(255,255,255,0.96) 0%, rgba(251,239,199,0.98) 54%, rgba(224,181,82,0.34) 100%);
+      border: 1px solid rgba(201,151,58,0.46);
+      box-shadow:
+        0 24px 50px rgba(30,59,47,0.18),
+        0 0 0 8px rgba(255,255,255,0.34),
+        inset 0 1px 0 rgba(255,255,255,0.98);
+      -webkit-backdrop-filter: blur(12px);
+      backdrop-filter: blur(12px);
       animation: floatBadge 4.8s ease-in-out infinite;
     }
 
     .hero-badge::before {
       content: '';
       position: absolute;
-      inset: 9px;
-      border: 1px solid rgba(201,151,58,0.34);
-      border-radius: 25px;
+      inset: 12px;
+      border: 1px solid rgba(201,151,58,0.42);
+      border-radius: 29px;
+      background: linear-gradient(180deg, rgba(255,255,255,0.35), rgba(255,255,255,0));
       pointer-events: none;
     }
 
     .hero-badge::after {
       content: '✦';
+      position: relative;
+      z-index: 1;
       display: grid;
       place-items: center;
-      width: 28px;
-      height: 28px;
-      margin-top: 6px;
+      width: 38px;
+      height: 38px;
+      margin-top: 5px;
       border-radius: 50%;
-      background: var(--forest);
+      background: linear-gradient(135deg, var(--forest), var(--forest-light));
       color: var(--gold-pale);
-      font-size: 12px;
+      font-size: 14px;
       line-height: 1;
-      box-shadow: 0 8px 18px rgba(30,59,47,0.18);
+      box-shadow: 0 12px 22px rgba(30,59,47,0.22), inset 0 1px 0 rgba(255,255,255,0.18);
     }
 
     .hero-badge-kicker {
+      position: relative;
+      z-index: 1;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.68);
+      border: 1px solid rgba(201,151,58,0.28);
       font-family: 'Jost', sans-serif;
-      font-size: 8.5px;
+      font-size: 9px;
       font-weight: 700;
-      letter-spacing: 1.7px;
+      letter-spacing: 2.2px;
+      line-height: 1;
       text-transform: uppercase;
-      color: var(--gold-dark);
+      color: var(--forest-light);
     }
 
     .hero-badge-title,
@@ -447,13 +465,14 @@
       position: relative;
       z-index: 1;
       font-family: 'Playfair Display', serif;
-      font-size: 22px;
+      font-size: 30px;
       font-weight: 700;
-      line-height: 1;
-      letter-spacing: 0.2px;
+      line-height: 0.96;
+      letter-spacing: -0.4px;
+      text-shadow: 0 1px 0 rgba(255,255,255,0.7);
     }
 
-    .hero-badge-subtitle { font-size: 18px; }
+    .hero-badge-subtitle { font-size: 24px; }
 
     .hero-features {
       position: relative;
@@ -1328,10 +1347,10 @@
       .products-grid { grid-template-columns: 1fr 1fr; }
       .testimonials-grid { grid-template-columns: 1fr 1fr; }
       .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
-      .hero-visual { display: flex; }
+      .hero-visual { display: flex; margin-top: 0; }
       .hero-jar { width: min(82vw, 440px); }
       .hero-circle-bg { width: min(86vw, 430px); height: min(86vw, 430px); }
-      .hero-badge { right: 4%; top: 0; width: 112px; min-height: 112px; border-radius: 26px; }
+      .hero-badge { right: 4%; top: 0; width: 128px; min-height: 136px; border-radius: 30px; padding: 20px 14px 16px; }
       .header-inner { grid-template-columns: auto 1fr auto; }
       .logo-wrap { justify-content: flex-start; margin-left: 20px; }
     }
@@ -1343,9 +1362,9 @@
       .hero-trust { flex-wrap: wrap; gap: 20px; justify-content: center; }
       .hero-jar { width: min(92vw, 360px); }
       .hero-features { width: 100%; margin: 28px 0 32px; border-radius: 22px; }
-      .hero-badge { width: 96px; min-height: 96px; padding: 16px 10px; border-radius: 22px; right: 0; }
-      .hero-badge-title { font-size: 17px; }
-      .hero-badge-subtitle { font-size: 15px; }
+      .hero-badge { width: 106px; min-height: 112px; padding: 16px 10px; border-radius: 24px; right: 0; }
+      .hero-badge-title { font-size: 20px; }
+      .hero-badge-subtitle { font-size: 17px; }
       .hero-feature-row { font-size: 11.5px; padding: 10px 11px; }
       .products-grid, .testimonials-grid { grid-template-columns: 1fr; }
       .section { padding: 64px 20px; }
