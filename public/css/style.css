@@ -261,15 +261,6 @@
       flex-shrink: 0;
     }
 
-    .hero-desc {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 20px;
-      font-weight: 400;
-      line-height: 1.7;
-      color: var(--text-mid);
-      max-width: 420px;
-      margin-bottom: 44px;
-    }
 
     .hero-actions { display: flex; gap: 18px; align-items: center; flex-wrap: wrap; }
 
@@ -465,15 +456,14 @@
     .hero-badge-subtitle { font-size: 18px; }
 
     .hero-features {
-      position: absolute;
-      left: -34px;
-      bottom: 34px;
-      width: min(420px, 80vw);
+      position: relative;
+      width: min(100%, 560px);
+      margin: 34px 0 38px;
       padding: 10px;
-      border-radius: 24px;
-      background: rgba(255,255,255,0.72);
-      border: 1px solid rgba(201,151,58,0.24);
-      box-shadow: 0 24px 60px rgba(30,59,47,0.16);
+      border-radius: 26px;
+      background: linear-gradient(135deg, rgba(255,255,255,0.86), rgba(248,239,218,0.72));
+      border: 1px solid rgba(201,151,58,0.26);
+      box-shadow: 0 22px 54px rgba(30,59,47,0.13);
       -webkit-backdrop-filter: blur(18px);
       backdrop-filter: blur(18px);
     }
@@ -1341,7 +1331,6 @@
       .hero-visual { display: flex; }
       .hero-jar { width: min(82vw, 440px); }
       .hero-circle-bg { width: min(86vw, 430px); height: min(86vw, 430px); }
-      .hero-features { left: 50%; bottom: -16px; transform: translateX(-50%); width: min(92vw, 390px); }
       .hero-badge { right: 4%; top: 0; width: 112px; min-height: 112px; border-radius: 26px; }
       .header-inner { grid-template-columns: auto 1fr auto; }
       .logo-wrap { justify-content: flex-start; margin-left: 20px; }
@@ -1353,7 +1342,7 @@
       .hero-tagline { font-size: 10px; letter-spacing: 1.5px; padding: 9px 13px; }
       .hero-trust { flex-wrap: wrap; gap: 20px; justify-content: center; }
       .hero-jar { width: min(92vw, 360px); }
-      .hero-features { position: relative; left: auto; bottom: auto; transform: none; width: auto; margin-top: -8px; }
+      .hero-features { width: 100%; margin: 28px 0 32px; border-radius: 22px; }
       .hero-badge { width: 96px; min-height: 96px; padding: 16px 10px; border-radius: 22px; right: 0; }
       .hero-badge-title { font-size: 17px; }
       .hero-badge-subtitle { font-size: 15px; }
