@@ -67,7 +67,7 @@
       </div>
       <h1>Pure <em>Himalayan</em><br>Ghee, Crafted<br>With Love</h1>
       <p class="hero-tagline">Nurtured with Nature, Made with Love</p>
-      <div class="hero-features" aria-label="HillNest purity promises">
+      {{-- <div class="hero-features" aria-label="HillNest purity promises">
         <div class="hero-feature-row">
           <span class="feature-dot"></span>
           No additives, no preservatives
@@ -80,12 +80,12 @@
           <span class="feature-dot"></span>
           Organic, grass-fed Himalayan cows
         </div>
-      </div>
+      </div> --}}
       <div class="hero-actions">
         <a href="{{ route('shop.index') }}" class="btn-primary"><span>Shop Now</span></a>
         <a href="{{ route('about') }}" class="btn-ghost">Our Story →</a>
       </div>
-      <div class="hero-trust">
+      {{-- <div class="hero-trust">
         <div class="trust-item">
           <span class="trust-num">100%</span>
           <span class="trust-label">Pure A2 Cow</span>
@@ -98,7 +98,7 @@
           <span class="trust-num">8000ft</span>
           <span class="trust-label">Altitude Source</span>
         </div>
-      </div>
+      </div> --}}
     </div>
 
     <div class="hero-visual">
