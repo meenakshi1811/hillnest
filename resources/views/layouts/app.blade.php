@@ -16,7 +16,9 @@
     <header class="site-header sticky-top">
         <nav class="navbar navbar-expand-lg py-0">
             <div class="container-xxl d-flex align-items-center justify-content-between gap-3 px-3 px-sm-4">
-                <x-logo />
+                <a href="{{ route('home') }}" class="logo-link d-inline-flex align-items-center text-decoration-none" aria-label="Hillnest home">
+                    <img src="{{ asset('images/logo.png') }}" alt="Hillnest" class="logo-img">
+                </a>
 
                 <div class="d-none d-lg-flex align-items-center justify-content-center gap-2 mx-auto header-nav">
                     <a href="{{ route('home') }}" class="nav-link header-nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
@@ -87,7 +89,7 @@
         <div class="mx-auto max-w-[1400px] px-4 py-14 sm:px-6 lg:px-8">
             <div class="grid gap-12 md:grid-cols-2 lg:grid-cols-4">
                 <div class="lg:col-span-1">
-                    <img src="{{ hillnest_logo() }}" alt="Hillnest" class="h-14 w-auto max-w-[180px] object-contain mb-5 bg-white/10 rounded p-2" onerror="this.onerror=null; this.src='{{ asset('images/logo.svg') }}';">
+                    <img src="{{ asset('images/logo.png') }}" alt="Hillnest" class="h-14 w-auto max-w-[180px] object-contain mb-5 bg-white/10 rounded p-2">
                     <p class="text-base text-cream-dark/90 leading-relaxed">Pure bilona cow ghee from upper Shimla. Soon — apples from our Himalayan orchard.</p>
                     <p class="mt-4 text-sm text-gold-light font-medium uppercase tracking-wider">Pure | Traditional | Ethically Crafted</p>
                 </div>
