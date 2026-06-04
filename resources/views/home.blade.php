@@ -66,6 +66,7 @@
         <span class="eyebrow-text">From Upper Shimla, Himalayas</span>
       </div>
       <h1>Pure <em>Himalayan</em><br>Ghee, Crafted<br>With Love</h1>
+      <p class="hero-tagline">Nurtured with Nature, Made with Love</p>
       <p class="hero-desc">
         Handcrafted in the pristine valleys of Upper Shimla using the ancient Bilona method. Every jar carries the warmth of mountains and centuries of tradition.
       </p>
