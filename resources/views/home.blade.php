@@ -96,8 +96,10 @@
         <div class="hero-jar">
             <img src="{{ asset('images/homepage_image-new.png') }}" alt="HillNest Himalayan Ghee" />
         </div>
-        <div class="hero-badge">
-          Bilona<br>Method
+        <div class="hero-badge" aria-label="Traditional Bilona Method">
+          <span class="hero-badge-kicker">Traditional</span>
+          <span class="hero-badge-title">Bilona</span>
+          <span class="hero-badge-subtitle">Method</span>
         </div>
         <div class="hero-features">
           <div class="hero-feature-row">
