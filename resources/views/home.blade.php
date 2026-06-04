@@ -66,9 +66,21 @@
         <span class="eyebrow-text">From Upper Shimla, Himalayas</span>
       </div>
       <h1>Pure <em>Himalayan</em><br>Ghee, Crafted<br>With Love</h1>
-      <p class="hero-desc">
-        Handcrafted in the pristine valleys of Upper Shimla using the ancient Bilona method. Every jar carries the warmth of mountains and centuries of tradition.
-      </p>
+      <p class="hero-tagline">Nurtured with Nature, Made with Love</p>
+      <div class="hero-features" aria-label="HillNest purity promises">
+        <div class="hero-feature-row">
+          <span class="feature-dot"></span>
+          No additives, no preservatives
+        </div>
+        <div class="hero-feature-row">
+          <span class="feature-dot"></span>
+          Hand-churned in small batches
+        </div>
+        <div class="hero-feature-row">
+          <span class="feature-dot"></span>
+          Organic, grass-fed Himalayan cows
+        </div>
+      </div>
       <div class="hero-actions">
         <a href="{{ route('shop.index') }}" class="btn-primary"><span>Shop Now</span></a>
         <a href="{{ route('about') }}" class="btn-ghost">Our Story →</a>
@@ -95,22 +107,10 @@
         <div class="hero-jar">
             <img src="{{ asset('images/homepage_image-new.png') }}" alt="HillNest Himalayan Ghee" />
         </div>
-        <div class="hero-badge">
-          Bilona<br>Method
-        </div>
-        <div class="hero-features">
-          <div class="hero-feature-row">
-            <span class="feature-dot"></span>
-            No additives, no preservatives
-          </div>
-          <div class="hero-feature-row">
-            <span class="feature-dot"></span>
-            Hand-churned in small batches
-          </div>
-          <div class="hero-feature-row">
-            <span class="feature-dot"></span>
-            Organic, grass-fed Himalayan cows
-          </div>
+        <div class="hero-badge" aria-label="Traditional Bilona Method">
+          <span class="hero-badge-kicker">Traditional</span>
+          <span class="hero-badge-title">Bilona</span>
+          <span class="hero-badge-subtitle">Method</span>
         </div>
       </div>
     </div>
