@@ -75,23 +75,24 @@
     }
 
     .site-header .navbar {
-        min-height: 116px;
+        min-height: 124px;
         overflow: visible;
     }
 
     .logo-link {
-        min-width: 158px;
+        flex: 0 0 auto;
+        min-width: 210px;
         overflow: visible;
     }
 
     .logo-img {
-        width: 158px;
-        height: 158px;
+        width: 210px;
+        height: 210px;
         max-width: none;
         object-fit: contain;
-        margin-block: -21px;
-        transform: scale(1.28);
-        transform-origin: center;
+        margin-block: -43px;
+        transform: scale(1.16);
+        transform-origin: center left;
         filter: drop-shadow(0 10px 18px rgb(61 41 20 / 0.16));
     }
 
@@ -187,48 +188,48 @@
 
     @media (min-width: 1200px) {
         .logo-link {
-            min-width: 184px;
+            min-width: 236px;
         }
 
         .logo-img {
-            width: 184px;
-            height: 184px;
-            margin-block: -34px;
-            transform: scale(1.32);
+            width: 228px;
+            height: 228px;
+            margin-block: -52px;
+            transform: scale(1.18);
         }
     }
 
     @media (max-width: 991.98px) {
         .site-header .navbar {
-            min-height: 104px;
+            min-height: 112px;
         }
 
         .logo-link {
-            min-width: 138px;
+            min-width: 180px;
         }
 
         .logo-img {
-            width: 138px;
-            height: 138px;
-            margin-block: -17px;
-            transform: scale(1.28);
+            width: 178px;
+            height: 178px;
+            margin-block: -33px;
+            transform: scale(1.16);
         }
     }
 
     @media (max-width: 575.98px) {
         .site-header .navbar {
-            min-height: 92px;
+            min-height: 104px;
         }
 
         .logo-link {
-            min-width: 118px;
+            min-width: 158px;
         }
 
         .logo-img {
-            width: 118px;
-            height: 118px;
-            margin-block: -13px;
-            transform: scale(1.25);
+            width: 156px;
+            height: 156px;
+            margin-block: -26px;
+            transform: scale(1.14);
         }
     }
 
