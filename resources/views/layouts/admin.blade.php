@@ -5,9 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>@yield('title', 'Admin') — Hillnest</title>
     <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="min-h-screen bg-stone-100">
+<body class="admin-page min-h-screen bg-stone-100">
     <div class="flex min-h-screen">
         <aside class="hidden w-64 shrink-0 flex-col bg-forest-800 text-white lg:flex">
             <div class="flex items-center gap-3 border-b border-forest-700 px-6 py-5">
