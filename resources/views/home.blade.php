@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HillNest — Pure Himalayan Ghee</title>
+  <title>HillNest — Pure A2 Bilona Ghee</title>
   <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -14,7 +14,7 @@
 
 <!-- Announcement Bar -->
 <div class="announcement">
-  <span>🌿</span> Free delivery on orders above ₹999 &nbsp;·&nbsp; Pure A2 Cow Ghee from Upper Shimla <span>🌿</span>
+  <span>🌿</span> Free delivery on orders above ₹999 &nbsp;·&nbsp; Pure A2 Bilona Ghee from Upper Shimla <span>🌿</span>
 </div>
 
 <!-- Header -->
@@ -65,22 +65,22 @@
         <span class="eyebrow-line"></span>
         <span class="eyebrow-text">From Upper Shimla, Himalayas</span>
       </div>
-      <h1>Pure <em>Himalayan</em><br>Ghee, Crafted<br>With Love</h1>
+      <h1>Pure A2 <em>Bilona</em><br>Ghee From<br>Upper Shimla</h1>
       <p class="hero-tagline">Nurtured with Nature, Made with Love</p>
-      {{-- <div class="hero-features" aria-label="HillNest purity promises">
+      <div class="hero-features" aria-label="HillNest purity promises">
         <div class="hero-feature-row">
           <span class="feature-dot"></span>
-          No additives, no preservatives
+          Traditional Bilona small-batch process
         </div>
         <div class="hero-feature-row">
           <span class="feature-dot"></span>
-          Hand-churned in small batches
+          Pure A2 cow ghee with no preservatives
         </div>
         <div class="hero-feature-row">
           <span class="feature-dot"></span>
-          Organic, grass-fed Himalayan cows
+          Sourced from Upper Shimla Himalayan farms
         </div>
-      </div> --}}
+      </div>
       <div class="hero-actions">
         <a href="{{ route('shop.index') }}" class="btn-primary"><span>Shop Now</span></a>
         <a href="{{ route('about') }}" class="btn-ghost">Our Story →</a>
@@ -107,11 +107,11 @@
         <div class="hero-jar">
             <img src="{{ asset('images/homepage_image-new.png') }}" alt="HillNest Himalayan Ghee" />
         </div>
-        <div class="hero-badge" aria-label="Traditional Bilona Method">
-          <span class="hero-badge-kicker">Traditional</span>
+        <div class="hero-badge" aria-label="Pure A2 Bilona Ghee">
+          <span class="hero-badge-kicker">Pure A2</span>
           <span class="hero-badge-copy">
             <span class="hero-badge-title">Bilona</span>
-            <span class="hero-badge-subtitle">Method</span>
+            <span class="hero-badge-subtitle">Ghee</span>
           </span>
         </div>
       </div>
