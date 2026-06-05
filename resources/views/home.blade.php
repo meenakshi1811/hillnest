@@ -1,18 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HillNest — Pure A2 Bilona Ghee</title>
-  <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
-    <link href="{{ asset('css/style.css') }}" rel="stylesheet" />
-</head>
-<body class="home-page">
+@extends('layouts.app')
 
-@include('partials.site-header')
+@section('title', 'Homepage — Hillnest')
+
+@section('content')
 
 <!-- HERO -->
 <section class="hero">
@@ -299,9 +289,6 @@
   </div>
 </div>
 
-@include('partials.site-footer')
-
-<!-- Cart Sidebar -->
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart(event)"></div>
 <div class="cart-sidebar" id="cart-sidebar">
   <div class="cart-header">
@@ -322,83 +309,7 @@
     <button class="checkout-btn">Proceed to Checkout</button>
   </div>
 </div>
+@endsection
 
-<script>
-  // ── Cart Logic ──
-  let cart = [];
 
-  function toggleCart(e) {
-    if (e) e.preventDefault();
-    const sidebar = document.getElementById('cart-sidebar');
-    const overlay = document.getElementById('cart-overlay');
-    sidebar.classList.toggle('open');
-    overlay.classList.toggle('open');
-    document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
-  }
 
-  function addToCart(name, price) {
-    const existing = cart.find(i => i.name === name);
-    if (existing) {
-      existing.qty++;
-    } else {
-      cart.push({ name, price, qty: 1, emoji: '🫙' });
-    }
-    renderCart();
-    // Open sidebar
-    document.getElementById('cart-sidebar').classList.add('open');
-    document.getElementById('cart-overlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-
-  function changeQty(index, delta) {
-    cart[index].qty += delta;
-    if (cart[index].qty <= 0) cart.splice(index, 1);
-    renderCart();
-  }
-
-  function renderCart() {
-    const body = document.getElementById('cart-body');
-    const footer = document.getElementById('cart-footer');
-    const countEl = document.getElementById('cart-count');
-    const totalEl = document.getElementById('cart-total');
-
-    const totalCount = cart.reduce((s, i) => s + i.qty, 0);
-    const totalPrice = cart.reduce((s, i) => s + i.price * i.qty, 0);
-
-    countEl.textContent = totalCount;
-
-    if (cart.length === 0) {
-      body.innerHTML = `<div class="cart-empty"><div class="cart-empty-icon">🫙</div><p>Your cart is beautifully empty.<br>Let's fill it with golden goodness!</p></div>`;
-      footer.style.display = 'none';
-    } else {
-      footer.style.display = 'block';
-      totalEl.textContent = '₹' + totalPrice.toLocaleString('en-IN');
-      body.innerHTML = cart.map((item, i) => `
-        <div class="cart-item">
-          <div class="cart-item-img">${item.emoji}</div>
-          <div class="cart-item-details">
-            <div class="cart-item-name">${item.name}</div>
-            <div class="cart-item-price">₹${item.price.toLocaleString('en-IN')}</div>
-            <div class="cart-qty">
-              <button class="qty-btn" onclick="changeQty(${i}, -1)">−</button>
-              <span class="qty-num">${item.qty}</span>
-              <button class="qty-btn" onclick="changeQty(${i}, 1)">+</button>
-            </div>
-          </div>
-        </div>
-      `).join('');
-    }
-  }
-
-  // Sticky header shadow on scroll
-  window.addEventListener('scroll', () => {
-    const header = document.getElementById('header');
-    if (window.scrollY > 10) {
-      header.style.boxShadow = '0 2px 24px rgba(30,59,47,0.08)';
-    } else {
-      header.style.boxShadow = 'none';
-    }
-  });
-</script>
-</body>
-</html>
