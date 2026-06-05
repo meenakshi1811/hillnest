@@ -107,13 +107,6 @@
         <div class="hero-jar">
             <img src="{{ asset('images/homepage_image-new.png') }}" alt="HillNest Himalayan Ghee" />
         </div>
-        <div class="hero-badge" aria-label="Pure A2 Bilona Ghee">
-          <span class="hero-badge-kicker">Pure A2</span>
-          <span class="hero-badge-copy">
-            <span class="hero-badge-title">Bilona</span>
-            <span class="hero-badge-subtitle">Ghee</span>
-          </span>
-        </div>
       </div>
     </div>
   </div>
