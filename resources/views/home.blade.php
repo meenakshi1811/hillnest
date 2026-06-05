@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>HillNest — Pure Himalayan Ghee</title>
+  <title>HillNest — Pure A2 Bilona Ghee</title>
   <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -12,48 +12,7 @@
 </head>
 <body class="home-page">
 
-<!-- Announcement Bar -->
-<div class="announcement">
-  <span>🌿</span> Free delivery on orders above ₹999 &nbsp;·&nbsp; Pure A2 Cow Ghee from Upper Shimla <span>🌿</span>
-</div>
-
-<!-- Header -->
-<header id="header">
-  <div class="header-inner">
-    <nav class="nav-left">
-      <a href="{{ route('home') }}">Home</a>
-      <a href="{{ route('shop.index') }}">Shop</a>
-      <a href="{{ route('about') }}">Our Story</a>
-      <a href="{{ route('shop.index') }}#collection">Ghee</a>
-    </nav>
-
-    <div class="logo-wrap">
-      <img src="{{ asset('images/logo.png') }}" alt="HillNest — Pure Himalayan Ghee" />
-    </div>
-
-    <nav class="nav-right">
-      <a href="{{ route('shop.index') }}" class="nav-icon-btn" aria-label="Search products">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </a>
-      @auth
-        <a href="{{ route('account.orders') }}" class="nav-icon-btn">
-          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Account
-        </a>
-      @else
-        <a href="{{ route('login') }}" class="nav-icon-btn">
-          <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
-          Login
-        </a>
-      @endauth
-      <a href="{{ route('cart.index') }}" class="nav-icon-btn cart-btn">
-        <svg width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
-        Cart
-        <span class="cart-badge" id="cart-count">{{ $cartCount ?? 0 }}</span>
-      </a>
-    </nav>
-  </div>
-</header>
+@include('partials.site-header')
 
 <!-- HERO -->
 <section class="hero">
@@ -65,22 +24,22 @@
         <span class="eyebrow-line"></span>
         <span class="eyebrow-text">From Upper Shimla, Himalayas</span>
       </div>
-      <h1>Pure <em>Himalayan</em><br>Ghee, Crafted<br>With Love</h1>
+      <h1>Pure A2 <em>Bilona</em><br>Ghee From<br>Upper Shimla</h1>
       <p class="hero-tagline">Nurtured with Nature, Made with Love</p>
-      {{-- <div class="hero-features" aria-label="HillNest purity promises">
+      <div class="hero-features" aria-label="HillNest purity promises">
         <div class="hero-feature-row">
           <span class="feature-dot"></span>
-          No additives, no preservatives
+          Traditional Bilona small-batch process
         </div>
         <div class="hero-feature-row">
           <span class="feature-dot"></span>
-          Hand-churned in small batches
+          Pure A2 cow ghee with no preservatives
         </div>
         <div class="hero-feature-row">
           <span class="feature-dot"></span>
-          Organic, grass-fed Himalayan cows
+          Sourced from Upper Shimla Himalayan farms
         </div>
-      </div> --}}
+      </div>
       <div class="hero-actions">
         <a href="{{ route('shop.index') }}" class="btn-primary"><span>Shop Now</span></a>
         <a href="{{ route('about') }}" class="btn-ghost">Our Story →</a>
@@ -106,13 +65,6 @@
       <div class="hero-jar-container">
         <div class="hero-jar">
             <img src="{{ asset('images/homepage_image-new.png') }}" alt="HillNest Himalayan Ghee" />
-        </div>
-        <div class="hero-badge" aria-label="Traditional Bilona Method">
-          <span class="hero-badge-kicker">Traditional</span>
-          <span class="hero-badge-copy">
-            <span class="hero-badge-title">Bilona</span>
-            <span class="hero-badge-subtitle">Method</span>
-          </span>
         </div>
       </div>
     </div>
@@ -347,63 +299,7 @@
   </div>
 </div>
 
-<!-- Footer -->
-<footer>
-  <div class="footer-inner">
-    <div class="footer-grid">
-      <div class="footer-logo-col">
-        <img src="{{ asset('images/logo.png') }}" alt="HillNest" />
-        <p class="footer-tagline">Pure • Organic • Himalayan<br>Nurtured by Nature, Made with Love.<br>From the heart of Upper Shimla.</p>
-        <div class="footer-socials">
-          <a href="#" class="social-btn">𝕏</a>
-          <a href="#" class="social-btn">f</a>
-          <a href="#" class="social-btn">in</a>
-          <a href="#" class="social-btn">▶</a>
-        </div>
-      </div>
-
-      <div>
-        <div class="footer-col-title">Shop</div>
-        <ul class="footer-links">
-          <li><a href="#">A2 Desi Cow Ghee</a></li>
-          <li><a href="#">Bilona Ghee</a></li>
-          <li><a href="#">Herb-Infused Ghee</a></li>
-          <li><a href="#">Gift Hampers</a></li>
-          <li><a href="#">Bulk Orders</a></li>
-        </ul>
-      </div>
-
-      <div>
-        <div class="footer-col-title">Company</div>
-        <ul class="footer-links">
-          <li><a href="{{ route('about') }}">Our Story</a></li>
-          <li><a href="#">The Farm</a></li>
-          <li><a href="#">Bilona Process</a></li>
-          <li><a href="#">Blog</a></li>
-          <li><a href="#">Contact Us</a></li>
-        </ul>
-      </div>
-
-      <div class="footer-newsletter">
-        <div class="footer-col-title">Stay in the Loop</div>
-        <p>Get recipes, wellness tips, and first access to new arrivals straight to your inbox.</p>
-        <div class="newsletter-form">
-          <input type="email" placeholder="your@email.com" />
-          <button>Subscribe</button>
-        </div>
-      </div>
-    </div>
-
-    <div class="footer-bottom">
-      <span>© {{ date('Y') }} HillNest. All rights reserved.</span>
-      <div class="footer-bottom-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Use</a>
-        <a href="#">Refund Policy</a>
-      </div>
-    </div>
-  </div>
-</footer>
+@include('partials.site-footer')
 
 <!-- Cart Sidebar -->
 <div class="cart-overlay" id="cart-overlay" onclick="toggleCart(event)"></div>
