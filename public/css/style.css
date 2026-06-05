@@ -1456,6 +1456,10 @@
   backdrop-filter: blur(16px);
 }
 
+.auth-card--register {
+  grid-template-columns: minmax(300px, 0.8fr) minmax(460px, 1.12fr);
+}
+
 .auth-story {
   position: relative;
   display: flex;
@@ -1469,6 +1473,13 @@
     linear-gradient(180deg, rgba(30,59,47,0.18) 0%, rgba(30,59,47,0.86) 100%),
     radial-gradient(circle at 72% 24%, rgba(232,196,122,0.44), transparent 32%),
     url('/images/homepage_image-new.png') center / cover no-repeat;
+}
+
+.auth-story--register {
+  background:
+    linear-gradient(180deg, rgba(30,59,47,0.1) 0%, rgba(30,59,47,0.88) 100%),
+    radial-gradient(circle at 22% 18%, rgba(232,196,122,0.38), transparent 30%),
+    url('/images/homepage_image-new--.png') center / cover no-repeat;
 }
 
 .auth-story::before {
@@ -1588,6 +1599,14 @@
   gap: 20px;
 }
 
+.auth-form--register {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.auth-field--full {
+  grid-column: 1 / -1;
+}
+
 .auth-field label {
   display: block;
   margin-bottom: 9px;
@@ -1699,6 +1718,17 @@
   box-shadow: 0 24px 44px rgba(30,59,47,0.24);
 }
 
+.auth-submit--gold {
+  background: var(--gold);
+  color: var(--white);
+  box-shadow: 0 18px 36px rgba(201,151,58,0.24);
+}
+
+.auth-submit--gold:hover {
+  background: #b8872c;
+  box-shadow: 0 24px 44px rgba(201,151,58,0.28);
+}
+
 .auth-submit:focus-visible {
   outline: 3px solid rgba(201,151,58,0.42);
   outline-offset: 3px;
@@ -1718,7 +1748,8 @@
 
 @media (max-width: 900px) {
   .auth-page { padding: 48px 18px; }
-  .auth-card { grid-template-columns: 1fr; border-radius: 28px; }
+  .auth-card,
+  .auth-card--register { grid-template-columns: 1fr; border-radius: 28px; }
   .auth-story { min-height: 390px; padding: 36px; }
   .auth-panel { padding: 42px 28px; }
 }
@@ -1729,6 +1760,7 @@
   .auth-story::before { inset: 14px; border-radius: 22px; }
   .auth-benefits { grid-template-columns: 1fr; }
   .auth-panel { padding: 34px 20px; }
+  .auth-form--register { grid-template-columns: 1fr; }
   .auth-options { align-items: flex-start; flex-direction: column; }
   .auth-switch span { display: block; margin: 0 0 4px; }
 }

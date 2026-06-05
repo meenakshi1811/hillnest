@@ -3,42 +3,94 @@
 @section('title', 'Register — Hillnest')
 
 @section('content')
-<section class="py-14 md:py-20 bg-cream">
-    <div class="mx-auto max-w-md px-4">
-        <div class="bg-white border border-hill-200 p-8 md:p-10 shadow-sm">
-            <h1 class="font-display text-3xl font-semibold text-brand text-center">Join Hillnest</h1>
-            <p class="mt-3 text-center text-base text-brand-light">Create an account to track orders</p>
+<section class="auth-page" aria-labelledby="register-title">
+    <div class="auth-shell">
+        <div class="auth-card auth-card--register">
+            <aside class="auth-story auth-story--register" aria-label="Hillnest membership benefits">
+                <div class="auth-story__badge">Start your Hillnest journey</div>
+                <h2>Create a warmer way to shop pure ghee.</h2>
+                <p>Save your details once, track every order, and make it simple to bring Himalayan bilona ghee back to your table.</p>
+                <ul class="auth-benefits" aria-label="Membership benefits">
+                    <li>
+                        <span>01</span>
+                        <strong>Quick checkout</strong>
+                    </li>
+                    <li>
+                        <span>02</span>
+                        <strong>Order history</strong>
+                    </li>
+                    <li>
+                        <span>03</span>
+                        <strong>Fresh updates</strong>
+                    </li>
+                </ul>
+            </aside>
 
-            <form method="POST" action="{{ route('register') }}" class="mt-8 space-y-5">
-                @csrf
-                <div>
-                    <label class="block text-base font-medium text-brand mb-2">Full Name</label>
-                    <input type="text" name="name" value="{{ old('name') }}" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
-                    @error('name')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
+            <div class="auth-panel">
+                <div class="auth-panel__header">
+                    <p class="auth-eyebrow">Create account</p>
+                    <h1 id="register-title">Join Hillnest</h1>
+                    <p>Set up your account to track shipments, save contact details, and reorder your favourites without starting over.</p>
                 </div>
-                <div>
-                    <label class="block text-base font-medium text-brand mb-2">Email</label>
-                    <input type="email" name="email" value="{{ old('email') }}" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
-                    @error('email')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
+
+                <form method="POST" action="{{ route('register') }}" class="auth-form auth-form--register">
+                    @csrf
+
+                    <div class="auth-field auth-field--full">
+                        <label for="name">Full name</label>
+                        <div class="auth-input-wrap">
+                            <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                            <input id="name" type="text" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Your full name" @class(['is-invalid' => $errors->has('name')])>
+                        </div>
+                        @error('name')<p class="auth-error">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="email">Email address</label>
+                        <div class="auth-input-wrap">
+                            <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>
+                            <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="you@example.com" @class(['is-invalid' => $errors->has('email')])>
+                        </div>
+                        @error('email')<p class="auth-error">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="phone">Phone</label>
+                        <div class="auth-input-wrap">
+                            <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.9.66 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.23a2 2 0 0 1 2.11-.45c.91.31 1.85.53 2.81.66A2 2 0 0 1 22 16.92z"/></svg>
+                            <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" autocomplete="tel" placeholder="Optional phone number" @class(['is-invalid' => $errors->has('phone')])>
+                        </div>
+                        @error('phone')<p class="auth-error">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="password">Password</label>
+                        <div class="auth-input-wrap">
+                            <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+                            <input id="password" type="password" name="password" required autocomplete="new-password" placeholder="Create a password" @class(['is-invalid' => $errors->has('password')])>
+                        </div>
+                        @error('password')<p class="auth-error">{{ $message }}</p>@enderror
+                    </div>
+
+                    <div class="auth-field">
+                        <label for="password_confirmation">Confirm password</label>
+                        <div class="auth-input-wrap">
+                            <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/><path d="M21 12a9 9 0 1 1-5.25-8.18"/></svg>
+                            <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Repeat your password">
+                        </div>
+                    </div>
+
+                    <button type="submit" class="auth-submit auth-submit--gold auth-field--full">
+                        <span>Create account</span>
+                        <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    </button>
+                </form>
+
+                <div class="auth-switch">
+                    <span>Already have an account?</span>
+                    <a href="{{ route('login') }}">Log in</a>
                 </div>
-                <div>
-                    <label class="block text-base font-medium text-brand mb-2">Phone</label>
-                    <input type="text" name="phone" value="{{ old('phone') }}" class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
-                </div>
-                <div>
-                    <label class="block text-base font-medium text-brand mb-2">Password</label>
-                    <input type="password" name="password" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
-                    @error('password')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
-                </div>
-                <div>
-                    <label class="block text-base font-medium text-brand mb-2">Confirm Password</label>
-                    <input type="password" name="password_confirmation" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
-                </div>
-                <button type="submit" class="w-full btn-gold">Create Account</button>
-            </form>
-            <p class="mt-8 text-center text-base text-brand-light">
-                Have an account? <a href="{{ route('login') }}" class="font-semibold text-gold hover:underline">Log in</a>
-            </p>
+            </div>
         </div>
     </div>
 </section>
