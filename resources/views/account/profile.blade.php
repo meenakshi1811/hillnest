@@ -3,25 +3,46 @@
 @section('title', 'My Profile — Hillnest')
 
 @section('content')
-<section class="py-12">
-    <div class="mx-auto max-w-md px-4 sm:px-6">
-        <h1 class="font-display text-3xl font-bold text-forest-800">My Profile</h1>
-        <form method="POST" action="{{ route('account.profile.update') }}" class="mt-8 rounded-2xl border border-hill-200 bg-white p-6 shadow-sm space-y-5">
-            @csrf @method('PATCH')
-            <div>
-                <label class="block text-sm font-medium text-stone-600 mb-1">Name</label>
-                <input type="text" name="name" value="{{ old('name', $user->name) }}" required class="w-full rounded-xl border border-hill-200 px-4 py-2.5 focus:border-hill-500 outline-none">
+<section class="account-profile-page">
+    <div class="account-profile-shell">
+        <div class="account-profile-card">
+            <div class="account-profile-card__header">
+                <div>
+                    <p class="account-eyebrow">Account</p>
+                    <h1>My Profile</h1>
+                    <p>Keep your HillNest contact details updated for smoother deliveries and order updates.</p>
+                </div>
+                <a href="{{ route('account.orders') }}" class="account-profile-link">View Orders</a>
             </div>
-            <div>
-                <label class="block text-sm font-medium text-stone-600 mb-1">Email</label>
-                <input type="email" value="{{ $user->email }}" disabled class="w-full rounded-xl border border-hill-100 bg-hill-50 px-4 py-2.5 text-stone-500">
-            </div>
-            <div>
-                <label class="block text-sm font-medium text-stone-600 mb-1">Phone</label>
-                <input type="text" name="phone" value="{{ old('phone', $user->phone) }}" class="w-full rounded-xl border border-hill-200 px-4 py-2.5 focus:border-hill-500 outline-none">
-            </div>
-            <button type="submit" class="w-full rounded-full bg-forest-700 py-3 font-semibold text-white hover:bg-forest-800 transition">Save Changes</button>
-        </form>
+
+            <form method="POST" action="{{ route('account.profile.update') }}" class="account-profile-form">
+                @csrf
+                @method('PATCH')
+
+                <div class="account-field">
+                    <label for="profile-name">Name</label>
+                    <input id="profile-name" type="text" name="name" value="{{ old('name', $user->name) }}" required>
+                    @error('name')
+                        <p class="account-field__error">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <div class="account-field">
+                    <label for="profile-email">Email</label>
+                    <input id="profile-email" type="email" value="{{ $user->email }}" disabled>
+                </div>
+
+                <div class="account-field">
+                    <label for="profile-phone">Phone</label>
+                    <input id="profile-phone" type="text" name="phone" value="{{ old('phone', $user->phone) }}" placeholder="Add your phone number">
+                    @error('phone')
+                        <p class="account-field__error">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                <button type="submit" class="btn-primary account-profile-submit"><span>Save Changes</span></button>
+            </form>
+        </div>
     </div>
 </section>
 @endsection

@@ -2273,3 +2273,279 @@
   .product-card-rosier { border-radius: 26px; }
   .product-card-rosier__body { padding: 22px 18px 24px; }
 }
+
+/* ── ABOUT PAGE ── */
+.about-shell {
+  width: min(100%, 1060px);
+  margin: 0 auto;
+}
+
+.about-eyebrow {
+  margin: 0 0 12px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+}
+
+.about-hero {
+  position: relative;
+  min-height: clamp(380px, 54vw, 560px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 72px 20px;
+  text-align: center;
+}
+
+.about-hero__image,
+.about-hero__overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.about-hero__image {
+  object-fit: cover;
+  transform: scale(1.02);
+}
+
+.about-hero__overlay {
+  background:
+    linear-gradient(135deg, rgba(30,59,47,0.86), rgba(30,59,47,0.5)),
+    radial-gradient(circle at 50% 24%, rgba(201,151,58,0.28), transparent 36%);
+}
+
+.about-hero__content {
+  position: relative;
+  z-index: 1;
+  max-width: 780px;
+  color: var(--white);
+}
+
+.about-hero__content .about-eyebrow {
+  color: var(--gold-light);
+}
+
+.about-hero h1 {
+  margin: 0;
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(52px, 8vw, 86px);
+  font-weight: 600;
+  line-height: 0.95;
+}
+
+.about-hero p:not(.about-eyebrow) {
+  max-width: 680px;
+  margin: 22px auto 0;
+  color: var(--gold-pale);
+  font-size: clamp(18px, 2.2vw, 22px);
+  line-height: 1.65;
+}
+
+.about-story-section {
+  padding: clamp(52px, 8vw, 96px) 20px;
+  background:
+    radial-gradient(circle at 12% 0%, rgba(232,196,122,0.22), transparent 32%),
+    linear-gradient(180deg, rgba(255,255,255,0.24), rgba(250,245,236,0)),
+    var(--cream);
+}
+
+.about-story-card {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.88fr) minmax(320px, 1.12fr);
+  gap: clamp(28px, 5vw, 58px);
+  padding: clamp(30px, 5vw, 54px);
+  border: 1px solid rgba(201,151,58,0.2);
+  border-radius: 34px;
+  background: rgba(255,255,255,0.88);
+  box-shadow: 0 28px 70px rgba(77,55,24,0.08);
+}
+
+.about-story-card h2,
+.about-orchard-card h2 {
+  margin: 0;
+  color: var(--forest);
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(38px, 5.5vw, 58px);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.about-story-card__copy {
+  color: var(--text-mid);
+  font-size: 18px;
+  line-height: 1.75;
+}
+
+.about-story-card__copy p + p { margin-top: 20px; }
+.about-story-card__copy strong { color: var(--forest); }
+
+.about-orchard-card {
+  display: grid;
+  grid-template-columns: minmax(280px, 0.9fr) minmax(320px, 1.1fr);
+  gap: clamp(24px, 4vw, 44px);
+  align-items: center;
+  margin-top: 28px;
+  padding: clamp(22px, 4vw, 34px);
+  border: 1px solid rgba(201,151,58,0.2);
+  border-radius: 34px;
+  background:
+    linear-gradient(145deg, rgba(255,255,255,0.92), rgba(255,250,240,0.78)),
+    radial-gradient(circle at 95% 8%, rgba(232,196,122,0.22), transparent 30%);
+  box-shadow: 0 24px 60px rgba(77,55,24,0.08);
+}
+
+.about-orchard-card__image-wrap {
+  overflow: hidden;
+  border-radius: 26px;
+  background: var(--cream-dark);
+}
+
+.about-orchard-card__image {
+  display: block;
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+
+.about-orchard-card__content p:not(.about-eyebrow) {
+  margin: 18px 0 0;
+  color: var(--text-mid);
+  font-size: 18px;
+  line-height: 1.7;
+}
+
+.about-cta {
+  margin-top: 34px;
+  text-align: center;
+}
+
+.about-cta .btn-primary { display: inline-flex; }
+
+/* ── ACCOUNT PROFILE ── */
+.account-profile-page {
+  min-height: 62vh;
+  padding: clamp(46px, 8vw, 92px) 20px;
+  background:
+    radial-gradient(circle at top left, rgba(232,196,122,0.22), transparent 34%),
+    linear-gradient(180deg, rgba(255,255,255,0.28), rgba(250,245,236,0)),
+    var(--cream);
+}
+
+.account-profile-shell {
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.account-profile-card {
+  padding: clamp(28px, 5vw, 48px);
+  border: 1px solid rgba(201,151,58,0.2);
+  border-radius: 34px;
+  background:
+    linear-gradient(135deg, rgba(255,255,255,0.9), rgba(255,250,240,0.72)),
+    radial-gradient(circle at 100% 0%, rgba(201,151,58,0.16), transparent 30%);
+  box-shadow: 0 28px 70px rgba(77,55,24,0.08);
+}
+
+.account-profile-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
+}
+
+.account-profile-card h1 {
+  margin: 0;
+  color: var(--forest);
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(44px, 7vw, 66px);
+  font-weight: 600;
+  line-height: 0.95;
+}
+
+.account-profile-card__header p:not(.account-eyebrow) {
+  max-width: 500px;
+  margin: 16px 0 0;
+  color: var(--text-mid);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.account-profile-form {
+  display: grid;
+  gap: 20px;
+}
+
+.account-field label {
+  display: block;
+  margin-bottom: 9px;
+  color: var(--text);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.account-field input {
+  width: 100%;
+  min-height: 58px;
+  border: 1px solid rgba(201,151,58,0.28);
+  border-radius: 18px;
+  background: rgba(255,255,255,0.82);
+  color: var(--text);
+  font: inherit;
+  font-size: 16px;
+  outline: 0;
+  padding: 0 18px;
+  box-shadow: 0 14px 32px rgba(30,59,47,0.06);
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.account-field input:focus {
+  border-color: var(--gold);
+  background: var(--white);
+  box-shadow: 0 0 0 4px rgba(201,151,58,0.12), 0 18px 36px rgba(30,59,47,0.08);
+}
+
+.account-field input:disabled {
+  background: rgba(240,232,214,0.58);
+  color: var(--text-light);
+  cursor: not-allowed;
+}
+
+.account-field__error {
+  margin: 8px 0 0;
+  color: #b42318;
+  font-size: 14px;
+}
+
+.account-profile-submit {
+  display: inline-flex;
+  width: 100%;
+  min-height: 58px;
+  align-items: center;
+  justify-content: center;
+  margin-top: 8px;
+}
+
+@media (max-width: 760px) {
+  .about-story-card,
+  .about-orchard-card { grid-template-columns: 1fr; }
+  .account-profile-card__header { flex-direction: column; }
+  .account-profile-card__header .account-profile-link { width: 100%; }
+}
+
+@media (max-width: 560px) {
+  .about-hero,
+  .about-story-section,
+  .account-profile-page { padding-left: 14px; padding-right: 14px; }
+  .about-story-card,
+  .about-orchard-card,
+  .account-profile-card { border-radius: 26px; }
+  .about-orchard-card__image-wrap { border-radius: 20px; }
+}
