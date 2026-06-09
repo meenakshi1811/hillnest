@@ -2014,3 +2014,262 @@
   .order-card__arrow { display: none; }
   .orders-empty { border-radius: 26px; }
 }
+
+/* ── SHOP COLLECTION ── */
+.shop-shell {
+  width: min(100%, 1240px);
+  margin: 0 auto;
+}
+
+.shop-page-hero {
+  padding: clamp(54px, 8vw, 92px) 20px;
+  border-bottom: 1px solid rgba(201,151,58,0.18);
+  background:
+    radial-gradient(circle at 18% 12%, rgba(232,196,122,0.24), transparent 30%),
+    radial-gradient(circle at 86% 18%, rgba(30,59,47,0.08), transparent 26%),
+    linear-gradient(135deg, rgba(255,255,255,0.86), rgba(250,245,236,0.78));
+  text-align: center;
+}
+
+.shop-page-hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shop-eyebrow {
+  margin: 0 0 12px;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 3.2px;
+  text-transform: uppercase;
+}
+
+.shop-page-hero h1 {
+  margin: 0;
+  color: var(--forest);
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(48px, 8vw, 76px);
+  font-weight: 600;
+  line-height: 0.95;
+}
+
+.shop-page-hero p:not(.shop-eyebrow) {
+  max-width: 680px;
+  margin: 20px auto 0;
+  color: var(--text-mid);
+  font-size: clamp(17px, 2vw, 20px);
+  line-height: 1.7;
+}
+
+.shop-products-section {
+  padding: clamp(44px, 7vw, 84px) 20px clamp(62px, 9vw, 104px);
+  background:
+    linear-gradient(180deg, rgba(255,255,255,0.32), rgba(250,245,236,0)),
+    var(--cream);
+}
+
+.shop-products-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+.product-card-rosier {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid rgba(201,151,58,0.2);
+  border-radius: 30px;
+  background: rgba(255,255,255,0.9);
+  box-shadow: 0 20px 52px rgba(77,55,24,0.08);
+  transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+}
+
+.product-card-rosier:hover {
+  transform: translateY(-5px);
+  border-color: rgba(201,151,58,0.44);
+  box-shadow: 0 28px 66px rgba(77,55,24,0.13);
+}
+
+.product-card-rosier__media {
+  position: relative;
+  display: block;
+  aspect-ratio: 4 / 5;
+  overflow: hidden;
+  background: var(--cream-dark);
+  color: inherit;
+  text-decoration: none;
+}
+
+.product-card-rosier__media img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  transition: transform 0.7s ease;
+}
+
+.product-card-rosier:hover .product-card-rosier__media img {
+  transform: scale(1.055);
+}
+
+.product-card-rosier__badge,
+.product-card-rosier__sale {
+  position: absolute;
+  top: 16px;
+  z-index: 2;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 30px;
+  padding: 0 12px;
+  border-radius: 999px;
+  color: var(--white);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+  box-shadow: 0 10px 24px rgba(30,59,47,0.16);
+}
+
+.product-card-rosier__badge { left: 16px; }
+.product-card-rosier__badge--gold { background: var(--gold); color: var(--forest); }
+.product-card-rosier__badge--forest { background: var(--forest); color: var(--gold-pale); }
+.product-card-rosier__sale { right: 16px; background: #b42318; }
+
+.product-card-rosier__body {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 22px 26px;
+  text-align: center;
+}
+
+.product-card-rosier__type {
+  margin: 0 0 10px;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+}
+
+.product-card-rosier h3 {
+  margin: 0;
+  color: var(--forest);
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(26px, 2.4vw, 32px);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.product-card-rosier h3 a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+.product-card-rosier h3 a:hover { color: var(--gold); }
+
+.product-card-rosier__reviews {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 14px;
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.product-card-rosier__reviews span:first-child {
+  color: var(--gold);
+  letter-spacing: -1px;
+}
+
+.product-card-rosier__size {
+  margin: 14px 0 0;
+  color: var(--text-mid);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.product-card-rosier__price-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: center;
+  gap: 10px;
+  margin-top: auto;
+  padding-top: 18px;
+}
+
+.product-card-rosier__price {
+  color: var(--forest);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.product-card-rosier__compare {
+  color: var(--text-light);
+  font-size: 18px;
+  text-decoration: line-through;
+}
+
+.product-card-rosier__form {
+  width: 100%;
+  margin-top: 20px;
+}
+
+.product-card-rosier__form .btn-primary {
+  width: 100%;
+  min-height: 50px;
+  padding: 0 22px;
+}
+
+.shop-empty-state {
+  max-width: 620px;
+  margin: 0 auto;
+  padding: clamp(36px, 6vw, 62px) 24px;
+  border: 1px solid rgba(201,151,58,0.22);
+  border-radius: 34px;
+  background: rgba(255,255,255,0.88);
+  box-shadow: 0 24px 60px rgba(77,55,24,0.08);
+  text-align: center;
+}
+
+.shop-empty-state h2 {
+  margin: 0;
+  color: var(--forest);
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(36px, 6vw, 54px);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.shop-empty-state p:last-child {
+  max-width: 420px;
+  margin: 16px auto 0;
+  color: var(--text-mid);
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+@media (max-width: 1180px) {
+  .shop-products-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@media (max-width: 860px) {
+  .shop-products-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+
+@media (max-width: 560px) {
+  .shop-page-hero,
+  .shop-products-section { padding-left: 14px; padding-right: 14px; }
+  .shop-products-grid { grid-template-columns: 1fr; gap: 18px; }
+  .product-card-rosier { border-radius: 26px; }
+  .product-card-rosier__body { padding: 22px 18px 24px; }
+}
