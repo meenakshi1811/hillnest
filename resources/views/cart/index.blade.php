@@ -3,56 +3,84 @@
 @section('title', 'Shopping Cart — Hillnest')
 
 @section('content')
-<section class="py-10 md:py-14 bg-cream min-h-[60vh]">
-    <div class="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <h1 class="font-display text-3xl md:text-4xl font-semibold text-brand text-center">Shopping Cart</h1>
+<section class="cart-page">
+    <div class="cart-page-shell">
+        <div class="cart-page-header">
+            <p class="cart-page-eyebrow">Your Basket</p>
+            <h1>Shopping Cart</h1>
+            <p>Review your HillNest picks before they begin their journey from the mountains.</p>
+        </div>
 
         @if($items->count())
-        <div class="mt-10 grid gap-10 lg:grid-cols-3">
-            <div class="lg:col-span-2 space-y-4">
+        <div class="cart-page-layout">
+            <div class="cart-page-items" aria-label="Shopping cart items">
                 @foreach($items as $item)
-                <div class="flex gap-5 bg-white border border-hill-200 p-5 md:p-6">
-                    <img src="{{ $item['product']->image_url }}" alt="" class="h-28 w-28 shrink-0 object-cover bg-cream-dark">
-                    <div class="flex-1 min-w-0">
-                        <h3 class="text-lg md:text-xl font-semibold text-brand">{{ $item['product']->name }}</h3>
-                        <p class="text-base text-brand-light mt-1">{{ $item['product']->size }}</p>
-                        <p class="mt-2 text-xl font-bold text-brand">₹{{ number_format($item['product']->price, 0) }}</p>
-                        <form action="{{ route('cart.update', $item['product']) }}" method="POST" class="mt-4 flex items-center gap-3">
-                            @csrf @method('PATCH')
-                            <label class="text-sm font-medium text-brand-light">Qty</label>
-                            <input type="number" name="quantity" value="{{ $item['quantity'] }}" min="0" max="20" class="w-20 border-2 border-hill-200 py-2 text-center text-base">
-                            <button type="submit" class="text-sm font-semibold text-gold hover:underline uppercase tracking-wide">Update</button>
+                <article class="cart-line-item">
+                    <a href="{{ route('shop.show', $item['product']) }}" class="cart-line-item__media">
+                        <img src="{{ $item['product']->image_url }}" alt="{{ $item['product']->name }}">
+                    </a>
+
+                    <div class="cart-line-item__details">
+                        <p class="cart-line-item__type">Bilona Ghee</p>
+                        <h2><a href="{{ route('shop.show', $item['product']) }}">{{ $item['product']->name }}</a></h2>
+                        <p class="cart-line-item__size">{{ $item['product']->size }}</p>
+                        <p class="cart-line-item__price">₹{{ number_format($item['product']->price, 0) }}</p>
+
+                        <form action="{{ route('cart.update', $item['product']) }}" method="POST" class="cart-line-item__quantity-form">
+                            @csrf
+                            @method('PATCH')
+                            <label for="quantity-{{ $item['product']->id ?? $loop->index }}">Qty</label>
+                            <input id="quantity-{{ $item['product']->id ?? $loop->index }}" type="number" name="quantity" value="{{ $item['quantity'] }}" min="0" max="20">
+                            <button type="submit">Update</button>
                         </form>
                     </div>
-                    <div class="text-right shrink-0">
-                        <p class="text-xl font-bold text-brand">₹{{ number_format($item['line_total'], 0) }}</p>
-                        <form action="{{ route('cart.remove', $item['product']) }}" method="POST" class="mt-3">
-                            @csrf @method('DELETE')
-                            <button type="submit" class="text-sm text-red-600 hover:underline">Remove</button>
+
+                    <div class="cart-line-item__totals">
+                        <span>Line total</span>
+                        <strong>₹{{ number_format($item['line_total'], 0) }}</strong>
+                        <form action="{{ route('cart.remove', $item['product']) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit">Remove</button>
                         </form>
                     </div>
-                </div>
+                </article>
                 @endforeach
             </div>
 
-            <div class="bg-white border border-hill-200 p-6 md:p-8 h-fit lg:sticky lg:top-28">
-                <h2 class="font-display text-2xl font-semibold text-brand">Order Summary</h2>
-                <dl class="mt-6 space-y-4 text-base">
-                    <div class="flex justify-between"><dt class="text-brand-light">Subtotal</dt><dd class="font-semibold text-brand">₹{{ number_format($subtotal, 0) }}</dd></div>
-                    <div class="flex justify-between"><dt class="text-brand-light">Shipping</dt><dd class="font-semibold">{{ $shipping > 0 ? '₹'.number_format($shipping, 0) : 'FREE' }}</dd></div>
+            <aside class="cart-summary" aria-label="Order summary">
+                <p class="cart-page-eyebrow">Summary</p>
+                <h2>Order Summary</h2>
+                <dl class="cart-summary__totals">
+                    <div>
+                        <dt>Subtotal</dt>
+                        <dd>₹{{ number_format($subtotal, 0) }}</dd>
+                    </div>
+                    <div>
+                        <dt>Shipping</dt>
+                        <dd>{{ $shipping > 0 ? '₹'.number_format($shipping, 0) : 'FREE' }}</dd>
+                    </div>
                     @if($shipping > 0)
-                    <p class="text-sm text-gold">Free shipping on orders above ₹2,000</p>
+                    <p class="cart-summary__note">Free shipping on orders above ₹2,000</p>
                     @endif
-                    <div class="flex justify-between border-t-2 border-hill-200 pt-4 text-xl"><dt class="font-bold">Total</dt><dd class="font-bold text-brand">₹{{ number_format($total, 0) }}</dd></div>
+                    <div class="cart-summary__grand-total">
+                        <dt>Total</dt>
+                        <dd>₹{{ number_format($total, 0) }}</dd>
+                    </div>
                 </dl>
-                <a href="{{ route('checkout.index') }}" class="mt-8 block w-full btn-primary text-center">Check Out</a>
-                <a href="{{ route('shop.index') }}" class="mt-4 block text-center text-base text-brand-light hover:text-gold">Continue Shopping</a>
-            </div>
+                <a href="{{ route('checkout.index') }}" class="btn-primary cart-summary__checkout"><span>Check Out</span></a>
+                <a href="{{ route('shop.index') }}" class="cart-summary__continue">Continue Shopping</a>
+            </aside>
         </div>
         @else
-        <div class="mt-16 text-center py-20 bg-white border border-hill-200">
-            <p class="text-xl text-brand-light">Your cart is currently empty.</p>
-            <a href="{{ route('shop.index') }}" class="mt-8 inline-block btn-primary">Browse Ghee</a>
+        <div class="cart-page-empty">
+            <div class="cart-page-empty__icon" aria-hidden="true">
+                <svg width="38" height="38" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+            <p class="cart-page-eyebrow">Your cart is empty</p>
+            <h2>Let’s fill it with golden goodness.</h2>
+            <p>Browse pure A2 bilona ghee and add your favorite jar to begin checkout.</p>
+            <a href="{{ route('shop.index') }}" class="btn-primary"><span>Browse Ghee</span></a>
         </div>
         @endif
     </div>

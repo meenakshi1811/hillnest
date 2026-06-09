@@ -3,35 +3,44 @@
 @section('title', 'My Orders — Hillnest')
 
 @section('content')
-<section class="py-10 md:py-14 bg-cream">
-    <div class="mx-auto max-w-4xl px-4 sm:px-6">
-        <div class="flex flex-wrap items-center justify-between gap-4">
-            <h1 class="font-display text-3xl md:text-4xl font-semibold text-brand">My Orders</h1>
-            <a href="{{ route('account.profile') }}" class="text-base font-semibold text-gold hover:underline">Edit Profile</a>
+<section class="account-orders-page">
+    <div class="account-orders-shell">
+        <div class="account-orders-hero">
+            <div>
+                <p class="account-eyebrow">Account</p>
+                <h1>My Orders</h1>
+                <p class="account-orders-intro">Track your HillNest purchases and revisit every delivery detail in one calm, organized place.</p>
+            </div>
+            <a href="{{ route('account.profile') }}" class="account-profile-link">Edit Profile</a>
         </div>
 
         @if($orders->count())
-        <div class="mt-10 space-y-4">
+        <div class="orders-list" aria-label="Order history">
             @foreach($orders as $order)
-            <a href="{{ route('account.orders.show', $order->order_number) }}" class="block bg-white border border-hill-200 p-6 hover:shadow-md transition">
-                <div class="flex flex-wrap justify-between gap-4">
-                    <div>
-                        <p class="text-lg font-bold text-brand">{{ $order->order_number }}</p>
-                        <p class="text-base text-brand-light mt-1">{{ $order->created_at->format('d M Y, h:i A') }}</p>
-                    </div>
-                    <div class="text-right">
-                        <p class="text-2xl font-bold text-brand">₹{{ number_format($order->total, 0) }}</p>
-                        <span class="inline-block mt-2 text-sm font-semibold {{ $order->status_badge_classes }} px-3 py-1 rounded">{{ $order->status_label }}</span>
-                    </div>
+            <a href="{{ route('account.orders.show', $order->order_number) }}" class="order-card">
+                <div class="order-card__main">
+                    <span class="order-card__label">Order number</span>
+                    <p class="order-card__number">{{ $order->order_number }}</p>
+                    <p class="order-card__date">{{ $order->created_at->format('d M Y, h:i A') }}</p>
                 </div>
+                <div class="order-card__meta">
+                    <p class="order-card__total">₹{{ number_format($order->total, 0) }}</p>
+                    <span class="order-status order-status--{{ $order->status }}">{{ $order->status_label }}</span>
+                </div>
+                <span class="order-card__arrow" aria-hidden="true">→</span>
             </a>
             @endforeach
         </div>
-        <div class="mt-8">{{ $orders->links() }}</div>
+        <div class="orders-pagination">{{ $orders->links() }}</div>
         @else
-        <div class="mt-16 text-center py-16 bg-white border border-hill-200">
-            <p class="text-lg text-brand-light">No orders yet.</p>
-            <a href="{{ route('shop.index') }}" class="mt-6 inline-block btn-primary">Start Shopping</a>
+        <div class="orders-empty">
+            <div class="orders-empty__icon" aria-hidden="true">
+                <svg width="36" height="36" fill="none" stroke="currentColor" stroke-width="1.6" viewBox="0 0 24 24"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>
+            </div>
+            <p class="orders-empty__eyebrow">Your shelf is waiting</p>
+            <h2>No orders yet</h2>
+            <p>Start with our pure A2 bilona ghee and your order history will appear here.</p>
+            <a href="{{ route('shop.index') }}" class="btn-primary"><span>Start Shopping</span></a>
         </div>
         @endif
     </div>
