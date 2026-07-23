@@ -26,6 +26,9 @@
                 </div>
                 <dl class="admin-dl">
                     <div class="admin-dl__row"><dt>Subtotal</dt><dd>₹{{ number_format($order->subtotal, 0) }}</dd></div>
+                    @if($order->hasCoupon())
+                    <div class="admin-dl__row"><dt>Coupon ({{ $order->coupon_code }})</dt><dd>-₹{{ number_format($order->discount_amount, 0) }}</dd></div>
+                    @endif
                     <div class="admin-dl__row"><dt>Shipping</dt><dd>₹{{ number_format($order->shipping_fee, 0) }}</dd></div>
                     <div class="admin-dl__row admin-dl__row--total"><dt>Total</dt><dd>₹{{ number_format($order->total, 0) }}</dd></div>
                 </dl>

@@ -19,6 +19,12 @@
                 <span class="checkout-success__label">Total</span>
                 <strong class="checkout-success__total">₹{{ number_format($order->total, 0) }}</strong>
             </div>
+            @if($order->hasCoupon())
+            <div class="checkout-success__detail">
+                <span class="checkout-success__label">Coupon</span>
+                <strong>{{ $order->coupon_code }} (-₹{{ number_format($order->discount_amount, 0) }})</strong>
+            </div>
+            @endif
             <div class="checkout-success__detail checkout-success__detail--status">
                 <span class="checkout-success__label">Status</span>
                 <span class="checkout-success__status checkout-success__status--{{ $order->status }}">{{ $order->status_label }}</span>

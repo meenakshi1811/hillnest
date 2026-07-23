@@ -28,6 +28,9 @@
             </ul>
             <dl class="mt-6 border-t-2 border-hill-200 pt-5 space-y-2 text-base">
                 <div class="flex justify-between"><dt>Subtotal</dt><dd>₹{{ number_format($order->subtotal, 0) }}</dd></div>
+                @if($order->hasCoupon())
+                <div class="flex justify-between text-gold"><dt>Coupon ({{ $order->coupon_code }})</dt><dd>-₹{{ number_format($order->discount_amount, 0) }}</dd></div>
+                @endif
                 <div class="flex justify-between"><dt>Shipping</dt><dd>₹{{ number_format($order->shipping_fee, 0) }}</dd></div>
                 <div class="flex justify-between text-xl font-bold text-brand pt-2"><dt>Total</dt><dd>₹{{ number_format($order->total, 0) }}</dd></div>
             </dl>

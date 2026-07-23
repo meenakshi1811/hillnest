@@ -29,15 +29,23 @@ class OrdersDataTable
                     $query->where(function (Builder $q) use ($search) {
                         $q->where('order_number', 'like', "%{$search}%")
                             ->orWhere('customer_name', 'like', "%{$search}%")
-                            ->orWhere('customer_email', 'like', "%{$search}%");
+                            ->orWhere('customer_email', 'like', "%{$search}%")
+                            ->orWhere('coupon_code', 'like', "%{$search}%");
                     });
                 }
             })
             ->addColumn('order_link', fn (Order $order) => '<a href="'.route('admin.orders.show', $order).'" class="admin-table__link">'.$order->order_number.'</a>')
+            ->addColumn('coupon_info', function (Order $order) {
+                if (! $order->hasCoupon()) {
+                    return '<span style="color:var(--text-light)">—</span>';
+                }
+
+                return '<div><code class="admin-code">'.e($order->coupon_code).'</code><br><span style="color:var(--text-light);font-size:12px">-₹'.number_format($order->discount_amount, 0).'</span></div>';
+            })
             ->addColumn('status_badge', fn (Order $order) => '<span class="status-badge '.$order->status_badge_classes.'">'.$order->status_label.'</span>')
             ->editColumn('total', fn (Order $order) => '₹'.number_format($order->total, 0))
             ->editColumn('created_at', fn (Order $order) => $order->created_at->format('d M Y'))
-            ->rawColumns(['order_link', 'status_badge'])
+            ->rawColumns(['order_link', 'coupon_info', 'status_badge'])
             ->toJson();
     }
 }

@@ -7,6 +7,8 @@
     $itemCount = $items->sum('quantity');
     $freeShippingAt = 2000;
     $amountToFree = max(0, $freeShippingAt - $subtotal);
+    $discount = $discount ?? 0;
+    $appliedCoupon = $appliedCoupon ?? null;
 @endphp
 
 <section class="checkout-page">
@@ -123,18 +125,50 @@
                 </p>
                 @endif
 
-                <dl class="checkout-summary__totals">
+                <div class="checkout-coupon" data-checkout-coupon>
+                    <label class="checkout-label" for="coupon_code">Coupon code</label>
+                    <div class="checkout-coupon__row">
+                        <input
+                            class="checkout-input"
+                            type="text"
+                            id="coupon_code"
+                            name="coupon_code"
+                            value="{{ old('coupon_code', $appliedCoupon?->code) }}"
+                            placeholder="Enter your coupon"
+                            autocomplete="off"
+                            @if($appliedCoupon) readonly @endif
+                            data-coupon-input
+                        >
+                        @if($appliedCoupon)
+                            <button type="button" class="checkout-coupon__btn checkout-coupon__btn--remove" data-coupon-remove>Remove</button>
+                        @else
+                            <button type="button" class="checkout-coupon__btn" data-coupon-apply>Apply</button>
+                        @endif
+                    </div>
+                    <p class="checkout-field-error" data-coupon-error @unless($errors->has('coupon_code')) hidden @endunless>{{ $errors->first('coupon_code') }}</p>
+                    @if($appliedCoupon)
+                    <p class="checkout-coupon__applied">
+                        <span>{{ $appliedCoupon->code }}</span> applied — {{ $appliedCoupon->value_label }} off
+                    </p>
+                    @endif
+                </div>
+
+                <dl class="checkout-summary__totals" data-checkout-totals>
                     <div>
                         <dt>Subtotal</dt>
-                        <dd>₹{{ number_format($subtotal, 0) }}</dd>
+                        <dd data-total-subtotal>₹{{ number_format($subtotal, 0) }}</dd>
+                    </div>
+                    <div data-total-discount-row @unless($discount > 0) hidden @endunless>
+                        <dt>Coupon discount</dt>
+                        <dd data-total-discount>-₹{{ number_format($discount, 0) }}</dd>
                     </div>
                     <div>
                         <dt>Shipping</dt>
-                        <dd>{{ $shipping > 0 ? '₹'.number_format($shipping, 0) : 'FREE' }}</dd>
+                        <dd data-total-shipping>{{ $shipping > 0 ? '₹'.number_format($shipping, 0) : 'FREE' }}</dd>
                     </div>
                     <div class="checkout-summary__grand-total">
                         <dt>Total</dt>
-                        <dd>₹{{ number_format($total, 0) }}</dd>
+                        <dd data-total-grand>₹{{ number_format($total, 0) }}</dd>
                     </div>
                 </dl>
 
@@ -149,3 +183,11 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+    window.checkoutCouponApplyUrl = @json(route('checkout.coupon.apply'));
+    window.checkoutCouponRemoveUrl = @json(route('checkout.coupon.remove'));
+</script>
+<script src="{{ asset('js/checkout-coupon.js') }}"></script>
+@endpush

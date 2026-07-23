@@ -55,6 +55,11 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    public function coupons()
+    {
+        return $this->hasMany(Coupon::class);
+    }
+
     public function isAdmin(): bool
     {
         return (bool) $this->is_admin;

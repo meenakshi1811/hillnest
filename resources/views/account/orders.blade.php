@@ -73,7 +73,7 @@
 
                         <div class="order-panel__foot">
                             <div class="order-panel__summary">
-                                <span>{{ $itemCount }} {{ Str::plural('item', $itemCount) }}</span>
+                                <span>{{ $itemCount }} {{ Str::plural('item', $itemCount) }}@if($order->hasCoupon()) · Coupon {{ $order->coupon_code }} (-₹{{ number_format($order->discount_amount, 0) }})@endif</span>
                                 <strong>₹{{ number_format($order->total, 0) }}</strong>
                             </div>
                             <a href="{{ route('account.orders.show', $order->order_number) }}" class="order-panel__cta">

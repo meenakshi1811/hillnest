@@ -903,6 +903,44 @@ body.admin-page table { border-collapse: collapse; width: 100%; }
   color: var(--forest);
 }
 
+.admin-badge--used {
+  background: rgba(138, 56, 56, 0.12);
+  color: #8a3838;
+}
+
+.admin-badge--expired {
+  background: rgba(120, 120, 120, 0.14);
+  color: #666;
+}
+
+.admin-code {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 6px;
+  background: rgba(30, 59, 47, 0.06);
+  color: var(--forest);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+}
+
+.admin-input-group {
+  display: flex;
+  gap: 8px;
+  align-items: stretch;
+}
+
+.admin-input-group .admin-input {
+  flex: 1;
+  min-width: 0;
+}
+
+.admin-input-group .admin-btn {
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 .admin-label__optional {
   color: var(--text-light);
   font-weight: 500;

@@ -19,8 +19,8 @@ class Order extends Model
 
     protected $fillable = [
         'order_number', 'user_id', 'customer_name', 'customer_email', 'customer_phone',
-        'shipping_address', 'city', 'state', 'pincode', 'subtotal', 'shipping_fee',
-        'total', 'payment_method', 'status', 'notes',
+        'shipping_address', 'city', 'state', 'pincode', 'coupon_id', 'coupon_code',
+        'subtotal', 'shipping_fee', 'discount_amount', 'total', 'payment_method', 'status', 'notes',
     ];
 
     protected function casts(): array
@@ -28,6 +28,7 @@ class Order extends Model
         return [
             'subtotal' => 'decimal:2',
             'shipping_fee' => 'decimal:2',
+            'discount_amount' => 'decimal:2',
             'total' => 'decimal:2',
         ];
     }
@@ -40,6 +41,16 @@ class Order extends Model
     public function items(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function coupon(): BelongsTo
+    {
+        return $this->belongsTo(Coupon::class);
+    }
+
+    public function hasCoupon(): bool
+    {
+        return $this->discount_amount > 0 && filled($this->coupon_code);
     }
 
     public function getStatusLabelAttribute(): string

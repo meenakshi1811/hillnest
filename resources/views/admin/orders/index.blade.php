@@ -24,6 +24,7 @@
             <tr>
                 <th>Order</th>
                 <th>Customer</th>
+                <th>Coupon</th>
                 <th>Total</th>
                 <th>Status</th>
                 <th>Date</th>
@@ -43,10 +44,11 @@ document.addEventListener('DOMContentLoaded', function () {
                 d.status = document.getElementById('orders-status-filter').value;
             }
         },
-        order: [[4, 'desc']],
+        order: [[5, 'desc']],
         columns: [
             { data: 'order_link', name: 'order_number', orderable: true, searchable: true },
             { data: 'customer_name', name: 'customer_name', orderable: true, searchable: true },
+            { data: 'coupon_info', name: 'coupon_code', orderable: false, searchable: true },
             { data: 'total', name: 'total', orderable: true, searchable: false },
             { data: 'status_badge', name: 'status', orderable: true, searchable: false },
             { data: 'created_at', name: 'created_at', orderable: true, searchable: false }
