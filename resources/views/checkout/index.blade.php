@@ -3,76 +3,148 @@
 @section('title', 'Checkout — Hillnest')
 
 @section('content')
-<section class="py-10 md:py-14 bg-cream">
-    <div class="mx-auto max-w-[1200px] px-4 sm:px-6 lg:px-8">
-        <h1 class="font-display text-3xl md:text-4xl font-semibold text-brand text-center">Checkout</h1>
+@php
+    $itemCount = $items->sum('quantity');
+    $freeShippingAt = 2000;
+    $amountToFree = max(0, $freeShippingAt - $subtotal);
+@endphp
 
-        <form action="{{ route('checkout.store') }}" method="POST" class="mt-10 grid gap-10 lg:grid-cols-5">
+<section class="checkout-page">
+    <div class="checkout-page-hero">
+        <div class="checkout-shell">
+            <nav class="checkout-breadcrumb" aria-label="Breadcrumb">
+                <a href="{{ route('home') }}">Home</a>
+                <span aria-hidden="true">/</span>
+                <a href="{{ route('cart.index') }}">Cart</a>
+                <span aria-hidden="true">/</span>
+                <span>Checkout</span>
+            </nav>
+            <div class="checkout-page-header">
+                <p class="checkout-eyebrow">Secure Checkout</p>
+                <h1>Complete Your Order</h1>
+                <p>Just a few details and your HillNest ghee will be on its way from the mountains.</p>
+                <span class="checkout-page-count">{{ $itemCount }} {{ Str::plural('item', $itemCount) }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="checkout-shell checkout-page-body">
+        <form action="{{ route('checkout.store') }}" method="POST" class="checkout-layout">
             @csrf
-            <div class="lg:col-span-3 space-y-6">
-                <div class="bg-white border border-hill-200 p-6 md:p-8">
-                    <h2 class="font-display text-2xl font-semibold text-brand">Contact & Delivery</h2>
-                    <div class="mt-6 grid gap-5 sm:grid-cols-2">
-                        <div class="sm:col-span-2">
-                            <label class="block text-base font-medium text-brand mb-2">Full Name *</label>
-                            <input type="text" name="customer_name" value="{{ old('customer_name', $user?->name) }}" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
-                            @error('customer_name')<p class="text-sm text-red-600 mt-1">{{ $message }}</p>@enderror
+
+            <div class="checkout-main">
+                <article class="checkout-card">
+                    <div class="checkout-card__head">
+                        <p class="checkout-eyebrow">Delivery</p>
+                        <h2>Contact &amp; Shipping</h2>
+                    </div>
+
+                    <div class="checkout-fields">
+                        <div class="checkout-field checkout-field--full">
+                            <label class="checkout-label" for="customer_name">Full Name *</label>
+                            <input class="checkout-input" type="text" id="customer_name" name="customer_name" value="{{ old('customer_name', $user?->name) }}" required autocomplete="name">
+                            @error('customer_name')<p class="checkout-field-error">{{ $message }}</p>@enderror
                         </div>
-                        <div>
-                            <label class="block text-base font-medium text-brand mb-2">Email *</label>
-                            <input type="email" name="customer_email" value="{{ old('customer_email', $user?->email) }}" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
+
+                        <div class="checkout-field">
+                            <label class="checkout-label" for="customer_email">Email *</label>
+                            <input class="checkout-input" type="email" id="customer_email" name="customer_email" value="{{ old('customer_email', $user?->email) }}" required autocomplete="email">
+                            @error('customer_email')<p class="checkout-field-error">{{ $message }}</p>@enderror
                         </div>
-                        <div>
-                            <label class="block text-base font-medium text-brand mb-2">Phone *</label>
-                            <input type="text" name="customer_phone" value="{{ old('customer_phone', $user?->phone) }}" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
+
+                        <div class="checkout-field">
+                            <label class="checkout-label" for="customer_phone">Phone *</label>
+                            <input class="checkout-input" type="text" id="customer_phone" name="customer_phone" value="{{ old('customer_phone', $user?->phone) }}" required autocomplete="tel">
+                            @error('customer_phone')<p class="checkout-field-error">{{ $message }}</p>@enderror
                         </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-base font-medium text-brand mb-2">Address *</label>
-                            <textarea name="shipping_address" rows="3" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">{{ old('shipping_address') }}</textarea>
+
+                        <div class="checkout-field checkout-field--full">
+                            <label class="checkout-label" for="shipping_address">Address *</label>
+                            <textarea class="checkout-textarea" id="shipping_address" name="shipping_address" rows="3" required autocomplete="street-address">{{ old('shipping_address') }}</textarea>
+                            @error('shipping_address')<p class="checkout-field-error">{{ $message }}</p>@enderror
                         </div>
-                        <div>
-                            <label class="block text-base font-medium text-brand mb-2">City *</label>
-                            <input type="text" name="city" value="{{ old('city') }}" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
+
+                        <div class="checkout-field">
+                            <label class="checkout-label" for="city">City *</label>
+                            <input class="checkout-input" type="text" id="city" name="city" value="{{ old('city') }}" required autocomplete="address-level2">
+                            @error('city')<p class="checkout-field-error">{{ $message }}</p>@enderror
                         </div>
-                        <div>
-                            <label class="block text-base font-medium text-brand mb-2">State *</label>
-                            <input type="text" name="state" value="{{ old('state', 'Himachal Pradesh') }}" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
+
+                        <div class="checkout-field">
+                            <label class="checkout-label" for="state">State *</label>
+                            <input class="checkout-input" type="text" id="state" name="state" value="{{ old('state', 'Himachal Pradesh') }}" required autocomplete="address-level1">
+                            @error('state')<p class="checkout-field-error">{{ $message }}</p>@enderror
                         </div>
-                        <div>
-                            <label class="block text-base font-medium text-brand mb-2">Pincode *</label>
-                            <input type="text" name="pincode" value="{{ old('pincode') }}" required class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none">
+
+                        <div class="checkout-field">
+                            <label class="checkout-label" for="pincode">Pincode *</label>
+                            <input class="checkout-input" type="text" id="pincode" name="pincode" value="{{ old('pincode') }}" required autocomplete="postal-code">
+                            @error('pincode')<p class="checkout-field-error">{{ $message }}</p>@enderror
                         </div>
-                        <div class="sm:col-span-2">
-                            <label class="block text-base font-medium text-brand mb-2">Order Notes</label>
-                            <textarea name="notes" rows="2" class="w-full border-2 border-hill-200 px-4 py-3 text-base focus:border-gold outline-none" placeholder="Delivery instructions (optional)">{{ old('notes') }}</textarea>
+
+                        <div class="checkout-field checkout-field--full">
+                            <label class="checkout-label" for="notes">Order Notes</label>
+                            <textarea class="checkout-textarea" id="notes" name="notes" rows="2" placeholder="Delivery instructions (optional)">{{ old('notes') }}</textarea>
+                            @error('notes')<p class="checkout-field-error">{{ $message }}</p>@enderror
                         </div>
                     </div>
-                </div>
-                @guest
-                <p class="text-base text-brand-light">Have an account? <a href="{{ route('login') }}" class="font-semibold text-gold hover:underline">Log in</a> to track orders.</p>
-                @endguest
+                </article>
+
+                <a href="{{ route('cart.index') }}" class="checkout-back">
+                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H5"/><path d="m12 19-7-7 7-7"/></svg>
+                    Back to Cart
+                </a>
             </div>
 
-            <div class="lg:col-span-2">
-                <div class="bg-white border border-hill-200 p-6 md:p-8 lg:sticky lg:top-28">
-                    <h2 class="font-display text-2xl font-semibold text-brand">Your Order</h2>
-                    <ul class="mt-5 space-y-4 text-base border-b border-hill-200 pb-5">
-                        @foreach($items as $item)
-                        <li class="flex justify-between gap-2">
-                            <span class="text-brand-light">{{ $item['product']->name }} × {{ $item['quantity'] }}</span>
-                            <span class="font-semibold shrink-0">₹{{ number_format($item['line_total'], 0) }}</span>
-                        </li>
-                        @endforeach
-                    </ul>
-                    <dl class="mt-5 space-y-3 text-base">
-                        <div class="flex justify-between"><dt>Subtotal</dt><dd class="font-semibold">₹{{ number_format($subtotal, 0) }}</dd></div>
-                        <div class="flex justify-between"><dt>Shipping</dt><dd class="font-semibold">{{ $shipping > 0 ? '₹'.number_format($shipping, 0) : 'FREE' }}</dd></div>
-                        <div class="flex justify-between text-xl font-bold text-brand pt-3 border-t-2 border-hill-200"><dt>Total</dt><dd>₹{{ number_format($total, 0) }}</dd></div>
-                    </dl>
-                    <p class="mt-5 text-sm text-brand-light bg-cream p-3"><strong>Payment:</strong> Cash on Delivery (COD)</p>
-                    <button type="submit" class="mt-6 w-full btn-primary">Place Order</button>
+            <aside class="checkout-summary" aria-label="Order summary">
+                <div class="checkout-summary__head">
+                    <p class="checkout-eyebrow">Summary</p>
+                    <h2>Your Order</h2>
                 </div>
-            </div>
+
+                <ul class="checkout-summary__items">
+                    @foreach($items as $item)
+                    <li>
+                        <div class="checkout-summary__item-thumb">
+                            <img src="{{ $item['product']->image_url }}" alt="">
+                        </div>
+                        <div>
+                            <span class="checkout-summary__item-name">{{ $item['product']->name }}</span>
+                            <span class="checkout-summary__item-meta">Qty {{ $item['quantity'] }} · ₹{{ number_format($item['product']->price, 0) }}</span>
+                        </div>
+                        <strong>₹{{ number_format($item['line_total'], 0) }}</strong>
+                    </li>
+                    @endforeach
+                </ul>
+
+                @if($amountToFree > 0)
+                <p class="checkout-summary__note">
+                    Add <strong>₹{{ number_format($amountToFree, 0) }}</strong> more on future orders for free shipping
+                </p>
+                @endif
+
+                <dl class="checkout-summary__totals">
+                    <div>
+                        <dt>Subtotal</dt>
+                        <dd>₹{{ number_format($subtotal, 0) }}</dd>
+                    </div>
+                    <div>
+                        <dt>Shipping</dt>
+                        <dd>{{ $shipping > 0 ? '₹'.number_format($shipping, 0) : 'FREE' }}</dd>
+                    </div>
+                    <div class="checkout-summary__grand-total">
+                        <dt>Total</dt>
+                        <dd>₹{{ number_format($total, 0) }}</dd>
+                    </div>
+                </dl>
+
+                <ul class="checkout-summary__trust">
+                    <li><span aria-hidden="true">🌿</span> Pure A2 Bilona</li>
+                    <li><span aria-hidden="true">🏔</span> From Upper Shimla</li>
+                </ul>
+
+                <button type="submit" class="btn-primary checkout-summary__submit"><span>Place Order</span></button>
+            </aside>
         </form>
     </div>
 </section>

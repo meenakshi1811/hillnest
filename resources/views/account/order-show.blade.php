@@ -12,7 +12,7 @@
         <div class="mt-8 bg-white border border-hill-200 p-6 md:p-8">
             <div class="flex justify-between items-center">
                 <span class="text-base text-brand-light">Status</span>
-                <span class="text-sm font-semibold {{ $order->status_badge_classes }} px-4 py-1.5 rounded">{{ $order->status_label }}</span>
+                <span class="status-badge {{ $order->status_badge_classes }}">{{ $order->status_label }}</span>
             </div>
             <ul class="mt-6 divide-y divide-hill-200">
                 @foreach($order->items as $item)

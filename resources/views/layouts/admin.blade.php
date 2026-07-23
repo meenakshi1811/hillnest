@@ -3,56 +3,108 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin') — Hillnest</title>
-    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
     <link href="{{ asset('css/admin.css') }}" rel="stylesheet">
-    @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.8/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    @stack('styles')
 </head>
-<body class="admin-page min-h-screen bg-stone-100">
-    <div class="flex min-h-screen">
-        <aside class="hidden w-64 shrink-0 flex-col bg-forest-800 text-white lg:flex">
-            <div class="flex items-center gap-3 border-b border-forest-700 px-6 py-5">
-                <img src="{{ hillnest_logo() }}" alt="Hillnest" class="h-10 w-10 rounded-full ring-2 ring-hill-500/40">
+<body class="admin-page">
+    <div class="admin-shell">
+        <aside class="admin-sidebar" aria-label="Admin navigation">
+            <div class="admin-sidebar__brand">
+                <img src="{{ hillnest_logo() }}" alt="Hillnest" class="admin-sidebar__logo">
                 <div>
-                    <span class="font-display font-bold">Hillnest</span>
-                    <span class="block text-xs text-hill-300">Admin Portal</span>
+                    <p class="admin-sidebar__title">Hillnest</p>
+                    <span class="admin-sidebar__subtitle">Admin Portal</span>
                 </div>
             </div>
-            <nav class="flex-1 space-y-1 p-4 text-sm">
-                <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 {{ request()->routeIs('admin.dashboard') ? 'bg-forest-700 text-hill-300' : 'text-hill-100 hover:bg-forest-700/60' }}">Dashboard</a>
-                <a href="{{ route('admin.orders.index') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 {{ request()->routeIs('admin.orders.*') ? 'bg-forest-700 text-hill-300' : 'text-hill-100 hover:bg-forest-700/60' }}">Orders</a>
-                <a href="{{ route('admin.users.index') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 {{ request()->routeIs('admin.users.*') ? 'bg-forest-700 text-hill-300' : 'text-hill-100 hover:bg-forest-700/60' }}">Customers</a>
-                <a href="{{ route('admin.products.index') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 {{ request()->routeIs('admin.products.*') ? 'bg-forest-700 text-hill-300' : 'text-hill-100 hover:bg-forest-700/60' }}">Products</a>
-                <a href="{{ route('admin.reports.index') }}" class="flex items-center gap-3 rounded-xl px-4 py-2.5 {{ request()->routeIs('admin.reports.*') ? 'bg-forest-700 text-hill-300' : 'text-hill-100 hover:bg-forest-700/60' }}">Reports</a>
+            <nav class="admin-sidebar__nav">
+                @include('admin.partials.sidebar-nav')
             </nav>
-            <div class="border-t border-forest-700 p-4 space-y-2">
-                <a href="{{ route('home') }}" class="block text-xs text-hill-300 hover:text-white">← View Storefront</a>
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <button type="submit" class="text-xs text-red-300 hover:text-red-200">Logout</button>
-                </form>
-            </div>
+            @include('admin.partials.sidebar-footer')
         </aside>
 
-        <div class="flex flex-1 flex-col">
-            <header class="border-b border-stone-200 bg-white px-4 py-4 sm:px-6 lg:hidden">
-                <div class="flex items-center justify-between">
-                    <span class="font-display font-bold text-forest-800">Hillnest Admin</span>
-                    <nav class="flex gap-3 text-xs">
-                        <a href="{{ route('admin.dashboard') }}" class="text-forest-700">Dash</a>
-                        <a href="{{ route('admin.orders.index') }}" class="text-forest-700">Orders</a>
-                        <a href="{{ route('admin.reports.index') }}" class="text-forest-700">Reports</a>
-                    </nav>
-                </div>
+        <div class="admin-main-wrap">
+            <header class="admin-mobile-header">
+                <span class="admin-mobile-header__brand">Hillnest Admin</span>
+                <button type="button" class="admin-mobile-header__toggle" id="admin-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="admin-mobile-drawer">
+                    <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+                </button>
             </header>
 
-            <main class="flex-1 p-4 sm:p-6 lg:p-8">
+            <div class="admin-mobile-drawer" id="admin-mobile-drawer" aria-hidden="true">
+                <div class="admin-mobile-drawer__backdrop" id="admin-menu-backdrop"></div>
+                <div class="admin-mobile-drawer__panel">
+                    <div class="admin-mobile-drawer__head">
+                        <span class="admin-sidebar__subtitle">Admin Menu</span>
+                        <button type="button" class="admin-mobile-drawer__close" id="admin-menu-close" aria-label="Close menu">
+                            <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M18 6 6 18M6 6l12 12"/></svg>
+                        </button>
+                    </div>
+                    <nav class="admin-mobile-drawer__nav">
+                        @include('admin.partials.sidebar-nav')
+                    </nav>
+                    @include('admin.partials.sidebar-footer')
+                </div>
+            </div>
+
+            <main class="admin-main">
                 @if(session('success'))
-                    <div class="mb-6 rounded-xl border border-emerald-200 bg-emerald-50 px-4 py-3 text-sm text-emerald-800">{{ session('success') }}</div>
+                    <div class="admin-flash">{{ session('success') }}</div>
                 @endif
                 @yield('content')
             </main>
         </div>
     </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        var drawer = document.getElementById('admin-mobile-drawer');
+        var toggle = document.getElementById('admin-menu-toggle');
+        var closeBtn = document.getElementById('admin-menu-close');
+        var backdrop = document.getElementById('admin-menu-backdrop');
+
+        if (!drawer || !toggle) return;
+
+        function openDrawer() {
+            drawer.classList.add('is-open');
+            drawer.setAttribute('aria-hidden', 'false');
+            toggle.setAttribute('aria-expanded', 'true');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeDrawer() {
+            drawer.classList.remove('is-open');
+            drawer.setAttribute('aria-hidden', 'true');
+            toggle.setAttribute('aria-expanded', 'false');
+            document.body.style.overflow = '';
+        }
+
+        toggle.addEventListener('click', openDrawer);
+        closeBtn.addEventListener('click', closeDrawer);
+        backdrop.addEventListener('click', closeDrawer);
+
+        drawer.querySelectorAll('a').forEach(function (link) {
+            link.addEventListener('click', closeDrawer);
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') closeDrawer();
+        });
+    });
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.8/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('js/admin-datatables.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>

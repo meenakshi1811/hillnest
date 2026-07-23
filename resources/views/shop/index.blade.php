@@ -21,9 +21,18 @@
             </div>
         @else
             <div class="shop-empty-state">
-                <p class="shop-eyebrow">Coming soon</p>
-                <h2>Products are being prepared</h2>
-                <p>Our pure A2 bilona ghee collection will be available here shortly.</p>
+                <p class="shop-eyebrow">{{ request()->filled('q') ? 'No matches' : 'Coming soon' }}</p>
+                <h2>{{ request()->filled('q') ? 'No products found' : 'Products are being prepared' }}</h2>
+                <p>
+                    @if(request()->filled('q'))
+                        Nothing matched “{{ request('q') }}”. Try another search or browse the full collection.
+                    @else
+                        Our pure A2 bilona ghee collection will be available here shortly.
+                    @endif
+                </p>
+                @if(request()->filled('q'))
+                    <a href="{{ route('shop.index') }}" class="btn-primary" style="display:inline-flex;margin-top:18px;"><span>View all products</span></a>
+                @endif
             </div>
         @endif
     </div>

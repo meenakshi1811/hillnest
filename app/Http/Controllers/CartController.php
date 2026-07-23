@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Services\CartService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -31,12 +32,12 @@ class CartController extends Controller
         $qty = (int) ($data['quantity'] ?? 1);
 
         if (! $product->isInStock($qty)) {
-            return back()->with('error', 'Sorry, this product is out of stock.');
+            return $this->respond($request, false, 'Sorry, this product is out of stock.', $product);
         }
 
         $this->cart->add($product->id, $qty);
 
-        return back()->with('success', 'Added to cart successfully.');
+        return $this->respond($request, true, 'Added to cart successfully.', $product, 'back');
     }
 
     public function update(Request $request, Product $product)
@@ -46,18 +47,56 @@ class CartController extends Controller
         ]);
 
         if ($data['quantity'] > 0 && ! $product->isInStock($data['quantity'])) {
-            return back()->with('error', 'Not enough stock available.');
+            return $this->respond($request, false, 'Not enough stock available.', $product, 'cart.index');
         }
 
         $this->cart->update($product->id, $data['quantity']);
 
-        return redirect()->route('cart.index')->with('success', 'Cart updated.');
+        $message = $data['quantity'] > 0 ? 'Quantity updated.' : 'Removed from cart.';
+
+        return $this->respond($request, true, $message, $product, 'cart.index');
     }
 
-    public function remove(Product $product)
+    public function remove(Request $request, Product $product)
     {
         $this->cart->remove($product->id);
 
-        return redirect()->route('cart.index')->with('success', 'Item removed from cart.');
+        return $this->respond($request, true, 'Removed from cart.', $product, 'cart.index');
+    }
+
+    protected function respond(Request $request, bool $success, string $message, Product $product, ?string $redirectRoute = null): JsonResponse|\Illuminate\Http\RedirectResponse
+    {
+        if ($request->expectsJson() || $request->ajax()) {
+            $status = $success ? 200 : 422;
+            $qty = $this->cart->quantity($product->id);
+            $subtotal = $this->cart->subtotal();
+            $freeShippingAt = 2000;
+
+            return response()->json([
+                'success' => $success,
+                'message' => $message,
+                'cart_count' => $this->cart->count(),
+                'in_cart' => $this->cart->has($product->id),
+                'quantity' => $qty,
+                'line_total' => $qty > 0 ? (float) ($product->price * $qty) : 0,
+                'unit_price' => (float) $product->price,
+                'subtotal' => $subtotal,
+                'shipping' => $this->cart->shippingFee(),
+                'total' => $this->cart->total(),
+                'product_id' => $product->id,
+                'amount_to_free' => max(0, $freeShippingAt - $subtotal),
+                'free_shipping_progress' => $subtotal > 0 ? min(100, ($subtotal / $freeShippingAt) * 100) : 0,
+            ], $status);
+        }
+
+        if (! $success) {
+            return back()->with('error', $message);
+        }
+
+        if ($redirectRoute === 'back') {
+            return back()->with('success', $message);
+        }
+
+        return redirect()->route($redirectRoute)->with('success', $message);
     }
 }

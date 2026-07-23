@@ -91,6 +91,41 @@ class CartService
         session()->forget(self::SESSION_KEY);
     }
 
+    public function has(int $productId): bool
+    {
+        return collect(session(self::SESSION_KEY, []))
+            ->contains(fn ($item) => ($item['product_id'] ?? null) === $productId);
+    }
+
+    public function quantity(int $productId): int
+    {
+        $item = collect(session(self::SESSION_KEY, []))
+            ->first(fn ($item) => ($item['product_id'] ?? null) === $productId);
+
+        return $item ? max(1, (int) ($item['quantity'] ?? 1)) : 0;
+    }
+
+    /** @return list<int> */
+    public function productIds(): array
+    {
+        return collect(session(self::SESSION_KEY, []))
+            ->pluck('product_id')
+            ->filter()
+            ->unique()
+            ->values()
+            ->all();
+    }
+
+    /** @return array<int, int> */
+    public function quantities(): array
+    {
+        return collect(session(self::SESSION_KEY, []))
+            ->mapWithKeys(fn ($item) => [
+                (int) $item['product_id'] => max(1, (int) ($item['quantity'] ?? 1)),
+            ])
+            ->all();
+    }
+
     public function count(): int
     {
         return $this->all()->sum('quantity');

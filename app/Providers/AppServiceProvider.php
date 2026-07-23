@@ -24,8 +24,13 @@ class AppServiceProvider extends ServiceProvider
     {
         Paginator::defaultView('vendor.pagination.tailwind');
 
-        View::composer(['layouts.app', 'layouts.admin'], function ($view) {
-            $view->with('cartCount', app(CartService::class)->count());
-        });
+        $shareCartData = function ($view) {
+            $cart = app(CartService::class);
+            $view->with('cartCount', $cart->count());
+            $view->with('cartProductIds', $cart->productIds());
+            $view->with('cartQuantities', $cart->quantities());
+        };
+
+        View::composer(['layouts.app', 'layouts.admin', 'components.*'], $shareCartData);
     }
 }
