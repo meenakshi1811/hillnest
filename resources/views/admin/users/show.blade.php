@@ -3,26 +3,46 @@
 @section('title', $user->name)
 
 @section('content')
-<a href="{{ route('admin.users.index') }}" class="text-sm text-forest-700 hover:underline">← Customers</a>
-<h1 class="font-display mt-2 text-2xl font-bold text-stone-800">{{ $user->name }}</h1>
-<p class="text-sm text-stone-500">{{ $user->email }} @if($user->phone)· {{ $user->phone }}@endif</p>
-
-<div class="mt-8 rounded-2xl border border-stone-200 bg-white shadow-sm overflow-hidden">
-    <div class="border-b border-stone-100 px-6 py-4 font-semibold text-stone-800">Order History</div>
-    @forelse($orders as $order)
-    <a href="{{ route('admin.orders.show', $order) }}" class="flex items-center justify-between px-6 py-4 border-b border-stone-50 hover:bg-stone-50 last:border-0">
-        <div>
-            <p class="font-medium text-forest-700">{{ $order->order_number }}</p>
-            <p class="text-xs text-stone-500">{{ $order->created_at->format('d M Y') }}</p>
-        </div>
-        <div class="text-right">
-            <p class="font-semibold">₹{{ number_format($order->total, 0) }}</p>
-            <span class="text-xs {{ $order->status_badge_classes }} rounded-full px-2 py-0.5">{{ $order->status_label }}</span>
-        </div>
-    </a>
-    @empty
-    <p class="px-6 py-12 text-center text-stone-400 text-sm">No orders from this customer.</p>
-    @endforelse
+<a href="{{ route('admin.users.index') }}" class="admin-back-link">← Customers</a>
+<div class="admin-page-header">
+    <div>
+        <h1 class="admin-page-header__title">{{ $user->name }}</h1>
+        <p class="admin-customer-meta">{{ $user->email }} @if($user->phone)· {{ $user->phone }}@endif</p>
+    </div>
 </div>
-@if($orders->hasPages())<div class="mt-4">{{ $orders->links() }}</div>@endif
+
+<div class="admin-card">
+    <div class="admin-card__head">
+        <h2 class="admin-card__title">Order History</h2>
+    </div>
+    <div class="admin-table-wrap admin-table-wrap--scroll" style="border:0;box-shadow:none;border-radius:0">
+        <table id="user-orders-table" class="admin-table admin-dt" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Order</th>
+                    <th>Date</th>
+                    <th>Total</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    AdminDT.init('#user-orders-table', {
+        ajax: '{{ route('admin.users.show', $user) }}',
+        order: [[1, 'desc']],
+        columns: [
+            { data: 'order_link', name: 'order_number', orderable: true, searchable: true },
+            { data: 'created_at', name: 'created_at', orderable: true, searchable: false },
+            { data: 'total', name: 'total', orderable: true, searchable: false },
+            { data: 'status_badge', name: 'status', orderable: true, searchable: false }
+        ]
+    });
+});
+</script>
+@endpush

@@ -3,42 +3,46 @@
 @section('title', 'Products')
 
 @section('content')
-<h1 class="font-display text-2xl font-bold text-stone-800">Products</h1>
+<div class="admin-page-header">
+    <div>
+        <h1 class="admin-page-header__title">Products</h1>
+        <p class="admin-page-header__subtitle">Manage catalogue and inventory</p>
+    </div>
+    <a href="{{ route('admin.products.create') }}" class="admin-btn admin-btn--sm">+ Add Product</a>
+</div>
 
-<div class="mt-8 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-    <table class="w-full text-sm">
-        <thead class="bg-stone-50 text-left text-xs uppercase tracking-wider text-stone-500">
+<div class="admin-table-wrap admin-table-wrap--scroll">
+    <table id="products-table" class="admin-table admin-dt" style="width:100%">
+        <thead>
             <tr>
-                <th class="px-4 py-3">Product</th>
-                <th class="px-4 py-3">Price</th>
-                <th class="px-4 py-3">Stock</th>
-                <th class="px-4 py-3">Status</th>
-                <th class="px-4 py-3"></th>
+                <th>Product</th>
+                <th>Price</th>
+                <th>Stock</th>
+                <th>Tags</th>
+                <th>Active</th>
+                <th></th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-stone-100">
-            @foreach($products as $product)
-            <tr class="hover:bg-stone-50">
-                <td class="px-4 py-3">
-                    <p class="font-medium text-stone-800">{{ $product->name }}</p>
-                    <p class="text-xs text-stone-500">{{ $product->size }}</p>
-                </td>
-                <td class="px-4 py-3 font-semibold">₹{{ number_format($product->price, 0) }}</td>
-                <td class="px-4 py-3">{{ $product->stock }}</td>
-                <td class="px-4 py-3">
-                    @if($product->is_active)
-                        <span class="text-xs bg-emerald-100 text-emerald-800 rounded-full px-2 py-0.5 font-semibold">Active</span>
-                    @else
-                        <span class="text-xs bg-stone-100 text-stone-600 rounded-full px-2 py-0.5 font-semibold">Hidden</span>
-                    @endif
-                </td>
-                <td class="px-4 py-3 text-right">
-                    <a href="{{ route('admin.products.edit', $product) }}" class="text-forest-700 hover:underline text-xs font-medium">Edit</a>
-                </td>
-            </tr>
-            @endforeach
-        </tbody>
     </table>
 </div>
-<div class="mt-6">{{ $products->links() }}</div>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/admin-products.js') }}"></script>
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    window.productsTable = AdminDT.init('#products-table', {
+        ajax: '{{ route('admin.products.index') }}',
+        order: [[0, 'asc']],
+        columns: [
+            { data: 'product_cell', name: 'name', orderable: true, searchable: true },
+            { data: 'price', name: 'price', orderable: true, searchable: false },
+            { data: 'stock', name: 'stock', orderable: true, searchable: false },
+            { data: 'product_tags', name: 'is_bestseller', orderable: false, searchable: false },
+            { data: 'status_toggle', name: 'is_active', orderable: true, searchable: false },
+            { data: 'action', name: 'action', orderable: false, searchable: false, className: 'dt-right' }
+        ]
+    });
+});
+</script>
+@endpush

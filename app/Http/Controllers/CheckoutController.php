@@ -98,7 +98,7 @@ class CheckoutController extends Controller
 
     public function success(Order $order)
     {
-        if (auth()->check() && $order->user_id !== auth()->id() && ! auth()->user()->isAdmin()) {
+        if ($order->user_id !== auth()->id() && ! auth()->user()->isAdmin()) {
             abort(403);
         }
 

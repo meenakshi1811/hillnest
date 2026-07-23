@@ -2,16 +2,22 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\RecentOrdersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function index(Request $request, RecentOrdersDataTable $dataTable)
     {
+        if ($request->ajax()) {
+            return $dataTable->json();
+        }
+
         $stats = [
             'total_revenue' => Order::whereNotIn('status', ['cancelled'])->sum('total'),
             'orders_count' => Order::count(),
@@ -19,8 +25,6 @@ class DashboardController extends Controller
             'users_count' => User::where('is_admin', false)->count(),
             'products_count' => Product::count(),
         ];
-
-        $recentOrders = Order::with('user')->latest()->limit(8)->get();
 
         $monthlyRevenue = Order::whereNotIn('status', ['cancelled'])
             ->select(
@@ -33,6 +37,6 @@ class DashboardController extends Controller
             ->orderBy('month')
             ->get();
 
-        return view('admin.dashboard', compact('stats', 'recentOrders', 'monthlyRevenue'));
+        return view('admin.dashboard', compact('stats', 'monthlyRevenue'));
     }
 }

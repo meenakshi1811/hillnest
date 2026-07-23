@@ -8,7 +8,19 @@ class ShopController extends Controller
 {
     public function index()
     {
-        $products = Product::active()->orderBy('sort_order')->get();
+        $query = Product::active()->orderBy('sort_order');
+
+        if ($search = trim((string) request('q'))) {
+            $query->where(function ($builder) use ($search) {
+                $builder->where('name', 'like', "%{$search}%")
+                    ->orWhere('description', 'like', "%{$search}%")
+                    ->orWhere('short_description', 'like', "%{$search}%")
+                    ->orWhere('category', 'like', "%{$search}%")
+                    ->orWhere('size', 'like', "%{$search}%");
+            });
+        }
+
+        $products = $query->get();
 
         return view('shop.index', compact('products'));
     }

@@ -3,36 +3,40 @@
 @section('title', 'Customers')
 
 @section('content')
-<div class="flex flex-wrap items-center justify-between gap-4">
-    <h1 class="font-display text-2xl font-bold text-stone-800">Customers</h1>
-    <form method="GET">
-        <input type="search" name="search" value="{{ request('search') }}" placeholder="Search customers..." class="rounded-xl border border-stone-200 px-4 py-2 text-sm w-56 focus:border-hill-500 outline-none">
-    </form>
+<div class="admin-page-header">
+    <div>
+        <h1 class="admin-page-header__title">Customers</h1>
+        <p class="admin-page-header__subtitle">Registered customer accounts</p>
+    </div>
 </div>
 
-<div class="mt-8 overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
-    <table class="w-full text-sm">
-        <thead class="bg-stone-50 text-left text-xs uppercase tracking-wider text-stone-500">
+<div class="admin-table-wrap admin-table-wrap--scroll">
+    <table id="users-table" class="admin-table admin-dt" style="width:100%">
+        <thead>
             <tr>
-                <th class="px-4 py-3">Name</th>
-                <th class="px-4 py-3 hidden sm:table-cell">Email</th>
-                <th class="px-4 py-3">Orders</th>
-                <th class="px-4 py-3 hidden md:table-cell">Joined</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Orders</th>
+                <th>Joined</th>
             </tr>
         </thead>
-        <tbody class="divide-y divide-stone-100">
-            @forelse($users as $user)
-            <tr class="hover:bg-stone-50">
-                <td class="px-4 py-3"><a href="{{ route('admin.users.show', $user) }}" class="font-medium text-forest-700 hover:underline">{{ $user->name }}</a></td>
-                <td class="px-4 py-3 hidden sm:table-cell text-stone-600">{{ $user->email }}</td>
-                <td class="px-4 py-3">{{ $user->orders_count }}</td>
-                <td class="px-4 py-3 hidden md:table-cell text-stone-500">{{ $user->created_at->format('d M Y') }}</td>
-            </tr>
-            @empty
-            <tr><td colspan="4" class="px-4 py-12 text-center text-stone-400">No customers yet.</td></tr>
-            @endforelse
-        </tbody>
     </table>
 </div>
-<div class="mt-6">{{ $users->links() }}</div>
 @endsection
+
+@push('scripts')
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    AdminDT.init('#users-table', {
+        ajax: '{{ route('admin.users.index') }}',
+        order: [[3, 'desc']],
+        columns: [
+            { data: 'name_link', name: 'name', orderable: true, searchable: true },
+            { data: 'email', name: 'email', orderable: true, searchable: true },
+            { data: 'orders_count', name: 'orders_count', orderable: true, searchable: false },
+            { data: 'created_at', name: 'created_at', orderable: true, searchable: false }
+        ]
+    });
+});
+</script>
+@endpush

@@ -50,12 +50,13 @@ class Order extends Model
     public function getStatusBadgeClassesAttribute(): string
     {
         return match ($this->status) {
-            'pending' => 'bg-amber-100 text-amber-800',
-            'confirmed', 'processing' => 'bg-blue-100 text-blue-800',
-            'shipped' => 'bg-indigo-100 text-indigo-800',
-            'delivered' => 'bg-emerald-100 text-emerald-800',
-            'cancelled' => 'bg-red-100 text-red-800',
-            default => 'bg-stone-100 text-stone-800',
+            'pending' => 'status-badge--pending',
+            'confirmed' => 'status-badge--confirmed',
+            'processing' => 'status-badge--processing',
+            'shipped' => 'status-badge--shipped',
+            'delivered' => 'status-badge--delivered',
+            'cancelled' => 'status-badge--cancelled',
+            default => 'status-badge--default',
         };
     }
 

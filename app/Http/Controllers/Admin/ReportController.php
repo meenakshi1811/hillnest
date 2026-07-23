@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\DailyRevenueDataTable;
+use App\DataTables\OrdersByStatusDataTable;
+use App\DataTables\TopProductsDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class ReportController extends Controller
 {
@@ -13,6 +15,15 @@ class ReportController extends Controller
     {
         $from = $request->get('from', now()->startOfMonth()->toDateString());
         $to = $request->get('to', now()->toDateString());
+
+        if ($request->ajax()) {
+            return match ($request->get('table')) {
+                'daily' => app(DailyRevenueDataTable::class)->json($from, $to),
+                'status' => app(OrdersByStatusDataTable::class)->json($from, $to),
+                'products' => app(TopProductsDataTable::class)->json($from, $to),
+                default => response()->json(['error' => 'Unknown table'], 400),
+            };
+        }
 
         $baseQuery = Order::whereNotIn('status', ['cancelled'])
             ->whereDate('created_at', '>=', $from)
@@ -25,35 +36,6 @@ class ReportController extends Controller
             'shipping' => (clone $baseQuery)->sum('shipping_fee'),
         ];
 
-        $byStatus = Order::whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to)
-            ->select('status', DB::raw('COUNT(*) as count'), DB::raw('SUM(total) as revenue'))
-            ->groupBy('status')
-            ->get();
-
-        $dailyRevenue = Order::whereNotIn('status', ['cancelled'])
-            ->whereDate('created_at', '>=', $from)
-            ->whereDate('created_at', '<=', $to)
-            ->select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total) as revenue'), DB::raw('COUNT(*) as orders'))
-            ->groupBy('date')
-            ->orderBy('date')
-            ->get();
-
-        $topProducts = DB::table('order_items')
-            ->join('orders', 'order_items.order_id', '=', 'orders.id')
-            ->whereNotIn('orders.status', ['cancelled'])
-            ->whereDate('orders.created_at', '>=', $from)
-            ->whereDate('orders.created_at', '<=', $to)
-            ->select(
-                'order_items.product_name',
-                DB::raw('SUM(order_items.quantity) as units_sold'),
-                DB::raw('SUM(order_items.line_total) as revenue')
-            )
-            ->groupBy('order_items.product_name')
-            ->orderByDesc('revenue')
-            ->limit(10)
-            ->get();
-
-        return view('admin.reports.index', compact('summary', 'byStatus', 'dailyRevenue', 'topProducts', 'from', 'to'));
+        return view('admin.reports.index', compact('summary', 'from', 'to'));
     }
 }

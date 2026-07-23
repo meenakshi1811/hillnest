@@ -60,6 +60,14 @@ class AuthController extends Controller
 
         Auth::login($user);
 
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Welcome to Hillnest! Your account is ready.',
+                'redirect' => route('account.orders'),
+            ]);
+        }
+
         return redirect()->route('account.orders')->with('success', 'Welcome to Hillnest! Your account is ready.');
     }
 

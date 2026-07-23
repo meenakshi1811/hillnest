@@ -6,15 +6,28 @@ use Illuminate\Http\Request;
 
 class AccountController extends Controller
 {
+    protected function accountStats($user): array
+    {
+        return [
+            'total_orders' => $user->orders()->count(),
+            'total_spent' => (float) $user->orders()->where('status', '!=', 'cancelled')->sum('total'),
+            'delivered' => $user->orders()->where('status', 'delivered')->count(),
+        ];
+    }
+
     public function orders()
     {
-        $orders = auth()->user()
+        $user = auth()->user();
+
+        $orders = $user
             ->orders()
-            ->with('items')
+            ->with(['items.product'])
             ->latest()
             ->paginate(10);
 
-        return view('account.orders', compact('orders'));
+        $stats = $this->accountStats($user);
+
+        return view('account.orders', compact('orders', 'stats', 'user'));
     }
 
     public function orderShow($orderNumber)
@@ -30,7 +43,12 @@ class AccountController extends Controller
 
     public function profile()
     {
-        return view('account.profile', ['user' => auth()->user()]);
+        $user = auth()->user();
+
+        return view('account.profile', [
+            'user' => $user,
+            'stats' => $this->accountStats($user),
+        ]);
     }
 
     public function updateProfile(Request $request)
@@ -43,6 +61,15 @@ class AccountController extends Controller
         ]);
 
         $user->update($data);
+
+        if ($request->expectsJson() || $request->ajax()) {
+            return response()->json([
+                'success' => true,
+                'message' => 'Profile updated successfully.',
+                'name' => $user->name,
+                'phone' => $user->phone,
+            ]);
+        }
 
         return back()->with('success', 'Profile updated successfully.');
     }

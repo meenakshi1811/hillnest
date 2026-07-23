@@ -2,31 +2,20 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\OrdersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, OrdersDataTable $dataTable)
     {
-        $query = Order::with('user')->latest();
-
-        if ($status = $request->get('status')) {
-            $query->where('status', $status);
+        if ($request->ajax()) {
+            return $dataTable->json();
         }
 
-        if ($search = $request->get('search')) {
-            $query->where(function ($q) use ($search) {
-                $q->where('order_number', 'like', "%{$search}%")
-                    ->orWhere('customer_name', 'like', "%{$search}%")
-                    ->orWhere('customer_email', 'like', "%{$search}%");
-            });
-        }
-
-        $orders = $query->paginate(15)->withQueryString();
-
-        return view('admin.orders.index', compact('orders'));
+        return view('admin.orders.index');
     }
 
     public function show(Order $order)
@@ -39,7 +28,7 @@ class OrderController extends Controller
     public function updateStatus(Request $request, Order $order)
     {
         $data = $request->validate([
-            'status' => ['required', 'in:' . implode(',', array_keys(Order::STATUSES))],
+            'status' => ['required', 'in:'.implode(',', array_keys(Order::STATUSES))],
         ]);
 
         $order->update(['status' => $data['status']]);

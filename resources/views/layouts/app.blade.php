@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="csrf-token" content="{{ csrf_token() }}" />
   <title>HillNest — Pure A2 Bilona Ghee</title>
   <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -20,10 +21,16 @@
         <div class="bg-red-50 border-b border-red-200 px-4 py-3 text-center text-base text-red-800">{{ session('error') }}</div>
     @endif
 
-    <main class="flex-1">
+    <main class="flex-1 site-main">
         @yield('content')
     </main>
 
     @include('partials.site-footer')
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    <script src="{{ asset('js/cart.js') }}"></script>
+    @stack('scripts')
 </body>
 </html>

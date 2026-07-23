@@ -33,7 +33,7 @@
                     <p>Set up your account to track shipments, save contact details, and reorder your favourites without starting over.</p>
                 </div>
 
-                <form method="POST" action="{{ route('register') }}" class="auth-form auth-form--register">
+                <form method="POST" action="{{ route('register') }}" class="auth-form auth-form--register" data-register-form novalidate>
                     @csrf
 
                     <div class="auth-field auth-field--full">
@@ -42,7 +42,7 @@
                             <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
                             <input id="name" type="text" name="name" value="{{ old('name') }}" required autocomplete="name" placeholder="Your full name" @class(['is-invalid' => $errors->has('name')])>
                         </div>
-                        @error('name')<p class="auth-error">{{ $message }}</p>@enderror
+                        <p class="auth-error" data-field-error="name" @if(!$errors->has('name')) hidden @endif>{{ $errors->first('name') }}</p>
                     </div>
 
                     <div class="auth-field">
@@ -51,7 +51,7 @@
                             <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>
                             <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="you@example.com" @class(['is-invalid' => $errors->has('email')])>
                         </div>
-                        @error('email')<p class="auth-error">{{ $message }}</p>@enderror
+                        <p class="auth-error" data-field-error="email" @if(!$errors->has('email')) hidden @endif>{{ $errors->first('email') }}</p>
                     </div>
 
                     <div class="auth-field">
@@ -60,7 +60,7 @@
                             <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.9.66 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.23a2 2 0 0 1 2.11-.45c.91.31 1.85.53 2.81.66A2 2 0 0 1 22 16.92z"/></svg>
                             <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" autocomplete="tel" placeholder="Optional phone number" @class(['is-invalid' => $errors->has('phone')])>
                         </div>
-                        @error('phone')<p class="auth-error">{{ $message }}</p>@enderror
+                        <p class="auth-error" data-field-error="phone" @if(!$errors->has('phone')) hidden @endif>{{ $errors->first('phone') }}</p>
                     </div>
 
                     <div class="auth-field">
@@ -69,20 +69,22 @@
                             <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><rect x="4" y="11" width="16" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
                             <input id="password" type="password" name="password" required autocomplete="new-password" placeholder="Create a password" @class(['is-invalid' => $errors->has('password')])>
                         </div>
-                        @error('password')<p class="auth-error">{{ $message }}</p>@enderror
+                        <p class="auth-error" data-field-error="password" @if(!$errors->has('password')) hidden @endif>{{ $errors->first('password') }}</p>
                     </div>
 
                     <div class="auth-field">
                         <label for="password_confirmation">Confirm password</label>
                         <div class="auth-input-wrap">
                             <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="m20 6-11 11-5-5"/><path d="M21 12a9 9 0 1 1-5.25-8.18"/></svg>
-                            <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Repeat your password">
+                            <input id="password_confirmation" type="password" name="password_confirmation" required autocomplete="new-password" placeholder="Repeat your password" @class(['is-invalid' => $errors->has('password_confirmation')])>
                         </div>
+                        <p class="auth-error" data-field-error="password_confirmation" @if(!$errors->has('password_confirmation')) hidden @endif>{{ $errors->first('password_confirmation') }}</p>
                     </div>
 
-                    <button type="submit" class="auth-submit auth-submit--gold auth-field--full">
-                        <span>Create account</span>
-                        <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                    <button type="submit" class="auth-submit auth-submit--gold auth-field--full" data-register-submit>
+                        <span class="auth-submit__loader" hidden aria-hidden="true"></span>
+                        <span class="auth-submit__text">Create account</span>
+                        <svg class="auth-submit__icon" aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
                     </button>
                 </form>
 
@@ -95,3 +97,7 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/auth.js') }}"></script>
+@endpush

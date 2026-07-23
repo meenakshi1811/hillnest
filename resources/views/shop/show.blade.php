@@ -3,78 +3,123 @@
 @section('title', $product->name . ' — Hillnest')
 
 @section('content')
-<section class="bg-white border-b border-hill-200 py-6">
-    <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-        <nav class="text-base text-brand-light">
-            <a href="{{ route('home') }}" class="hover:text-gold">Home</a>
-            <span class="mx-2">/</span>
-            <a href="{{ route('shop.index') }}" class="hover:text-gold">Shop</a>
-            <span class="mx-2">/</span>
-            <span class="text-brand">{{ $product->name }}</span>
-        </nav>
+<section class="product-detail">
+    <div class="product-detail-hero">
+        <div class="shop-shell">
+            <nav class="product-detail-breadcrumb" aria-label="Breadcrumb">
+                <a href="{{ route('home') }}">Home</a>
+                <span aria-hidden="true">/</span>
+                <a href="{{ route('shop.index') }}">Shop</a>
+                <span aria-hidden="true">/</span>
+                <span>{{ $product->card_title }}</span>
+            </nav>
+        </div>
     </div>
-</section>
 
-<section class="py-10 md:py-16 bg-cream">
-    <div class="mx-auto max-w-[1400px] px-4 sm:px-6 lg:px-8">
-        <div class="grid gap-10 lg:grid-cols-2 lg:gap-16">
-            <div class="bg-white border border-hill-200 overflow-hidden">
-                <img src="{{ $product->image_url }}" alt="{{ $product->name }}" class="w-full aspect-square object-cover">
+    <div class="product-detail-body shop-shell">
+        <div class="product-detail-grid">
+            <div class="product-detail-gallery">
+                <div class="product-detail-image-wrap">
+                    @if($product->display_badges)
+                        <x-product-badges :product="$product" class="product-detail-badges" />
+                    @endif
+                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
+                </div>
             </div>
 
-            <div class="lg:pt-4">
-                @if($product->badge)
-                    <span class="inline-block bg-gold text-white text-xs font-bold uppercase tracking-wider px-3 py-1 mb-4">{{ $product->badge }}</span>
-                @endif
-                <p class="text-sm font-semibold uppercase tracking-[0.2em] text-gold">{{ $product->size }} · Bilona Ghee</p>
-                <h1 class="font-display mt-3 text-3xl md:text-4xl lg:text-5xl font-semibold text-brand leading-tight">{{ $product->name }}</h1>
+            <div class="product-detail-info">
+                <p class="product-detail-eyebrow">{{ $product->size }} · Pure Bilona Ghee</p>
+                <h1 class="product-detail-title">{{ $product->name }}</h1>
 
                 @if($product->reviews_count > 0)
-                <div class="mt-4 flex items-center gap-2 text-base text-brand-light">
-                    <span class="text-gold text-lg">★★★★★</span>
+                <div class="product-detail-reviews">
+                    <span class="product-detail-stars" aria-hidden="true">★★★★★</span>
                     <span>{{ number_format($product->reviews_count) }} reviews</span>
                 </div>
                 @endif
 
-                <p class="mt-5 text-lg text-brand-light leading-relaxed">{{ $product->short_description }}</p>
+                @if($product->short_description)
+                <p class="product-detail-lead">{{ $product->short_description }}</p>
+                @endif
 
-                <div class="mt-8 flex items-baseline gap-4">
-                    <span class="text-4xl font-bold text-brand">₹{{ number_format($product->price, 0) }}</span>
-                    @if($product->compare_price && $product->compare_price > $product->price)
-                        <span class="text-2xl text-stone-400 line-through">₹{{ number_format($product->compare_price, 0) }}</span>
-                        <span class="bg-red-100 text-red-700 text-sm font-bold px-3 py-1">Save ₹{{ number_format($product->compare_price - $product->price, 0) }}</span>
+                <div class="product-detail-price-block">
+                    <div class="product-detail-price-group">
+                        <span class="product-detail-price">₹{{ number_format($product->price, 0) }}</span>
+                        @if($product->compare_price && $product->compare_price > $product->price)
+                            <span class="product-detail-compare">₹{{ number_format($product->compare_price, 0) }}</span>
+                        @endif
+                    </div>
+                    @if($product->is_on_sale)
+                        <span class="product-detail-save">Save {{ $product->discount_percent }}%</span>
                     @endif
                 </div>
 
-                <p class="mt-3 text-base font-medium {{ $product->stock > 0 ? 'text-emerald-700' : 'text-red-600' }}">
+                <p class="product-detail-stock {{ $product->stock > 0 ? 'product-detail-stock--in' : 'product-detail-stock--out' }}">
                     {{ $product->stock > 0 ? '✓ In stock — ships from upper Shimla' : 'Out of stock' }}
                 </p>
 
                 @if($product->stock > 0)
-                <form action="{{ route('cart.add', $product) }}" method="POST" class="mt-8 flex flex-wrap items-stretch gap-4">
-                    @csrf
-                    <div class="flex items-center border-2 border-hill-200 bg-white">
-                        <label class="sr-only">Quantity</label>
-                        <input type="number" name="quantity" value="1" min="1" max="20" class="w-20 py-4 text-center text-lg font-semibold text-brand border-0 focus:ring-0 outline-none">
-                    </div>
-                    <button type="submit" class="flex-1 min-w-[200px] btn-primary py-4">Add to Cart</button>
-                </form>
+                <x-cart-action :product="$product" :show-quantity="true" variant="page" />
                 @endif
 
-                <div class="mt-10 border-t border-hill-200 pt-10">
-                    <h2 class="font-display text-2xl font-semibold text-brand mb-4">Description</h2>
-                    <p class="text-base md:text-lg text-brand-light leading-relaxed whitespace-pre-line">{{ $product->description }}</p>
-                </div>
+                <ul class="product-detail-trust">
+                    <li><span aria-hidden="true">🌿</span> Pure A2 Bilona</li>
+                    <li><span aria-hidden="true">🏔</span> From Upper Shimla</li>
+                    <li><span aria-hidden="true">🫙</span> Small-batch crafted</li>
+                </ul>
             </div>
         </div>
 
+        <div class="product-detail-panels">
+            <article class="product-detail-panel">
+                <p class="product-detail-panel__eyebrow">About this ghee</p>
+                <h2>Description</h2>
+                <div class="product-detail-panel__content">
+                    <p class="product-detail-description">{{ $product->description }}</p>
+                </div>
+            </article>
+
+            <aside class="product-detail-highlights">
+                <p class="product-detail-panel__eyebrow">Why HillNest</p>
+                <h2>Crafted with care</h2>
+                <ul>
+                    <li>
+                        <span class="product-detail-highlights__icon" aria-hidden="true">01</span>
+                        <div>
+                            <strong>Traditional bilona</strong>
+                            <p>Slow-churned the authentic way for rich aroma and golden clarity.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="product-detail-highlights__icon" aria-hidden="true">02</span>
+                        <div>
+                            <strong>Pure A2 desi cow</strong>
+                            <p>Sourced from indigenous cows raised in the Himalayan foothills.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="product-detail-highlights__icon" aria-hidden="true">03</span>
+                        <div>
+                            <strong>Upper Shimla origin</strong>
+                            <p>Every jar travels from our mountain home straight to your kitchen.</p>
+                        </div>
+                    </li>
+                </ul>
+            </aside>
+        </div>
+
         @if($related->count())
-        <div class="mt-20 md:mt-28">
-            <h2 class="section-title">You May Also Like</h2>
-            <div class="mt-12 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                @foreach($related as $item)
-                    <x-product-card :product="$item" />
-                @endforeach
+        <div class="product-detail-related">
+            <div class="product-detail-related__header">
+                <p class="shop-eyebrow">Complete your pantry</p>
+                <h2 class="section-title">You May Also <em>Like</em></h2>
+            </div>
+            <div class="collection-showcase">
+                <div class="shop-products-grid">
+                    @foreach($related as $item)
+                        <x-product-card :product="$item" />
+                    @endforeach
+                </div>
             </div>
         </div>
         @endif
