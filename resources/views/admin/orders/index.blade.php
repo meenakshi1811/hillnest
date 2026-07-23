@@ -27,6 +27,7 @@
                 <th>Coupon</th>
                 <th>Total</th>
                 <th>Status</th>
+                <th>Payment</th>
                 <th>Date</th>
             </tr>
         </thead>
@@ -44,13 +45,14 @@ document.addEventListener('DOMContentLoaded', function () {
                 d.status = document.getElementById('orders-status-filter').value;
             }
         },
-        order: [[5, 'desc']],
+        order: [[6, 'desc']],
         columns: [
             { data: 'order_link', name: 'order_number', orderable: true, searchable: true },
             { data: 'customer_name', name: 'customer_name', orderable: true, searchable: true },
             { data: 'coupon_info', name: 'coupon_code', orderable: false, searchable: true },
             { data: 'total', name: 'total', orderable: true, searchable: false },
             { data: 'status_badge', name: 'status', orderable: true, searchable: false },
+            { data: 'payment_badge', name: 'payment_status', orderable: true, searchable: false },
             { data: 'created_at', name: 'created_at', orderable: true, searchable: false }
         ]
     });

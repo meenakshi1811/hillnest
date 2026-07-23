@@ -6,9 +6,12 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\CartService;
 use App\Services\CouponService;
+use App\Services\RazorpayService;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use Illuminate\View\View;
 
 class CheckoutController extends Controller
@@ -16,6 +19,7 @@ class CheckoutController extends Controller
     public function __construct(
         protected CartService $cart,
         protected CouponService $coupons,
+        protected RazorpayService $razorpay,
     ) {}
 
     public function index(): View
@@ -34,6 +38,7 @@ class CheckoutController extends Controller
             'total' => $summary['total'],
             'appliedCoupon' => $summary['coupon'],
             'user' => auth()->user(),
+            'razorpayKey' => $this->razorpay->getKey(),
         ]);
     }
 
@@ -85,10 +90,14 @@ class CheckoutController extends Controller
         ]);
     }
 
-    public function store(Request $request)
+    public function createPayment(Request $request): JsonResponse
     {
         if ($this->cart->isEmpty()) {
-            return redirect()->route('shop.index')->with('error', 'Your cart is empty.');
+            return response()->json(['message' => 'Your cart is empty.'], 422);
+        }
+
+        if (blank($this->razorpay->getKey()) || blank(config('services.razorpay.secret'))) {
+            return response()->json(['message' => 'Payment gateway is not configured. Please contact support.'], 503);
         }
 
         $data = $request->validate([
@@ -107,7 +116,9 @@ class CheckoutController extends Controller
 
         foreach ($items as $item) {
             if (! $item['product']->isInStock($item['quantity'])) {
-                return back()->with('error', "{$item['product']->name} does not have enough stock.");
+                return response()->json([
+                    'message' => "{$item['product']->name} does not have enough stock.",
+                ], 422);
             }
         }
 
@@ -119,7 +130,7 @@ class CheckoutController extends Controller
                 $coupon = $this->coupons->validateForUser(auth()->user(), $data['coupon_code']);
                 $discount = $coupon->calculateDiscount($this->cart->subtotal());
             } catch (\Illuminate\Validation\ValidationException $e) {
-                return back()->withErrors($e->errors())->withInput();
+                return response()->json(['errors' => $e->errors()], 422);
             }
         } elseif ($applied = $this->coupons->getApplied()) {
             $coupon = $applied;
@@ -134,65 +145,188 @@ class CheckoutController extends Controller
             $coupon->refresh();
 
             if ($coupon->isUsed()) {
-                return back()->withErrors([
-                    'coupon_code' => 'This coupon has already been used.',
-                ])->withInput();
+                return response()->json([
+                    'errors' => ['coupon_code' => ['This coupon has already been used.']],
+                ], 422);
             }
         }
 
-        $order = DB::transaction(function () use ($data, $items, $coupon, $subtotal, $shipping, $discount, $total) {
-            $order = Order::create([
-                'order_number' => Order::generateOrderNumber(),
-                'user_id' => auth()->id(),
-                'customer_name' => $data['customer_name'],
-                'customer_email' => $data['customer_email'],
-                'customer_phone' => $data['customer_phone'],
-                'shipping_address' => $data['shipping_address'],
-                'city' => $data['city'],
-                'state' => $data['state'],
-                'pincode' => $data['pincode'],
-                'coupon_id' => $coupon?->id,
-                'coupon_code' => $coupon?->code,
-                'subtotal' => $subtotal,
-                'shipping_fee' => $shipping,
-                'discount_amount' => $discount,
-                'total' => $total,
-                'payment_method' => 'cod',
-                'status' => 'pending',
-                'notes' => $data['notes'] ?? null,
-            ]);
-
-            foreach ($items as $item) {
-                OrderItem::create([
-                    'order_id' => $order->id,
-                    'product_id' => $item['product']->id,
-                    'product_name' => $item['product']->name,
-                    'product_size' => $item['product']->size,
-                    'unit_price' => $item['product']->price,
-                    'quantity' => $item['quantity'],
-                    'line_total' => $item['line_total'],
+        try {
+            $order = DB::transaction(function () use ($data, $items, $coupon, $subtotal, $shipping, $discount, $total) {
+                $order = Order::create([
+                    'order_number' => Order::generateOrderNumber(),
+                    'user_id' => auth()->id(),
+                    'customer_name' => $data['customer_name'],
+                    'customer_email' => $data['customer_email'],
+                    'customer_phone' => $data['customer_phone'],
+                    'shipping_address' => $data['shipping_address'],
+                    'city' => $data['city'],
+                    'state' => $data['state'],
+                    'pincode' => $data['pincode'],
+                    'coupon_id' => $coupon?->id,
+                    'coupon_code' => $coupon?->code,
+                    'subtotal' => $subtotal,
+                    'shipping_fee' => $shipping,
+                    'discount_amount' => $discount,
+                    'total' => $total,
+                    'payment_method' => 'razorpay',
+                    'payment_status' => 'pending',
+                    'status' => 'pending',
+                    'notes' => $data['notes'] ?? null,
                 ]);
 
-                $item['product']->decrement('stock', $item['quantity']);
+                foreach ($items as $item) {
+                    OrderItem::create([
+                        'order_id' => $order->id,
+                        'product_id' => $item['product']->id,
+                        'product_name' => $item['product']->name,
+                        'product_size' => $item['product']->size,
+                        'unit_price' => $item['product']->price,
+                        'quantity' => $item['quantity'],
+                        'line_total' => $item['line_total'],
+                    ]);
+                }
+
+                return $order;
+            });
+
+            $razorpayOrder = $this->razorpay->createOrder($order);
+
+            $order->update([
+                'razorpay_order_id' => $razorpayOrder['id'],
+            ]);
+
+            return response()->json([
+                'success' => true,
+                'order_id' => $order->id,
+                'order_number' => $order->order_number,
+                'amount' => (int) round($order->total * 100),
+                'currency' => 'INR',
+                'razorpay_order_id' => $razorpayOrder['id'],
+                'razorpay_key' => $this->razorpay->getKey(),
+                'customer' => [
+                    'name' => $order->customer_name,
+                    'email' => $order->customer_email,
+                    'contact' => $order->customer_phone,
+                ],
+            ]);
+        } catch (\Throwable $e) {
+            Log::error('Razorpay order creation failed', [
+                'message' => $e->getMessage(),
+                'user_id' => auth()->id(),
+            ]);
+
+            return response()->json([
+                'message' => 'Unable to initiate payment. Please try again.',
+            ], 500);
+        }
+    }
+
+    public function verifyPayment(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'order_id' => ['required', 'integer', 'exists:orders,id'],
+            'razorpay_order_id' => ['required', 'string'],
+            'razorpay_payment_id' => ['required', 'string'],
+            'razorpay_signature' => ['required', 'string'],
+        ]);
+
+        $order = Order::query()
+            ->where('id', $data['order_id'])
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        if ($order->isPaid()) {
+            return response()->json([
+                'success' => true,
+                'redirect' => route('checkout.success', $order),
+            ]);
+        }
+
+        if ($order->razorpay_order_id !== $data['razorpay_order_id']) {
+            return response()->json(['message' => 'Invalid payment details.'], 422);
+        }
+
+        if (! $this->razorpay->verifySignature(
+            $data['razorpay_order_id'],
+            $data['razorpay_payment_id'],
+            $data['razorpay_signature'],
+        )) {
+            $order->update([
+                'payment_status' => 'failed',
+                'payment_error' => 'Payment signature verification failed.',
+            ]);
+
+            return response()->json(['message' => 'Payment verification failed.'], 422);
+        }
+
+        DB::transaction(function () use ($order, $data) {
+            $order->refresh();
+
+            if ($order->isPaid()) {
+                return;
             }
 
-            if ($coupon) {
-                $this->coupons->markUsed($coupon, $order);
+            foreach ($order->items as $item) {
+                $item->product?->decrement('stock', $item->quantity);
             }
 
-            return $order;
+            if ($order->coupon_id) {
+                $coupon = $order->coupon;
+
+                if ($coupon && ! $coupon->isUsed()) {
+                    $this->coupons->markUsed($coupon, $order);
+                }
+            }
+
+            $order->update([
+                'payment_status' => 'paid',
+                'razorpay_payment_id' => $data['razorpay_payment_id'],
+                'paid_at' => now(),
+                'status' => 'confirmed',
+                'payment_error' => null,
+            ]);
         });
 
         $this->cart->clear();
         $this->coupons->clear();
 
-        return redirect()->route('checkout.success', $order)->with('success', 'Order placed successfully!');
+        return response()->json([
+            'success' => true,
+            'redirect' => route('checkout.success', $order),
+        ]);
     }
 
-    public function success(Order $order): View
+    public function paymentFailed(Request $request): JsonResponse
+    {
+        $data = $request->validate([
+            'order_id' => ['required', 'integer', 'exists:orders,id'],
+            'error' => ['nullable', 'string', 'max:500'],
+        ]);
+
+        $order = Order::query()
+            ->where('id', $data['order_id'])
+            ->where('user_id', auth()->id())
+            ->firstOrFail();
+
+        if (! $order->isPaid()) {
+            $order->update([
+                'payment_status' => 'failed',
+                'payment_error' => $data['error'] ?? 'Payment was cancelled or failed.',
+            ]);
+        }
+
+        return response()->json(['success' => true]);
+    }
+
+    public function success(Order $order): View|RedirectResponse
     {
         if ($order->user_id !== auth()->id() && ! auth()->user()->isAdmin()) {
             abort(403);
+        }
+
+        if (! $order->isPaid()) {
+            return redirect()->route('checkout.index')->with('error', 'Payment was not completed for this order.');
         }
 
         return view('checkout.success', compact('order'));

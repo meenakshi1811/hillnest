@@ -9,8 +9,8 @@ class AccountController extends Controller
     protected function accountStats($user): array
     {
         return [
-            'total_orders' => $user->orders()->count(),
-            'total_spent' => (float) $user->orders()->where('status', '!=', 'cancelled')->sum('total'),
+            'total_orders' => $user->orders()->where('payment_status', 'paid')->count(),
+            'total_spent' => (float) $user->orders()->where('payment_status', 'paid')->sum('total'),
             'delivered' => $user->orders()->where('status', 'delivered')->count(),
         ];
     }
@@ -21,6 +21,7 @@ class AccountController extends Controller
 
         $orders = $user
             ->orders()
+            ->where('payment_status', 'paid')
             ->with(['items.product'])
             ->latest()
             ->paginate(10);

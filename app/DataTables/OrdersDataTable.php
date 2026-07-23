@@ -43,9 +43,10 @@ class OrdersDataTable
                 return '<div><code class="admin-code">'.e($order->coupon_code).'</code><br><span style="color:var(--text-light);font-size:12px">-₹'.number_format($order->discount_amount, 0).'</span></div>';
             })
             ->addColumn('status_badge', fn (Order $order) => '<span class="status-badge '.$order->status_badge_classes.'">'.$order->status_label.'</span>')
+            ->addColumn('payment_badge', fn (Order $order) => '<span class="status-badge '.$order->payment_status_badge_classes.'">'.$order->payment_status_label.'</span>')
             ->editColumn('total', fn (Order $order) => '₹'.number_format($order->total, 0))
             ->editColumn('created_at', fn (Order $order) => $order->created_at->format('d M Y'))
-            ->rawColumns(['order_link', 'coupon_info', 'status_badge'])
+            ->rawColumns(['order_link', 'coupon_info', 'status_badge', 'payment_badge'])
             ->toJson();
     }
 }

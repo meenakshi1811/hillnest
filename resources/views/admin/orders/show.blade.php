@@ -70,6 +70,19 @@
             </form>
             <div class="admin-meta">
                 <p>Payment: {{ strtoupper($order->payment_method) }}</p>
+                <p>
+                    Payment status:
+                    <span class="status-badge {{ $order->payment_status_badge_classes }}">{{ $order->payment_status_label }}</span>
+                </p>
+                @if($order->razorpay_payment_id)
+                <p>Razorpay ID: <code class="admin-code">{{ $order->razorpay_payment_id }}</code></p>
+                @endif
+                @if($order->paid_at)
+                <p>Paid at: {{ $order->paid_at->format('d M Y H:i') }}</p>
+                @endif
+                @if($order->payment_error)
+                <p style="color:#8a3838">Error: {{ $order->payment_error }}</p>
+                @endif
                 <p>Placed: {{ $order->created_at->format('d M Y H:i') }}</p>
             </div>
             @if($order->user)

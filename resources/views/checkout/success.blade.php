@@ -29,6 +29,16 @@
                 <span class="checkout-success__label">Status</span>
                 <span class="checkout-success__status checkout-success__status--{{ $order->status }}">{{ $order->status_label }}</span>
             </div>
+            <div class="checkout-success__detail">
+                <span class="checkout-success__label">Payment</span>
+                <strong>{{ $order->payment_status_label }}</strong>
+            </div>
+            @if($order->razorpay_payment_id)
+            <div class="checkout-success__detail">
+                <span class="checkout-success__label">Payment ID</span>
+                <strong>{{ $order->razorpay_payment_id }}</strong>
+            </div>
+            @endif
         </div>
 
         <div class="checkout-success__actions">

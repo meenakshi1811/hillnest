@@ -17,10 +17,19 @@ class Order extends Model
         'cancelled' => 'Cancelled',
     ];
 
+    public const PAYMENT_STATUSES = [
+        'pending' => 'Pending',
+        'paid' => 'Paid',
+        'failed' => 'Failed',
+        'refunded' => 'Refunded',
+    ];
+
     protected $fillable = [
         'order_number', 'user_id', 'customer_name', 'customer_email', 'customer_phone',
         'shipping_address', 'city', 'state', 'pincode', 'coupon_id', 'coupon_code',
-        'subtotal', 'shipping_fee', 'discount_amount', 'total', 'payment_method', 'status', 'notes',
+        'subtotal', 'shipping_fee', 'discount_amount', 'total', 'payment_method',
+        'payment_status', 'razorpay_order_id', 'razorpay_payment_id', 'paid_at', 'payment_error',
+        'status', 'notes',
     ];
 
     protected function casts(): array
@@ -30,6 +39,7 @@ class Order extends Model
             'shipping_fee' => 'decimal:2',
             'discount_amount' => 'decimal:2',
             'total' => 'decimal:2',
+            'paid_at' => 'datetime',
         ];
     }
 
@@ -69,6 +79,27 @@ class Order extends Model
             'cancelled' => 'status-badge--cancelled',
             default => 'status-badge--default',
         };
+    }
+
+    public function getPaymentStatusLabelAttribute(): string
+    {
+        return self::PAYMENT_STATUSES[$this->payment_status] ?? ucfirst((string) $this->payment_status);
+    }
+
+    public function getPaymentStatusBadgeClassesAttribute(): string
+    {
+        return match ($this->payment_status) {
+            'pending' => 'status-badge--pending',
+            'paid' => 'status-badge--confirmed',
+            'failed' => 'status-badge--cancelled',
+            'refunded' => 'status-badge--default',
+            default => 'status-badge--default',
+        };
+    }
+
+    public function isPaid(): bool
+    {
+        return $this->payment_status === 'paid';
     }
 
     public static function generateOrderNumber(): string

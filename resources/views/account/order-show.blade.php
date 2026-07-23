@@ -14,6 +14,10 @@
                 <span class="text-base text-brand-light">Status</span>
                 <span class="status-badge {{ $order->status_badge_classes }}">{{ $order->status_label }}</span>
             </div>
+            <div class="flex justify-between items-center mt-3">
+                <span class="text-base text-brand-light">Payment</span>
+                <span class="status-badge {{ $order->payment_status_badge_classes }}">{{ $order->payment_status_label }}</span>
+            </div>
             <ul class="mt-6 divide-y divide-hill-200">
                 @foreach($order->items as $item)
                 <li class="py-4 flex justify-between gap-4">

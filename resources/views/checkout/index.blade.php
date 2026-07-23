@@ -31,7 +31,7 @@
     </div>
 
     <div class="checkout-shell checkout-page-body">
-        <form action="{{ route('checkout.store') }}" method="POST" class="checkout-layout">
+        <form method="POST" class="checkout-layout" data-checkout-form novalidate>
             @csrf
 
             <div class="checkout-main">
@@ -175,19 +175,40 @@
                 <ul class="checkout-summary__trust">
                     <li><span aria-hidden="true">🌿</span> Pure A2 Bilona</li>
                     <li><span aria-hidden="true">🏔</span> From Upper Shimla</li>
+                    <li><span aria-hidden="true">🔒</span> Secure payment via Razorpay</li>
                 </ul>
 
-                <button type="submit" class="btn-primary checkout-summary__submit"><span>Place Order</span></button>
+                <p class="checkout-field-error" data-payment-error hidden></p>
+
+                <button type="submit" class="btn-primary checkout-summary__submit" data-checkout-submit>
+                    <span>Pay ₹{{ number_format($total, 0) }}</span>
+                </button>
             </aside>
         </form>
     </div>
 </section>
+
+<div class="payment-overlay" data-payment-overlay hidden aria-live="polite" aria-busy="true">
+    <div class="payment-overlay__panel" role="alertdialog" aria-modal="true" aria-labelledby="payment-overlay-title">
+        <div class="payment-overlay__spinner" aria-hidden="true"></div>
+        <h2 id="payment-overlay-title" class="payment-overlay__title">Processing Payment</h2>
+        <p class="payment-overlay__message" data-payment-overlay-message>
+            Please do not close or reload this page while your payment is being processed.
+        </p>
+    </div>
+</div>
 @endsection
 
 @push('scripts')
 <script>
     window.checkoutCouponApplyUrl = @json(route('checkout.coupon.apply'));
     window.checkoutCouponRemoveUrl = @json(route('checkout.coupon.remove'));
+    window.checkoutPaymentCreateUrl = @json(route('checkout.payment.create'));
+    window.checkoutPaymentVerifyUrl = @json(route('checkout.payment.verify'));
+    window.checkoutPaymentFailedUrl = @json(route('checkout.payment.failed'));
+    window.checkoutBrandName = @json(config('app.name', 'Hillnest'));
 </script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="{{ asset('js/checkout-coupon.js') }}"></script>
+<script src="{{ asset('js/checkout-payment.js') }}"></script>
 @endpush
