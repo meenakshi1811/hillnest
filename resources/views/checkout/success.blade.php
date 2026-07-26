@@ -94,7 +94,7 @@
                 </div>
 
                 <p class="checkout-success__hint">
-                    You can track this order anytime from your account.
+                    A confirmation email will be sent to {{ $order->customer_email }} shortly.
                 </p>
             </aside>
         </div>

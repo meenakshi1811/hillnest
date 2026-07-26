@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Services\CouponService;
+use App\Services\OrderNotificationService;
 use App\Services\RazorpayService;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
@@ -15,6 +16,7 @@ class RazorpayWebhookController extends Controller
     public function __construct(
         protected RazorpayService $razorpay,
         protected CouponService $coupons,
+        protected OrderNotificationService $orderNotifications,
     ) {}
 
     public function handle(Request $request): Response
@@ -59,39 +61,43 @@ class RazorpayWebhookController extends Controller
             ->where('razorpay_order_id', $razorpayOrderId)
             ->first();
 
-        if (! $order || $order->isPaid()) {
+        if (! $order) {
             return;
         }
 
         try {
-            DB::transaction(function () use ($order, $razorpayPaymentId) {
-                $order->refresh();
+            if (! $order->isPaid()) {
+                DB::transaction(function () use ($order, $razorpayPaymentId) {
+                    $order->refresh();
 
-                if ($order->isPaid()) {
-                    return;
-                }
-
-                foreach ($order->items as $item) {
-                    $product = $item->product;
-                    $product?->decrement('stock', $item->quantity);
-                }
-
-                if ($order->coupon_id) {
-                    $coupon = $order->coupon;
-
-                    if ($coupon && ! $coupon->isUsed()) {
-                        $this->coupons->markUsed($coupon, $order);
+                    if ($order->isPaid()) {
+                        return;
                     }
-                }
 
-                $order->update([
-                    'payment_status' => 'paid',
-                    'razorpay_payment_id' => $razorpayPaymentId,
-                    'paid_at' => now(),
-                    'status' => 'confirmed',
-                    'payment_error' => null,
-                ]);
-            });
+                    foreach ($order->items as $item) {
+                        $product = $item->product;
+                        $product?->decrement('stock', $item->quantity);
+                    }
+
+                    if ($order->coupon_id) {
+                        $coupon = $order->coupon;
+
+                        if ($coupon && ! $coupon->isUsed()) {
+                            $this->coupons->markUsed($coupon, $order);
+                        }
+                    }
+
+                    $order->update([
+                        'payment_status' => 'paid',
+                        'razorpay_payment_id' => $razorpayPaymentId,
+                        'paid_at' => now(),
+                        'status' => 'confirmed',
+                        'payment_error' => null,
+                    ]);
+                });
+            }
+
+            $this->orderNotifications->sendOrderConfirmationEmails($order->fresh(['items']));
         } catch (\Throwable $e) {
             Log::error('Razorpay webhook payment.captured failed', [
                 'order_id' => $order->id,

@@ -32,5 +32,10 @@ class AppServiceProvider extends ServiceProvider
         };
 
         View::composer(['layouts.app', 'layouts.admin', 'components.*'], $shareCartData);
+
+        View::composer('emails.*', function ($view): void {
+            $view->with('logoUrl', url('images/logo.png'));
+            $view->with('shopUrl', route('shop.index'));
+        });
     }
 }
