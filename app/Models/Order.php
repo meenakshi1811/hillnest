@@ -102,6 +102,19 @@ class Order extends Model
         return $this->payment_status === 'paid';
     }
 
+    public function statusUpdateMessage(): string
+    {
+        return match ($this->status) {
+            'pending' => 'Your order is currently pending. We will keep you updated as it moves forward.',
+            'confirmed' => 'Your order has been confirmed. We are preparing your HillNest ghee with care.',
+            'processing' => 'Your order is now being processed and will be shipped soon.',
+            'shipped' => 'Great news! Your order has been shipped and is on its way to you.',
+            'delivered' => 'Your order has been delivered. We hope you enjoy your pure HillNest ghee!',
+            'cancelled' => 'Your order has been cancelled. If this was unexpected, please contact us and we will assist you.',
+            default => 'Your order status has been updated.',
+        };
+    }
+
     public static function generateOrderNumber(): string
     {
         return 'HN-' . strtoupper(substr(uniqid(), -8));

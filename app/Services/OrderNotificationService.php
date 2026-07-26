@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Mail\NewOrderAdminMail;
+use App\Mail\OrderStatusUpdatedMail;
 use App\Mail\OrderThankYouMail;
 use App\Models\Order;
 use Illuminate\Support\Facades\Cache;
@@ -39,6 +40,13 @@ class OrderNotificationService
 
             throw $e;
         }
+    }
+
+    public function sendStatusUpdateEmail(Order $order, string $previousStatus): void
+    {
+        $order->loadMissing('items');
+
+        Mail::to($order->customer_email)->send(new OrderStatusUpdatedMail($order, $previousStatus));
     }
 
     /** @return list<string> */

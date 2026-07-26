@@ -5,10 +5,16 @@ namespace App\Http\Controllers\Admin;
 use App\DataTables\OrdersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Order;
+use App\Services\OrderNotificationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
+    public function __construct(
+        protected OrderNotificationService $orderNotifications,
+    ) {}
+
     public function index(Request $request, OrdersDataTable $dataTable)
     {
         if ($request->ajax()) {
@@ -31,8 +37,25 @@ class OrderController extends Controller
             'status' => ['required', 'in:'.implode(',', array_keys(Order::STATUSES))],
         ]);
 
+        $previousStatus = $order->status;
+
+        if ($previousStatus === $data['status']) {
+            return back()->with('success', 'Order status is already '.$order->status_label.'.');
+        }
+
         $order->update(['status' => $data['status']]);
 
-        return back()->with('success', 'Order status updated.');
+        try {
+            $this->orderNotifications->sendStatusUpdateEmail($order->fresh(['items']), $previousStatus);
+        } catch (\Throwable $e) {
+            Log::error('Order status update email failed', [
+                'order_id' => $order->id,
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()->with('success', 'Order status updated, but the customer notification email could not be sent.');
+        }
+
+        return back()->with('success', 'Order status updated and customer notified by email.');
     }
 }
