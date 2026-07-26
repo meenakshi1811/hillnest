@@ -22,7 +22,7 @@ class CheckoutController extends Controller
         protected RazorpayService $razorpay,
     ) {}
 
-    public function index(): View
+    public function index(): View|RedirectResponse
     {
         if ($this->cart->isEmpty()) {
             return redirect()->route('shop.index')->with('error', 'Your cart is empty.');
