@@ -5792,74 +5792,224 @@ body.payment-overlay-active {
 }
 
 /* ── CHECKOUT SUCCESS ── */
-.checkout-success {
-  min-height: 70vh;
-  padding: clamp(48px, 8vw, 96px) 20px;
-  background:
-    radial-gradient(circle at 50% 0%, rgba(232,196,122,0.2), transparent 34%),
-    var(--cream);
+.checkout-success-page {
+  min-height: 62vh;
+  background: var(--cream);
 }
 
-.checkout-success__inner {
-  max-width: 620px;
-  margin: 0 auto;
+.checkout-success-hero {
+  padding: clamp(48px, 8vw, 88px) 20px clamp(28px, 5vw, 44px);
+  border-bottom: 1px solid rgba(201,151,58,0.16);
+  background:
+    radial-gradient(circle at 50% 0%, rgba(232,196,122,0.24), transparent 34%),
+    radial-gradient(circle at 86% 18%, rgba(30,59,47,0.08), transparent 26%),
+    linear-gradient(180deg, rgba(255,255,255,0.52), rgba(250,245,236,0));
   text-align: center;
+}
+
+.checkout-success-hero__inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 720px;
+  margin: 0 auto;
 }
 
 .checkout-success__icon {
   display: inline-flex;
-  width: 80px;
-  height: 80px;
+  width: 84px;
+  height: 84px;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
   background: var(--forest);
   color: var(--gold-pale);
-  font-size: 34px;
   box-shadow: 0 18px 40px rgba(30,59,47,0.2);
 }
 
-.checkout-success h1 {
+.checkout-success-hero h1 {
   margin: 16px 0 0;
   color: var(--forest);
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-size: clamp(42px, 7vw, 64px);
+  font-size: clamp(42px, 7vw, 68px);
   font-weight: 600;
-  line-height: 1;
+  line-height: 0.98;
 }
 
-.checkout-success__lead {
-  max-width: 480px;
+.checkout-success-hero__lead {
+  max-width: 560px;
   margin: 16px auto 0;
   color: var(--text-mid);
   font-size: 17px;
   line-height: 1.65;
 }
 
-.checkout-success__card {
-  margin-top: 32px;
-  padding: clamp(24px, 4vw, 32px);
-  border: 1px solid rgba(201,151,58,0.2);
-  border-radius: 24px;
-  background: rgba(255,255,255,0.94);
-  box-shadow: 0 20px 52px rgba(77,55,24,0.08);
-  text-align: left;
+.checkout-success-order-pill {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  margin-top: 18px;
+  padding: 0 18px;
+  border: 1px solid rgba(201,151,58,0.28);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.72);
+  color: var(--forest);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
 }
 
-.checkout-success__detail {
+.checkout-success-body {
+  padding: clamp(28px, 5vw, 48px) 20px clamp(52px, 8vw, 88px);
+}
+
+.checkout-success-layout {
   display: grid;
-  gap: 6px;
-  padding: 14px 0;
+  grid-template-columns: minmax(0, 1fr) minmax(320px, 0.42fr);
+  gap: 28px;
+  align-items: start;
+}
+
+.checkout-success-card,
+.checkout-success-summary {
+  padding: clamp(24px, 3vw, 32px);
+  border: 1px solid rgba(201,151,58,0.16);
+  border-radius: 24px;
+  background: rgba(255,255,255,0.94);
+  box-shadow: 0 16px 44px rgba(77,55,24,0.06);
+}
+
+.checkout-success-card__head,
+.checkout-success-summary__head {
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(201,151,58,0.14);
+}
+
+.checkout-success-card h2,
+.checkout-success-summary h2 {
+  margin: 0;
+  color: var(--forest);
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 600;
+  line-height: 1.05;
+}
+
+.checkout-success-items {
+  display: grid;
+  gap: 0;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.checkout-success-items li {
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 0;
   border-bottom: 1px solid rgba(201,151,58,0.12);
 }
 
-.checkout-success__detail:last-child {
+.checkout-success-items li:last-child {
   border-bottom: 0;
-  padding-bottom: 0;
 }
 
-.checkout-success__detail:first-child {
-  padding-top: 0;
+.checkout-success-item__meta {
+  display: grid;
+  gap: 4px;
+}
+
+.checkout-success-item__name {
+  color: var(--forest);
+  font-size: 18px;
+  font-weight: 600;
+}
+
+.checkout-success-item__size,
+.checkout-success-item__qty {
+  color: var(--text-light);
+  font-size: 14px;
+}
+
+.checkout-success-item__price {
+  color: var(--forest);
+  font-size: 18px;
+  white-space: nowrap;
+}
+
+.checkout-success-shipping {
+  margin-top: 8px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(201,151,58,0.14);
+  color: var(--text-mid);
+  font-size: 15px;
+  line-height: 1.65;
+}
+
+.checkout-success-shipping__name {
+  margin: 8px 0 4px;
+  color: var(--forest);
+  font-size: 17px;
+  font-weight: 600;
+}
+
+.checkout-success-shipping__phone {
+  margin-top: 8px;
+}
+
+.checkout-success-summary {
+  position: sticky;
+  top: 24px;
+}
+
+.checkout-success-totals {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0 0;
+}
+
+.checkout-success-totals div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  color: var(--text-mid);
+  font-size: 15px;
+}
+
+.checkout-success-totals dt,
+.checkout-success-totals dd {
+  margin: 0;
+}
+
+.checkout-success-totals__discount dd {
+  color: var(--gold);
+  font-weight: 600;
+}
+
+.checkout-success-totals__grand {
+  margin-top: 8px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(201,151,58,0.14);
+  color: var(--forest) !important;
+  font-size: 18px !important;
+  font-weight: 700;
+}
+
+.checkout-success-totals__grand dd {
+  font-size: 28px;
+}
+
+.checkout-success-summary__status {
+  display: grid;
+  gap: 8px;
+  margin-top: 20px;
+  padding-top: 18px;
+  border-top: 1px solid rgba(201,151,58,0.14);
 }
 
 .checkout-success__label {
@@ -5868,19 +6018,6 @@ body.payment-overlay-active {
   font-weight: 700;
   letter-spacing: 2px;
   text-transform: uppercase;
-}
-
-.checkout-success__detail strong {
-  color: var(--forest);
-  font-size: 22px;
-}
-
-.checkout-success__total {
-  font-size: 32px !important;
-}
-
-.checkout-success__detail--status {
-  align-items: start;
 }
 
 .checkout-success__status {
@@ -5925,10 +6062,10 @@ body.payment-overlay-active {
 .checkout-success__actions {
   display: grid;
   gap: 12px;
-  margin-top: 28px;
+  margin-top: 24px;
 }
 
-.checkout-success__actions .btn-primary {
+.checkout-success-shop-btn {
   display: inline-flex;
   width: 100%;
   min-height: 52px;
@@ -5936,28 +6073,43 @@ body.payment-overlay-active {
   justify-content: center;
 }
 
-.checkout-success__hint {
-  margin: 0;
-  color: var(--text-light);
-  font-size: 14px;
-}
-
-.checkout-success__continue {
-  color: var(--text-mid);
+.checkout-success-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  border: 1px solid rgba(201,151,58,0.24);
+  border-radius: 999px;
+  background: rgba(255,255,255,0.72);
+  color: var(--forest);
   font-size: 15px;
   font-weight: 600;
   text-decoration: none;
-  transition: color 0.2s ease;
+  transition: border-color 0.2s ease, color 0.2s ease, background 0.2s ease;
 }
 
-.checkout-success__continue:hover { color: var(--gold); }
+.checkout-success-secondary:hover {
+  border-color: rgba(201,151,58,0.42);
+  background: rgba(255,255,255,0.96);
+  color: var(--gold);
+}
+
+.checkout-success__hint {
+  margin: 16px 0 0;
+  color: var(--text-light);
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: center;
+}
 
 @media (max-width: 980px) {
-  .checkout-layout {
+  .checkout-layout,
+  .checkout-success-layout {
     grid-template-columns: 1fr;
   }
 
-  .checkout-summary {
+  .checkout-summary,
+  .checkout-success-summary {
     position: static;
   }
 }
@@ -5965,7 +6117,8 @@ body.payment-overlay-active {
 @media (max-width: 680px) {
   .checkout-page-hero,
   .checkout-page-body,
-  .checkout-success {
+  .checkout-success-hero,
+  .checkout-success-body {
     padding-left: 14px;
     padding-right: 14px;
   }
@@ -5980,7 +6133,8 @@ body.payment-overlay-active {
 
   .checkout-card,
   .checkout-summary,
-  .checkout-success__card {
+  .checkout-success-card,
+  .checkout-success-summary {
     border-radius: 20px;
   }
 

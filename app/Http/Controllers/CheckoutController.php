@@ -25,7 +25,11 @@ class CheckoutController extends Controller
     public function index(): View|RedirectResponse
     {
         if ($this->cart->isEmpty()) {
-            return redirect()->route('shop.index')->with('error', 'Your cart is empty.');
+            if ($order = $this->recentCompletedOrder()) {
+                return redirect()->route('checkout.success', $order);
+            }
+
+            return redirect()->route('shop.index');
         }
 
         $summary = $this->orderSummary();
@@ -237,6 +241,8 @@ class CheckoutController extends Controller
             ->firstOrFail();
 
         if ($order->isPaid()) {
+            $this->rememberCompletedOrder($order);
+
             return response()->json([
                 'success' => true,
                 'redirect' => route('checkout.success', $order),
@@ -290,6 +296,7 @@ class CheckoutController extends Controller
 
         $this->cart->clear();
         $this->coupons->clear();
+        $this->rememberCompletedOrder($order);
 
         return response()->json([
             'success' => true,
@@ -326,10 +333,35 @@ class CheckoutController extends Controller
         }
 
         if (! $order->isPaid()) {
-            return redirect()->route('checkout.index')->with('error', 'Payment was not completed for this order.');
+            return redirect()
+                ->route('account.orders.show', $order->order_number)
+                ->with('error', 'Payment was not completed for this order.');
         }
 
+        session()->forget('checkout_completed_order_id');
+        $order->load('items');
+
         return view('checkout.success', compact('order'));
+    }
+
+    private function rememberCompletedOrder(Order $order): void
+    {
+        session(['checkout_completed_order_id' => $order->id]);
+    }
+
+    private function recentCompletedOrder(): ?Order
+    {
+        $orderId = session('checkout_completed_order_id');
+
+        if (! $orderId) {
+            return null;
+        }
+
+        return Order::query()
+            ->where('id', $orderId)
+            ->where('user_id', auth()->id())
+            ->where('payment_status', 'paid')
+            ->first();
     }
 
     /** @return array{subtotal: float, shipping: float, discount: float, total: float, coupon: ?\App\Models\Coupon} */

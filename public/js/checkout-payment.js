@@ -118,7 +118,12 @@ document.addEventListener('DOMContentLoaded', function () {
             });
           })
           .then(function (data) {
-            window.location.href = data.redirect;
+            if (data.redirect) {
+              window.location.replace(data.redirect);
+              return;
+            }
+
+            throw { message: 'Payment verified, but we could not open your confirmation page. Please check your orders.' };
           })
           .catch(function (error) {
             hideOverlay();
