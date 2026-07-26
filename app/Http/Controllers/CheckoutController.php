@@ -228,80 +228,94 @@ class CheckoutController extends Controller
 
     public function verifyPayment(Request $request): JsonResponse
     {
-        $data = $request->validate([
-            'order_id' => ['required', 'integer', 'exists:orders,id'],
-            'razorpay_order_id' => ['required', 'string'],
-            'razorpay_payment_id' => ['required', 'string'],
-            'razorpay_signature' => ['required', 'string'],
-        ]);
+        try {
+            $data = $request->validate([
+                'order_id' => ['required', 'integer', 'exists:orders,id'],
+                'razorpay_order_id' => ['required', 'string'],
+                'razorpay_payment_id' => ['required', 'string'],
+                'razorpay_signature' => ['required', 'string'],
+            ]);
 
-        $order = Order::query()
-            ->where('id', $data['order_id'])
-            ->where('user_id', auth()->id())
-            ->firstOrFail();
+            $order = Order::query()
+                ->with('items.product')
+                ->where('id', $data['order_id'])
+                ->where('user_id', auth()->id())
+                ->firstOrFail();
 
-        if ($order->isPaid()) {
+            if ($order->isPaid()) {
+                $this->rememberCompletedOrder($order);
+
+                return response()->json([
+                    'success' => true,
+                    'redirect' => route('checkout.success', $order),
+                ]);
+            }
+
+            if ($order->razorpay_order_id !== $data['razorpay_order_id']) {
+                return response()->json(['message' => 'Invalid payment details.'], 422);
+            }
+
+            if (! $this->razorpay->verifySignature(
+                $data['razorpay_order_id'],
+                $data['razorpay_payment_id'],
+                $data['razorpay_signature'],
+            )) {
+                $order->update([
+                    'payment_status' => 'failed',
+                    'payment_error' => 'Payment signature verification failed.',
+                ]);
+
+                return response()->json(['message' => 'Payment verification failed.'], 422);
+            }
+
+            DB::transaction(function () use ($order, $data) {
+                $order->refresh();
+                $order->loadMissing('items.product', 'coupon');
+
+                if ($order->isPaid()) {
+                    return;
+                }
+
+                foreach ($order->items as $item) {
+                    $item->product?->decrement('stock', $item->quantity);
+                }
+
+                if ($order->coupon_id) {
+                    $coupon = $order->coupon;
+
+                    if ($coupon && ! $coupon->isUsed()) {
+                        $this->coupons->markUsed($coupon, $order);
+                    }
+                }
+
+                $order->update([
+                    'payment_status' => 'paid',
+                    'razorpay_payment_id' => $data['razorpay_payment_id'],
+                    'paid_at' => now(),
+                    'status' => 'confirmed',
+                    'payment_error' => null,
+                ]);
+            });
+
+            $this->cart->clear();
+            $this->coupons->clear();
             $this->rememberCompletedOrder($order);
 
             return response()->json([
                 'success' => true,
                 'redirect' => route('checkout.success', $order),
             ]);
-        }
-
-        if ($order->razorpay_order_id !== $data['razorpay_order_id']) {
-            return response()->json(['message' => 'Invalid payment details.'], 422);
-        }
-
-        if (! $this->razorpay->verifySignature(
-            $data['razorpay_order_id'],
-            $data['razorpay_payment_id'],
-            $data['razorpay_signature'],
-        )) {
-            $order->update([
-                'payment_status' => 'failed',
-                'payment_error' => 'Payment signature verification failed.',
+        } catch (\Throwable $e) {
+            Log::error('Payment verification failed', [
+                'message' => $e->getMessage(),
+                'order_id' => $request->input('order_id'),
+                'user_id' => auth()->id(),
             ]);
 
-            return response()->json(['message' => 'Payment verification failed.'], 422);
+            return response()->json([
+                'message' => 'Unable to verify payment right now. Please check your orders or contact support.',
+            ], 500);
         }
-
-        DB::transaction(function () use ($order, $data) {
-            $order->refresh();
-
-            if ($order->isPaid()) {
-                return;
-            }
-
-            foreach ($order->items as $item) {
-                $item->product?->decrement('stock', $item->quantity);
-            }
-
-            if ($order->coupon_id) {
-                $coupon = $order->coupon;
-
-                if ($coupon && ! $coupon->isUsed()) {
-                    $this->coupons->markUsed($coupon, $order);
-                }
-            }
-
-            $order->update([
-                'payment_status' => 'paid',
-                'razorpay_payment_id' => $data['razorpay_payment_id'],
-                'paid_at' => now(),
-                'status' => 'confirmed',
-                'payment_error' => null,
-            ]);
-        });
-
-        $this->cart->clear();
-        $this->coupons->clear();
-        $this->rememberCompletedOrder($order);
-
-        return response()->json([
-            'success' => true,
-            'redirect' => route('checkout.success', $order),
-        ]);
     }
 
     public function paymentFailed(Request $request): JsonResponse

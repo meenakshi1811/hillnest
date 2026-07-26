@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', function () {
   var overlay = document.querySelector('[data-payment-overlay]');
   var overlayMessage = overlay?.querySelector('[data-payment-overlay-message]');
   var paymentError = form.querySelector('[data-payment-error]');
+  var allowPageLeave = false;
 
   function showOverlay(message) {
     if (!overlay) return;
@@ -21,6 +22,34 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!overlay) return;
     overlay.hidden = true;
     document.body.classList.remove('payment-overlay-active');
+  }
+
+  function redirectAfterPayment(url) {
+    allowPageLeave = true;
+    hideOverlay();
+    window.location.assign(url);
+  }
+
+  function parseJsonResponse(res) {
+    return res.text().then(function (text) {
+      if (!text) {
+        return {};
+      }
+
+      try {
+        return JSON.parse(text);
+      } catch (error) {
+        throw {
+          message: 'Unexpected server response while verifying payment. Please check your orders or contact support.',
+        };
+      }
+    }).then(function (data) {
+      if (!res.ok) {
+        throw data;
+      }
+
+      return data;
+    });
   }
 
   function showPaymentError(message) {
@@ -109,23 +138,19 @@ document.addEventListener('DOMContentLoaded', function () {
             razorpay_signature: response.razorpay_signature,
           }),
         })
-          .then(function (res) {
-            return res.json().then(function (data) {
-              if (!res.ok) {
-                throw data;
-              }
-              return data;
-            });
-          })
+          .then(parseJsonResponse)
           .then(function (data) {
             if (data.redirect) {
-              window.location.replace(data.redirect);
+              redirectAfterPayment(data.redirect);
               return;
             }
 
-            throw { message: 'Payment verified, but we could not open your confirmation page. Please check your orders.' };
+            throw {
+              message: 'Payment verified, but we could not open your confirmation page. Please check your orders.',
+            };
           })
           .catch(function (error) {
+            allowPageLeave = false;
             hideOverlay();
             setSubmitting(false);
             showPaymentError(error.message || 'Payment verification failed. Please contact support if amount was deducted.');
@@ -201,9 +226,11 @@ document.addEventListener('DOMContentLoaded', function () {
   });
 
   window.addEventListener('beforeunload', function (event) {
-    if (document.body.classList.contains('payment-overlay-active')) {
-      event.preventDefault();
-      event.returnValue = '';
+    if (allowPageLeave || !document.body.classList.contains('payment-overlay-active')) {
+      return;
     }
+
+    event.preventDefault();
+    event.returnValue = '';
   });
 });

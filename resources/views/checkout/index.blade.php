@@ -210,5 +210,5 @@
 </script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="{{ asset('js/checkout-coupon.js') }}"></script>
-<script src="{{ asset('js/checkout-payment.js') }}"></script>
+<script src="{{ asset('js/checkout-payment.js') }}?v={{ filemtime(public_path('js/checkout-payment.js')) }}"></script>
 @endpush
