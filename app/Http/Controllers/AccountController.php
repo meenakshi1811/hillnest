@@ -33,13 +33,17 @@ class AccountController extends Controller
 
     public function orderShow($orderNumber)
     {
-        $order = auth()->user()
+        $user = auth()->user();
+
+        $order = $user
             ->orders()
-            ->with('items')
+            ->with(['items.product'])
             ->where('order_number', $orderNumber)
             ->firstOrFail();
 
-        return view('account.order-show', compact('order'));
+        $stats = $this->accountStats($user);
+
+        return view('account.order-show', compact('order', 'user', 'stats'));
     }
 
     public function profile()

@@ -153,9 +153,9 @@
     <div class="footer-bottom">
       <span class="footer-bottom__copy">© {{ date('Y') }} HillNest. All rights reserved.</span>
       <div class="footer-bottom-links">
-        <a href="#">Privacy Policy</a>
-        <a href="#">Terms of Use</a>
-        <a href="#">Refund Policy</a>
+        <a href="{{ route('privacy') }}">Privacy Policy</a>
+        <a href="{{ route('terms') }}">Terms of Use</a>
+        <a href="{{ route('refund') }}">Refund Policy</a>
       </div>
     </div>
   </div>
