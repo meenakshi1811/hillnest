@@ -14,7 +14,7 @@
                 <p>If you do not agree, please do not use our Website or services.</p>
 
                 <h2>1. About HillNest</h2>
-                <p>HillNest operates an online store offering pure A2 bilona cow ghee and related food products sourced from Upper Shimla, Himachal Pradesh, India. References to "we," "us," or "our" mean HillNest. References to "you" or "your" mean the person using the Website or placing an order.</p>
+                <p>HillNest operates an online store offering pure A2 bilona cow ghee and related food products from Chhajpur, Upper Shimla, Village Dharmana, P.O. Anti, Tehsil Jubbal, Distt. Shimla, Himachal Pradesh, India. References to "we," "us," or "our" mean HillNest. References to "you" or "your" mean the person using the Website or placing an order.</p>
 
                 <h2>2. Eligibility</h2>
                 <p>You must be at least 18 years old and capable of entering into a legally binding contract under applicable Indian law to use this Website and place orders. By using the Website, you represent that you meet this requirement.</p>
@@ -83,7 +83,7 @@
                 <p>For questions about these Terms, contact us at:</p>
                 <p>
                     <strong>HillNest</strong><br>
-                    Chhajpur, Upper Shimla, Himachal Pradesh, India<br>
+                    Chhajpur, Upper Shimla, Village Dharmana, P.O. Anti, Tehsil Jubbal, Distt. Shimla, Himachal Pradesh, India<br>
                     Email: <a href="mailto:hillnestofficial@gmail.com">hillnestofficial@gmail.com</a>
                 </p>
             </div>

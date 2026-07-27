@@ -14,7 +14,7 @@
                     <strong>All sales are final.</strong> HillNest does not provide refunds, returns, or exchanges on any orders once payment is successfully completed.
                 </div>
 
-                <p>At HillNest, we craft small-batch A2 bilona ghee with care in Upper Shimla. Because our products are food items — and perishable once opened — we maintain a strict no-refund policy to protect product quality, hygiene, and customer safety.</p>
+                <p>At HillNest, we craft small-batch A2 bilona ghee with care at Chhajpur, Upper Shimla, Village Dharmana, P.O. Anti, Tehsil Jubbal, Distt. Shimla, Himachal Pradesh, India. Because our products are food items — and perishable once opened — we maintain a strict no-refund policy to protect product quality, hygiene, and customer safety.</p>
                 <p>By completing a purchase on our Website, you acknowledge and agree to this Refund Policy in full.</p>
 
                 <h2>1. No Refunds</h2>
@@ -63,7 +63,7 @@
                 <p>For questions about this Refund Policy or to report a delivery issue, contact:</p>
                 <p>
                     <strong>HillNest</strong><br>
-                    Chhajpur, Upper Shimla, Himachal Pradesh, India<br>
+                    Chhajpur, Upper Shimla, Village Dharmana, P.O. Anti, Tehsil Jubbal, Distt. Shimla, Himachal Pradesh, India<br>
                     Email: <a href="mailto:hillnestofficial@gmail.com">hillnestofficial@gmail.com</a>
                 </p>
                 <p>Please include your order number in all correspondence so we can assist you promptly.</p>

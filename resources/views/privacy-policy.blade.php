@@ -14,7 +14,7 @@
                 <p>By using <strong>hillnest.in</strong> (the "Website") or purchasing our products, you agree to the practices described in this policy.</p>
 
                 <h2>1. Who We Are</h2>
-                <p>HillNest is a direct-to-consumer brand based in Chhajpur, Upper Shimla, Himachal Pradesh, India. We sell pure A2 bilona cow ghee and related food products through our online store.</p>
+                <p>HillNest is a direct-to-consumer brand based at Chhajpur, Upper Shimla, Village Dharmana, P.O. Anti, Tehsil Jubbal, Distt. Shimla, Himachal Pradesh, India. We sell pure A2 bilona cow ghee and related food products through our online store.</p>
                 <p>For privacy-related questions, contact us at <a href="mailto:hillnestofficial@gmail.com">hillnestofficial@gmail.com</a>.</p>
 
                 <h2>2. Information We Collect</h2>
@@ -80,7 +80,7 @@
                 <p>If you have questions about this Privacy Policy or how we handle your data, please contact:</p>
                 <p>
                     <strong>HillNest</strong><br>
-                    Chhajpur, Upper Shimla, Himachal Pradesh, India<br>
+                    Chhajpur, Upper Shimla, Village Dharmana, P.O. Anti, Tehsil Jubbal, Distt. Shimla, Himachal Pradesh, India<br>
                     Email: <a href="mailto:hillnestofficial@gmail.com">hillnestofficial@gmail.com</a>
                 </p>
             </div>

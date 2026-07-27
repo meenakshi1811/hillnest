@@ -140,13 +140,28 @@
         </ul>
       </div>
 
-      <div class="footer-col footer-newsletter">
-        <div class="footer-col-title">Stay Connected</div>
-        <p>Recipes, wellness tips, and early access to new arrivals — straight to your inbox.</p>
-        <form class="newsletter-form" onsubmit="return false;">
-          <input type="email" placeholder="your@email.com" aria-label="Email address" />
-          <button type="submit">Join</button>
-        </form>
+      <div class="footer-col footer-home">
+        <div class="footer-col-title">Our Home</div>
+        <p class="footer-home__lead">Handcrafted in the hills of Upper Shimla — every jar made with village care.</p>
+        <address class="footer-home__address">
+          Chhajpur, Village Dharmana, P.O. Anti<br>
+          Tehsil Jubbal, Distt. Shimla<br>
+          Himachal Pradesh, India
+        </address>
+        <ul class="footer-home__highlights">
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            Free delivery above ₹999
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            Pure A2 bilona ghee
+          </li>
+          <li>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
+            Small-batch village craft
+          </li>
+        </ul>
       </div>
     </div>
 
