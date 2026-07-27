@@ -1638,3 +1638,18 @@ table.dataTable thead th.dt-right {
 body.admin-page button.admin-icon-btn {
   padding: 0;
 }
+
+.admin-review-stars {
+  color: var(--gold);
+  font-size: 14px;
+  letter-spacing: 1px;
+  white-space: nowrap;
+}
+
+.admin-review-comment {
+  display: inline-block;
+  max-width: 320px;
+  color: var(--text-mid);
+  font-size: 13px;
+  line-height: 1.5;
+}

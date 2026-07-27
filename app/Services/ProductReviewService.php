@@ -74,4 +74,13 @@ class ProductReviewService
             'average_rating' => round((float) ($stats->average ?? 0), 1),
         ]);
     }
+
+    public function delete(ProductReview $review): void
+    {
+        DB::transaction(function () use ($review) {
+            $product = $review->product;
+            $review->delete();
+            $this->syncProductStats($product);
+        });
+    }
 }

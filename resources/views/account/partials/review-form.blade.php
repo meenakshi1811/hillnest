@@ -29,7 +29,7 @@
             <p class="order-review-card__meta">Submitted {{ $review->created_at->format('d M Y') }}</p>
         </div>
     @else
-        <form class="order-review-form" method="POST" action="{{ route('account.reviews.store', $item) }}">
+        <form class="order-review-form" method="POST" action="{{ route('account.reviews.store', $item) }}" data-order-review-form>
             @csrf
             <fieldset class="order-review-form__rating">
                 <legend>Rate this product</legend>
@@ -63,8 +63,9 @@
             @error('comment')
                 <p class="order-review-form__error">{{ $message }}</p>
             @enderror
+            <p class="order-review-form__error" data-order-review-error hidden></p>
 
-            <button type="submit" class="order-review-form__submit">Submit review</button>
+            <button type="submit" class="order-review-form__submit" data-order-review-submit>Submit review</button>
         </form>
     @endif
 </div>

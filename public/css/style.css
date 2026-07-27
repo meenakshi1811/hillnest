@@ -4495,6 +4495,11 @@
   background: var(--forest-mid);
 }
 
+.order-review-form__submit.is-loading {
+  opacity: 0.7;
+  cursor: wait;
+}
+
 .star-rating {
   display: inline-flex;
   align-items: center;

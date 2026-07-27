@@ -148,3 +148,7 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/order-reviews.js') }}"></script>
+@endpush
