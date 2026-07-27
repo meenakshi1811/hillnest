@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\WelcomeMail;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Password as PasswordBroker;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\Password;
@@ -59,6 +62,15 @@ class AuthController extends Controller
             'phone' => $data['phone'] ?? null,
             'password' => Hash::make($data['password']),
         ]);
+
+        try {
+            Mail::to($user->email)->send(new WelcomeMail($user));
+        } catch (\Throwable $e) {
+            Log::error('Welcome email failed', [
+                'user_id' => $user->id,
+                'message' => $e->getMessage(),
+            ]);
+        }
 
         Auth::login($user);
 
