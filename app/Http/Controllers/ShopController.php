@@ -36,6 +36,11 @@ class ShopController extends Controller
             ->limit(3)
             ->get();
 
-        return view('shop.show', compact('product', 'related'));
+        $reviews = $product->approvedReviews()
+            ->with('user')
+            ->limit(12)
+            ->get();
+
+        return view('shop.show', compact('product', 'related', 'reviews'));
     }
 }

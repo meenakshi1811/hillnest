@@ -91,6 +91,9 @@
                     <a href="{{ route('account.orders.show', $order->order_number) }}" class="checkout-success-secondary">
                         View order details
                     </a>
+                    <a href="{{ route('account.orders.show', $order->order_number) }}#reviews" class="checkout-success-secondary">
+                        Rate your products
+                    </a>
                 </div>
 
                 <p class="checkout-success__hint">

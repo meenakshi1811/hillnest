@@ -37,7 +37,7 @@ class AccountController extends Controller
 
         $order = $user
             ->orders()
-            ->with(['items.product'])
+            ->with(['items.product', 'items.review'])
             ->where('order_number', $orderNumber)
             ->firstOrFail();
 

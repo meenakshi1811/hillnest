@@ -31,7 +31,7 @@
         <div class="product-card-rosier__meta">
             @if($product->reviews_count > 0)
             <div class="product-card-rosier__reviews" aria-label="{{ number_format($product->reviews_count) }} customer reviews">
-                <span class="product-card-rosier__stars" aria-hidden="true">★★★★★</span>
+                <x-star-rating :rating="$product->displayRating()" class="product-card-rosier__star-rating" />
                 <span>{{ number_format($product->reviews_count) }} reviews</span>
             </div>
             @else

@@ -33,8 +33,8 @@
 
                 @if($product->reviews_count > 0)
                 <div class="product-detail-reviews">
-                    <span class="product-detail-stars" aria-hidden="true">★★★★★</span>
-                    <span>{{ number_format($product->reviews_count) }} reviews</span>
+                    <x-star-rating :rating="$product->displayRating()" />
+                    <span>{{ number_format($product->reviews_count) }} {{ Str::plural('review', $product->reviews_count) }}</span>
                 </div>
                 @endif
 
@@ -107,6 +107,35 @@
                 </ul>
             </aside>
         </div>
+
+        @if($reviews->count())
+        <div class="product-detail-reviews-section" id="reviews">
+            <div class="product-detail-reviews-section__head">
+                <p class="product-detail-panel__eyebrow">Customer voices</p>
+                <h2>What families are saying</h2>
+                <x-star-rating :rating="$product->displayRating()" :count="$product->reviews_count" show-value />
+            </div>
+
+            <div class="product-reviews-grid">
+                @foreach($reviews as $review)
+                <article class="product-review-card">
+                    <div class="product-review-card__top">
+                        <x-star-rating :rating="$review->rating" />
+                        <time datetime="{{ $review->created_at->toIso8601String() }}">{{ $review->created_at->format('d M Y') }}</time>
+                    </div>
+                    @if($review->comment)
+                        <blockquote class="product-review-card__text">"{{ $review->comment }}"</blockquote>
+                    @endif
+                    <footer class="product-review-card__author">
+                        <span class="product-review-card__avatar" aria-hidden="true">{{ strtoupper(substr($review->user->name, 0, 1)) }}</span>
+                        <cite>{{ $review->user->name }}</cite>
+                        <span class="product-review-card__badge">Verified Buyer</span>
+                    </footer>
+                </article>
+                @endforeach
+            </div>
+        </div>
+        @endif
 
         @if($related->count())
         <div class="product-detail-related">

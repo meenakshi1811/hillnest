@@ -63,6 +63,27 @@
                             @endforeach
                         </ul>
 
+                        @if($order->isPaid() && $order->status !== 'cancelled')
+                            @php
+                                $reviewableItems = $order->items->filter(fn ($item) => $item->product_id);
+                            @endphp
+                            @if($reviewableItems->isNotEmpty())
+                            <div class="order-detail-reviews" id="reviews">
+                                <div class="order-detail-reviews__head">
+                                    <p class="account-page-eyebrow">Your feedback</p>
+                                    <h3>Rate your products</h3>
+                                    <p>Share how HillNest ghee worked for your kitchen — it helps other families choose with confidence.</p>
+                                </div>
+
+                                <div class="order-detail-reviews__list">
+                                    @foreach($reviewableItems as $item)
+                                        @include('account.partials.review-form', ['item' => $item, 'review' => $item->review])
+                                    @endforeach
+                                </div>
+                            </div>
+                            @endif
+                        @endif
+
                         <div class="order-detail-shipping">
                             <p class="account-page-eyebrow">Delivery to</p>
                             <p class="order-detail-shipping__name">{{ $order->customer_name }}</p>

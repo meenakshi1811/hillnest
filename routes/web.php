@@ -12,7 +12,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\RazorpayWebhookController;
+use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
@@ -54,6 +54,7 @@ Route::post('/logout', [AuthController::class, 'logout'])->middleware('auth')->n
 Route::middleware('auth')->prefix('account')->name('account.')->group(function () {
     Route::get('/orders', [AccountController::class, 'orders'])->name('orders');
     Route::get('/orders/{orderNumber}', [AccountController::class, 'orderShow'])->name('orders.show');
+    Route::post('/orders/items/{orderItem}/review', [ProductReviewController::class, 'store'])->name('reviews.store');
     Route::get('/profile', [AccountController::class, 'profile'])->name('profile');
     Route::patch('/profile', [AccountController::class, 'updateProfile'])->name('profile.update');
 });

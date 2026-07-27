@@ -10,7 +10,7 @@ class Product extends Model
     protected $fillable = [
         'name', 'slug', 'description', 'short_description', 'price', 'compare_price',
         'size', 'category', 'image', 'stock', 'is_active', 'is_featured', 'is_bestseller', 'is_trending',
-        'sort_order', 'reviews_count', 'badge',
+        'sort_order', 'reviews_count', 'average_rating', 'badge',
     ];
 
     protected function casts(): array
@@ -18,6 +18,7 @@ class Product extends Model
         return [
             'price' => 'decimal:2',
             'compare_price' => 'decimal:2',
+            'average_rating' => 'decimal:1',
             'is_active' => 'boolean',
             'is_featured' => 'boolean',
             'is_bestseller' => 'boolean',
@@ -47,6 +48,21 @@ class Product extends Model
     public function orderItems(): HasMany
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function reviews(): HasMany
+    {
+        return $this->hasMany(ProductReview::class);
+    }
+
+    public function approvedReviews(): HasMany
+    {
+        return $this->reviews()->approved()->latest();
+    }
+
+    public function displayRating(): float
+    {
+        return (float) ($this->average_rating ?? 0);
     }
 
     public function getImageUrlAttribute(): string
