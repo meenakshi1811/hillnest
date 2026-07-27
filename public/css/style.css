@@ -3245,6 +3245,17 @@
   font-size: 14px;
 }
 
+.auth-status {
+  margin: 0 0 24px;
+  padding: 14px 18px;
+  border: 1px solid rgba(30, 59, 47, 0.14);
+  border-radius: 16px;
+  background: rgba(30, 59, 47, 0.06);
+  color: var(--forest);
+  font-size: 15px;
+  line-height: 1.5;
+}
+
 .auth-options {
   display: flex;
   align-items: center;

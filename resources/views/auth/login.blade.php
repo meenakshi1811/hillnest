@@ -37,6 +37,10 @@
                     <p>{{ $isAdminRedirect ? 'Use your admin credentials to continue to the dashboard.' : 'Access your orders, saved details, and account updates.' }}</p>
                 </div>
 
+                @if (session('status'))
+                    <p class="auth-status" role="status">{{ session('status') }}</p>
+                @endif
+
                 <form method="POST" action="{{ route('login') }}" class="auth-form">
                     @csrf
                     @if($isAdminRedirect)
@@ -67,7 +71,7 @@
                             <span>Remember me</span>
                         </label>
                         @unless($isAdminRedirect)
-                            <a href="{{ route('login', ['redirect' => 'admin']) }}">Admin login</a>
+                            <a href="{{ route('password.request') }}">Forgot password?</a>
                         @endunless
                     </div>
 
