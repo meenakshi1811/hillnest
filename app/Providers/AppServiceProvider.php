@@ -34,7 +34,17 @@ class AppServiceProvider extends ServiceProvider
         View::composer(['layouts.app', 'layouts.admin', 'components.*'], $shareCartData);
 
         View::composer('emails.*', function ($view): void {
-            $view->with('logoUrl', url('images/logo.png'));
+            $candidates = ['logo-email.png', 'logo.png', 'logo-email.svg', 'logo.svg'];
+            $logoUrl = url('images/logo-email.svg');
+
+            foreach ($candidates as $name) {
+                if (file_exists(public_path('images/'.$name))) {
+                    $logoUrl = url('images/'.$name);
+                    break;
+                }
+            }
+
+            $view->with('logoUrl', $logoUrl);
             $view->with('shopUrl', route('shop.index'));
         });
     }
