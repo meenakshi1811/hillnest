@@ -311,91 +311,91 @@
   </div>
 </section>
 
+{{-- Customer Reviews (hidden for now)
 <!-- Reviews -->
 <section class="reviews-section" id="reviews">
-  <div class="reviews-section__glow" aria-hidden="true"></div>
+  ...
+</section>
+--}}
 
-  <div class="reviews-inner">
-    <header class="reviews-header section-header">
-      <span class="section-eyebrow">Customer Reviews</span>
-      <h2 class="section-title">Trusted by <em>Families</em> Across India</h2>
-      <p class="section-subtitle">Real stories from kitchens that chose purity over compromise.</p>
+<!-- Pan India Delivery -->
+<section class="delivery-section" id="delivery">
+  <div class="delivery-section__glow" aria-hidden="true"></div>
+
+  <div class="delivery-inner">
+    <header class="delivery-header section-header">
+      <span class="section-eyebrow">Pan India Delivery</span>
+      <h2 class="section-title">From the Hills to <em>Every Kitchen</em></h2>
+      <p class="section-subtitle">Pure A2 bilona ghee from Upper Shimla — carefully packed and delivered across India.</p>
       <div class="divider-ornament"><span>❧</span></div>
     </header>
 
-    <div class="reviews-summary" aria-label="Overall customer rating">
-      <div class="reviews-summary__score">
-        <span class="reviews-summary__number">4.9</span>
-        <div class="reviews-summary__meta">
-          <span class="reviews-summary__stars" aria-hidden="true">★★★★★</span>
-          <span class="reviews-summary__label">Average rating</span>
+    <div class="delivery-summary" aria-label="Delivery highlights">
+      <div class="delivery-summary__lead">
+        <span class="delivery-summary__icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+        </span>
+        <div>
+          <strong>Nationwide shipping</strong>
+          <span>We deliver HillNest ghee to homes across India.</span>
         </div>
       </div>
-      <div class="reviews-summary__divider" aria-hidden="true"></div>
-      <ul class="reviews-summary__stats">
+      <div class="delivery-summary__divider" aria-hidden="true"></div>
+      <ul class="delivery-summary__stats">
         <li>
-          <strong>2,000+</strong>
-          <span>Happy families</span>
+          <strong>Pan India</strong>
+          <span>All states covered</span>
         </li>
         <li>
-          <strong>100%</strong>
-          <span>Pure A2 bilona</span>
+          <strong>₹999+</strong>
+          <span>Free delivery</span>
         </li>
         <li>
-          <strong>Pan-India</strong>
-          <span>Home delivery</span>
+          <strong>Secure</strong>
+          <span>Protected packaging</span>
         </li>
       </ul>
     </div>
 
-    <div class="reviews-grid">
-      <article class="review-card">
-        <div class="review-card__top">
-          <svg class="review-card__quote" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/></svg>
-          <span class="review-card__rating" aria-label="5 out of 5 stars">★★★★★</span>
-        </div>
-        <blockquote class="review-card__text">The aroma alone took me back to my grandmother's kitchen. This is what real ghee should taste like. We've been ordering every month since we discovered HillNest.</blockquote>
-        <footer class="review-card__author">
-          <div class="review-card__avatar" aria-hidden="true">P</div>
-          <div class="review-card__identity">
-            <cite class="review-card__name">Priya Sharma</cite>
-            <span class="review-card__place">Delhi</span>
-          </div>
-          <span class="review-card__badge">Verified Buyer</span>
-        </footer>
+    <div class="delivery-grid">
+      <article class="delivery-card">
+        <span class="delivery-card__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z"/><circle cx="12" cy="9" r="2.5"/></svg>
+        </span>
+        <h3>All India delivery</h3>
+        <p>Order from metros, towns, and villages — we ship HillNest ghee wherever you are in India.</p>
       </article>
 
-      <article class="review-card review-card--featured">
-        <div class="review-card__top">
-          <svg class="review-card__quote" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/></svg>
-          <span class="review-card__rating" aria-label="5 out of 5 stars">★★★★★</span>
-        </div>
-        <blockquote class="review-card__text">As a nutritionist, I recommend only the best to my clients. HillNest's A2 ghee is the only one I trust — pure, rich, and genuinely made with care.</blockquote>
-        <footer class="review-card__author">
-          <div class="review-card__avatar" aria-hidden="true">R</div>
-          <div class="review-card__identity">
-            <cite class="review-card__name">Dr. Rajan Mehta</cite>
-            <span class="review-card__place">Mumbai</span>
-          </div>
-          <span class="review-card__badge">Verified Buyer</span>
-        </footer>
+      <article class="delivery-card delivery-card--featured">
+        <span class="delivery-card__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7.7 12 12.5l8.7-4.8"/><path d="M12 22.5V12.5"/></svg>
+        </span>
+        <h3>Carefully packed</h3>
+        <p>Every jar is sealed and packed with care so your ghee arrives safe, fresh, and ready for your kitchen.</p>
       </article>
 
-      <article class="review-card">
-        <div class="review-card__top">
-          <svg class="review-card__quote" width="32" height="32" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 01-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"/></svg>
-          <span class="review-card__rating" aria-label="5 out of 5 stars">★★★★★</span>
-        </div>
-        <blockquote class="review-card__text">You can literally see the difference — that beautiful golden colour, the granular texture in winters. Absolutely nothing compares to HillNest for our daily cooking.</blockquote>
-        <footer class="review-card__author">
-          <div class="review-card__avatar" aria-hidden="true">A</div>
-          <div class="review-card__identity">
-            <cite class="review-card__name">Ananya Nair</cite>
-            <span class="review-card__place">Bangalore</span>
-          </div>
-          <span class="review-card__badge">Verified Buyer</span>
-        </footer>
+      <article class="delivery-card">
+        <span class="delivery-card__icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="M22 4 12 14.01l-3-3"/></svg>
+        </span>
+        <h3>Order with confidence</h3>
+        <p>Secure checkout, order updates, and reliable courier partners — from Chhajpur to your doorstep.</p>
       </article>
+    </div>
+
+    <div class="delivery-cities" aria-label="Cities we deliver to">
+      <span class="delivery-cities__label">Delivering to families in</span>
+      <ul class="delivery-cities__list">
+        <li>Delhi</li>
+        <li>Mumbai</li>
+        <li>Bangalore</li>
+        <li>Hyderabad</li>
+        <li>Pune</li>
+        <li>Chandigarh</li>
+        <li>Jaipur</li>
+        <li>Kolkata</li>
+        <li>and more</li>
+      </ul>
     </div>
   </div>
 </section>
