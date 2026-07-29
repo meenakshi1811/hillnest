@@ -118,15 +118,6 @@
                         decoding="async"
                     >
                 </div>
-                <div class="about-apple__product-frame">
-                    <img
-                        src="{{ asset('images/shimla-apples.jpg') }}?v={{ @filemtime(public_path('images/shimla-apples.jpg')) }}"
-                        alt="Fresh red Shimla apple"
-                        class="about-apple__product-image"
-                        loading="lazy"
-                        decoding="async"
-                    >
-                </div>
                 <span class="about-apple__badge">Coming Soon</span>
             </div>
 
