@@ -59,53 +59,6 @@
             </article>
         </div>
 
-        {{-- Founders --}}
-        <div class="about-founders">
-            <div class="about-founders__head">
-                <p class="about-eyebrow">The Founders</p>
-                <h2>Two Sisters,<br><em>One Pure Mission</em></h2>
-            </div>
-
-            <div class="about-founders__gallery">
-                <div class="about-founders__stage">
-                    <div class="about-founders__duo">
-                        <article class="about-founder">
-                            <div class="about-founder__photo">
-                                <img src="{{ asset('images/founders/sakshi.jpeg') }}" alt="Sakshi Nanta — Founder of HillNest" loading="lazy" decoding="async">
-                            </div>
-                            <div class="about-founder__meta">
-                                <h3>Sakshi Nanta</h3>
-                                <p>Founder</p>
-                            </div>
-                        </article>
-
-                        <span class="about-founders__join" aria-hidden="true">&amp;</span>
-
-                        <article class="about-founder">
-                            <div class="about-founder__photo">
-                                <img src="{{ asset('images/founders/meenakshi.jpeg') }}" alt="Meenakshi Nanta — Co-founder of HillNest" loading="lazy" decoding="async">
-                            </div>
-                            <div class="about-founder__meta">
-                                <h3>Meenakshi Nanta</h3>
-                                <p>Co-Founder</p>
-                            </div>
-                        </article>
-                    </div>
-                </div>
-
-                <div class="about-founders__quotes">
-                    <blockquote class="about-quote">
-                        <p>We grew up eating ghee made in our own kitchen. I wanted every family to experience that same purity — nothing added, nothing taken away.</p>
-                        <cite>— Sakshi Nanta</cite>
-                    </blockquote>
-                    <blockquote class="about-quote">
-                        <p>Chhajpur taught us the value of clean food and clean air. HillNest is our way of sharing that Himalayan goodness with people who deserve better.</p>
-                        <cite>— Meenakshi Nanta</cite>
-                    </blockquote>
-                </div>
-            </div>
-        </div>
-
         {{-- Bilona process --}}
         <div class="about-process">
             <div class="about-process__head">
@@ -156,11 +109,20 @@
         {{-- Apple orchard --}}
         <div class="about-apple">
             <div class="about-apple__visual">
-                <div class="about-apple__image-frame">
+                <div class="about-apple__farm-frame">
+                    <img
+                        src="{{ asset('images/apple-farm.jpg') }}?v={{ @filemtime(public_path('images/apple-farm.jpg')) }}"
+                        alt="HillNest apple orchard in Upper Shimla with ripe red apples"
+                        class="about-apple__farm-image"
+                        loading="lazy"
+                        decoding="async"
+                    >
+                </div>
+                <div class="about-apple__product-frame">
                     <img
                         src="{{ asset('images/shimla-apples.jpg') }}?v={{ @filemtime(public_path('images/shimla-apples.jpg')) }}"
                         alt="Fresh red Shimla apple"
-                        class="about-apple__image"
+                        class="about-apple__product-image"
                         loading="lazy"
                         decoding="async"
                     >
