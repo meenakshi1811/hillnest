@@ -29,14 +29,14 @@
         </div>
 
         <div class="product-card-rosier__meta">
-            @if($product->reviews_count > 0)
+            {{-- @if($product->reviews_count > 0)
             <div class="product-card-rosier__reviews" aria-label="{{ number_format($product->reviews_count) }} customer reviews">
                 <x-star-rating :rating="$product->displayRating()" class="product-card-rosier__star-rating" />
                 <span>{{ number_format($product->reviews_count) }} reviews</span>
             </div>
             @else
             <span class="product-card-rosier__reviews product-card-rosier__reviews--empty">Himalayan sourced</span>
-            @endif
+            @endif --}}
 
             <div class="product-card-rosier__price-block">
                 <div class="product-card-rosier__price-group">

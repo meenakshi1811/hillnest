@@ -31,12 +31,12 @@
                 <p class="product-detail-eyebrow">{{ $product->size }} · Pure Bilona Ghee</p>
                 <h1 class="product-detail-title">{{ $product->name }}</h1>
 
-                @if($product->reviews_count > 0)
+                {{-- @if($product->reviews_count > 0)
                 <div class="product-detail-reviews">
                     <x-star-rating :rating="$product->displayRating()" />
                     <span>{{ number_format($product->reviews_count) }} {{ Str::plural('review', $product->reviews_count) }}</span>
                 </div>
-                @endif
+                @endif --}}
 
                 @if($product->short_description)
                 <p class="product-detail-lead">{{ $product->short_description }}</p>
