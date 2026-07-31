@@ -5,9 +5,10 @@
 @section('content')
 @php
     $itemCount = $items->sum('quantity');
-    $freeShippingAt = 2000;
-    $amountToFree = max(0, $freeShippingAt - $subtotal);
-    $freeShippingProgress = $subtotal > 0 ? min(100, ($subtotal / $freeShippingAt) * 100) : 0;
+    $shippingEnabled = $shippingConfig['enabled'] ?? true;
+    $showShippingProgress = ($shippingMeta['show_progress'] ?? false) && $shippingEnabled;
+    $amountToFree = $shippingMeta['amount_to_free'] ?? 0;
+    $freeShippingProgress = $shippingMeta['free_shipping_progress'] ?? 0;
 @endphp
 
 <section class="cart-page">
@@ -132,20 +133,24 @@
                     @endforeach
                 </ul>
 
+                @if($shippingEnabled && $showShippingProgress)
                 <div class="cart-summary__shipping" data-shipping-block>
-                @if($amountToFree > 0)
                 <div class="cart-summary__shipping-progress">
                     <div class="cart-summary__shipping-progress-bar" data-shipping-progress style="width: {{ $freeShippingProgress }}%"></div>
                 </div>
                 <p class="cart-summary__shipping-msg" data-shipping-msg>
                     Add <strong>₹{{ number_format($amountToFree, 0) }}</strong> more for free shipping
                 </p>
-                @else
+                </div>
+                @elseif($shippingEnabled && ($shippingConfig['has_free_threshold'] ?? false) && $amountToFree <= 0)
+                <div class="cart-summary__shipping" data-shipping-block>
                 <p class="cart-summary__shipping-msg cart-summary__shipping-msg--success" data-shipping-msg>
                     ✓ You qualify for free shipping
                 </p>
-                @endif
                 </div>
+                @else
+                <div class="cart-summary__shipping" data-shipping-block hidden></div>
+                @endif
 
                 <dl class="cart-summary__totals">
                     <div>

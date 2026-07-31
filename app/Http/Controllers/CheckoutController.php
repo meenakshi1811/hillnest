@@ -7,6 +7,7 @@ use App\Models\OrderItem;
 use App\Services\CartService;
 use App\Services\CouponService;
 use App\Services\RazorpayService;
+use App\Services\ShippingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -20,6 +21,7 @@ class CheckoutController extends Controller
         protected CartService $cart,
         protected CouponService $coupons,
         protected RazorpayService $razorpay,
+        protected ShippingService $shipping,
     ) {}
 
     public function index(): View|RedirectResponse
@@ -33,6 +35,7 @@ class CheckoutController extends Controller
         }
 
         $summary = $this->orderSummary();
+        $shippingMeta = $this->shipping->progressMeta($summary['subtotal']);
 
         return view('checkout.index', [
             'items' => $this->cart->all(),
@@ -43,6 +46,8 @@ class CheckoutController extends Controller
             'appliedCoupon' => $summary['coupon'],
             'user' => auth()->user(),
             'razorpayKey' => $this->razorpay->getKey(),
+            'shippingMeta' => $shippingMeta,
+            'shippingConfig' => $this->shipping->configForFrontend(),
         ]);
     }
 

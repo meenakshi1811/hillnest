@@ -83,8 +83,10 @@ $(function () {
     if ($('[data-shipping-block]').length) {
       const $block = $('[data-shipping-block]');
 
-      if (response.amount_to_free > 0) {
-        $block.html(
+      if (response.shipping_enabled === false) {
+        $block.attr('hidden', true).empty();
+      } else if (response.show_shipping_progress) {
+        $block.removeAttr('hidden').html(
           '<div class="cart-summary__shipping-progress">' +
             '<div class="cart-summary__shipping-progress-bar" data-shipping-progress style="width:' +
             response.free_shipping_progress +
@@ -94,10 +96,12 @@ $(function () {
             formatMoney(response.amount_to_free) +
             '</strong> more for free shipping</p>'
         );
-      } else {
-        $block.html(
+      } else if (response.has_free_threshold && response.amount_to_free === 0) {
+        $block.removeAttr('hidden').html(
           '<p class="cart-summary__shipping-msg cart-summary__shipping-msg--success" data-shipping-msg">✓ You qualify for free shipping</p>'
         );
+      } else {
+        $block.attr('hidden', true).empty();
       }
     }
 

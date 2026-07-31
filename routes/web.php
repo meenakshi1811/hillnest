@@ -6,13 +6,16 @@ use App\Http\Controllers\Admin\ExpenseController as AdminExpenseController;
 use App\Http\Controllers\Admin\CouponController as AdminCouponController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
+use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
+use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductReviewController;
+use App\Http\Controllers\RazorpayWebhookController;
 use App\Http\Controllers\ShopController;
 use Illuminate\Support\Facades\Route;
 
@@ -78,6 +81,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/products/{product}/toggle', [AdminProductController::class, 'toggleActive'])->name('products.toggle');
     Route::delete('/products/{product}', [AdminProductController::class, 'destroy'])->name('products.destroy');
     Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
+    Route::get('/settings/shipping', [AdminSettingsController::class, 'shipping'])->name('settings.shipping');
+    Route::patch('/settings/shipping', [AdminSettingsController::class, 'updateShipping'])->name('settings.shipping.update');
     Route::get('/expenses', [AdminExpenseController::class, 'index'])->name('expenses.index');
     Route::post('/expenses', [AdminExpenseController::class, 'store'])->name('expenses.store');
     Route::get('/expenses/{expense}/edit', [AdminExpenseController::class, 'edit'])->name('expenses.edit');

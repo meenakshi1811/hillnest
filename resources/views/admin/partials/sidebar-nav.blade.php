@@ -8,6 +8,7 @@
         ['route' => 'admin.reports.index', 'pattern' => 'admin.reports.*', 'label' => 'Reports', 'icon' => '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 16V9"/><path d="M12 16V5"/><path d="M17 16v-7"/></svg>'],
         ['route' => 'admin.expenses.index', 'pattern' => 'admin.expenses.*', 'label' => 'Expenses', 'icon' => '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>'],
         ['route' => 'admin.coupons.index', 'pattern' => 'admin.coupons.*', 'label' => 'Coupons', 'icon' => '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12V8H6a2 2 0 0 1 0-4h14v4"/><path d="M4 6v12a2 2 0 0 0 2 2h14v-4H6a2 2 0 0 1-2-2V6"/></svg>'],
+        ['route' => 'admin.settings.shipping', 'pattern' => 'admin.settings.*', 'label' => 'Shipping', 'icon' => '<svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 18H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h3"/><path d="M19 18h2a2 2 0 0 0 2-2V8a2 2 0 0 0-2-2h-3"/><rect x="5" y="6" width="14" height="12" rx="1"/></svg>'],
     ];
 @endphp
 

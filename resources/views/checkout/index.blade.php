@@ -5,8 +5,9 @@
 @section('content')
 @php
     $itemCount = $items->sum('quantity');
-    $freeShippingAt = 2000;
-    $amountToFree = max(0, $freeShippingAt - $subtotal);
+    $shippingEnabled = $shippingConfig['enabled'] ?? true;
+    $showShippingNote = ($shippingMeta['show_progress'] ?? false) && $shippingEnabled;
+    $amountToFree = $shippingMeta['amount_to_free'] ?? 0;
     $discount = $discount ?? 0;
     $appliedCoupon = $appliedCoupon ?? null;
 @endphp
@@ -119,7 +120,7 @@
                     @endforeach
                 </ul>
 
-                @if($amountToFree > 0)
+                @if($showShippingNote)
                 <p class="checkout-summary__note">
                     Add <strong>₹{{ number_format($amountToFree, 0) }}</strong> more on future orders for free shipping
                 </p>

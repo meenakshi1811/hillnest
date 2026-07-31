@@ -9,6 +9,8 @@ class CartService
 {
     protected const SESSION_KEY = 'hillnest_cart';
 
+    public function __construct(protected ShippingService $shipping) {}
+
     public function all(): Collection
     {
         $items = collect(session(self::SESSION_KEY, []));
@@ -138,9 +140,7 @@ class CartService
 
     public function shippingFee(): float
     {
-        $subtotal = $this->subtotal();
-
-        return $subtotal >= 2000 ? 0 : ($subtotal > 0 ? 99 : 0);
+        return $this->shipping->calculateFee($this->subtotal());
     }
 
     public function total(): float

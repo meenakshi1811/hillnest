@@ -4,20 +4,29 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Services\CartService;
+use App\Services\ShippingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-    public function __construct(protected CartService $cart) {}
+    public function __construct(
+        protected CartService $cart,
+        protected ShippingService $shipping,
+    ) {}
 
     public function index()
     {
+        $subtotal = $this->cart->subtotal();
+        $shippingMeta = $this->shipping->cartSummaryMeta($subtotal);
+
         return view('cart.index', [
             'items' => $this->cart->all(),
-            'subtotal' => $this->cart->subtotal(),
-            'shipping' => $this->cart->shippingFee(),
-            'total' => $this->cart->total(),
+            'subtotal' => $subtotal,
+            'shipping' => $shippingMeta['shipping'],
+            'total' => $subtotal + $shippingMeta['shipping'],
+            'shippingMeta' => $shippingMeta,
+            'shippingConfig' => $this->shipping->configForFrontend(),
         ]);
     }
 
@@ -70,7 +79,7 @@ class CartController extends Controller
             $status = $success ? 200 : 422;
             $qty = $this->cart->quantity($product->id);
             $subtotal = $this->cart->subtotal();
-            $freeShippingAt = 2000;
+            $shippingMeta = $this->shipping->cartSummaryMeta($subtotal);
 
             return response()->json([
                 'success' => $success,
@@ -81,11 +90,14 @@ class CartController extends Controller
                 'line_total' => $qty > 0 ? (float) ($product->price * $qty) : 0,
                 'unit_price' => (float) $product->price,
                 'subtotal' => $subtotal,
-                'shipping' => $this->cart->shippingFee(),
-                'total' => $this->cart->total(),
+                'shipping' => $shippingMeta['shipping'],
+                'total' => $subtotal + $shippingMeta['shipping'],
                 'product_id' => $product->id,
-                'amount_to_free' => max(0, $freeShippingAt - $subtotal),
-                'free_shipping_progress' => $subtotal > 0 ? min(100, ($subtotal / $freeShippingAt) * 100) : 0,
+                'shipping_enabled' => $shippingMeta['shipping_enabled'],
+                'has_free_threshold' => $shippingMeta['has_free_threshold'],
+                'show_shipping_progress' => $shippingMeta['show_progress'],
+                'amount_to_free' => $shippingMeta['amount_to_free'],
+                'free_shipping_progress' => $shippingMeta['free_shipping_progress'],
             ], $status);
         }
 
