@@ -71,37 +71,80 @@
         </div>
 
         <div class="product-detail-panels">
-            <article class="product-detail-panel">
-                <p class="product-detail-panel__eyebrow">About this ghee</p>
-                <h2>Description</h2>
-                <div class="product-detail-panel__content">
-                    <p class="product-detail-description">{{ $product->description }}</p>
-                </div>
-            </article>
+            <div class="product-detail-main-col">
+                <article class="product-detail-panel">
+                    <p class="product-detail-panel__eyebrow">About this ghee</p>
+                    <h2>Description</h2>
+                    <div class="product-detail-panel__content">
+                        <p class="product-detail-description">{{ $product->description }}</p>
+                    </div>
+                </article>
+
+                <article class="product-detail-panel product-detail-care">
+                    <p class="product-detail-panel__eyebrow">Storage &amp; handling</p>
+                    <h2>Keep it pure</h2>
+                    <p class="product-detail-care__intro">A little care goes a long way. Follow these simple habits to protect the aroma, texture, and shelf life of your HillNest ghee.</p>
+                    <ul class="product-detail-care__list">
+                        <li>
+                            <span class="product-detail-care__icon" aria-hidden="true">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 7h14v11a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7z"/><path d="M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/><path d="M5 12h14"/><path d="M9 16h6"/></svg>
+                            </span>
+                            <div>
+                                <strong>Do not refrigerate</strong>
+                                <p>Store your ghee outside the fridge, in a cool, dry place away from direct sunlight. Refrigeration can harden the texture and is not needed for pure bilona ghee.</p>
+                            </div>
+                        </li>
+                        <li>
+                            <span class="product-detail-care__icon" aria-hidden="true">
+                                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 14c0 2.2 1.8 4 4 4s4-1.8 4-4"/><path d="M7 10V8a5 5 0 0 1 10 0v2"/><path d="M5 10h14v2a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2v-2z"/><path d="M4 4l16 16"/></svg>
+                            </span>
+                            <div>
+                                <strong>Never touch with bare hands</strong>
+                                <p>Always use a clean, dry spoon. Moisture and bare hands can introduce bacteria and shorten the shelf life of your ghee.</p>
+                            </div>
+                        </li>
+                    </ul>
+                </article>
+            </div>
 
             <aside class="product-detail-highlights">
                 <p class="product-detail-panel__eyebrow">Why HillNest</p>
                 <h2>Crafted with care</h2>
+                <p class="product-detail-highlights__intro">How we make HillNest ghee in our village — the same way families in Upper Shimla have done for generations.</p>
                 <ul>
                     <li>
                         <span class="product-detail-highlights__icon" aria-hidden="true">01</span>
                         <div>
-                            <strong>Traditional bilona</strong>
-                            <p>Slow-churned the authentic way for rich aroma and golden clarity.</p>
+                            <strong>Fresh milk from village homes</strong>
+                            <p>Each morning, A2 milk is collected from local families in Chhajpur whose free-grazing cows feed on high-altitude pastures.</p>
                         </div>
                     </li>
                     <li>
                         <span class="product-detail-highlights__icon" aria-hidden="true">02</span>
                         <div>
-                            <strong>Pure A2 desi cow</strong>
-                            <p>Sourced from indigenous cows raised in the Himalayan foothills.</p>
+                            <strong>Curd set the traditional way</strong>
+                            <p>Milk is gently warmed and cultured overnight in earthen pots — no machines, no additives, only time and natural cultures.</p>
                         </div>
                     </li>
                     <li>
                         <span class="product-detail-highlights__icon" aria-hidden="true">03</span>
                         <div>
-                            <strong>Upper Shimla origin</strong>
-                            <p>Every jar travels from our mountain home straight to your kitchen.</p>
+                            <strong>Hand-churned bilona</strong>
+                            <p>Village women hand-churn the curd in wooden bilona churners until rich butter separates — slow, patient work that cannot be rushed.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="product-detail-highlights__icon" aria-hidden="true">04</span>
+                        <div>
+                            <strong>Slow-cooked over wood fire</strong>
+                            <p>Butter is clarified in small batches over a wood fire, releasing the golden colour and nutty aroma that define true Himalayan ghee.</p>
+                        </div>
+                    </li>
+                    <li>
+                        <span class="product-detail-highlights__icon" aria-hidden="true">05</span>
+                        <div>
+                            <strong>Packed in our village</strong>
+                            <p>Every jar is strained, cooled, and sealed by hand in our village workshop before it leaves Upper Shimla for your kitchen.</p>
                         </div>
                     </li>
                 </ul>
