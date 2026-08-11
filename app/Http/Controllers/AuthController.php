@@ -27,19 +27,28 @@ class AuthController extends Controller
             'password' => ['required'],
         ]);
 
-        if (Auth::attempt($credentials, $request->boolean('remember'))) {
-            $request->session()->regenerate();
+        $user = User::where('email', strtolower(trim($credentials['email'])))->first();
 
-            if (Auth::user()->isAdmin() && $request->input('redirect') === 'admin') {
-                return redirect()->route('admin.dashboard');
-            }
-
-            return redirect()->intended(route('account.orders'));
+        if (! $user || ! $user->password || ! Hash::check($credentials['password'], $user->password)) {
+            return back()->withErrors([
+                'email' => 'These credentials do not match our records.',
+            ])->onlyInput('email');
         }
 
-        return back()->withErrors([
-            'email' => 'These credentials do not match our records.',
-        ])->onlyInput('email');
+        if ($user->isBlocked()) {
+            return back()->withErrors([
+                'email' => 'Your account has been blocked. Please contact support.',
+            ])->onlyInput('email');
+        }
+
+        Auth::login($user, $request->boolean('remember'));
+        $request->session()->regenerate();
+
+        if ($user->isAdmin() && $request->input('redirect') === 'admin') {
+            return redirect()->route('admin.dashboard');
+        }
+
+        return redirect()->intended(route('account.orders'));
     }
 
     public function showRegister()
@@ -51,15 +60,15 @@ class AuthController extends Controller
     {
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email', 'max:255', 'unique:users'],
-            'phone' => ['nullable', 'string', 'max:20'],
+            'email' => ['required', 'email', 'max:255', 'unique:users,email'],
             'password' => ['required', 'confirmed', Password::defaults()],
         ]);
 
+        $email = strtolower(trim($data['email']));
+
         $user = User::create([
             'name' => $data['name'],
-            'email' => $data['email'],
-            'phone' => $data['phone'] ?? null,
+            'email' => $email,
             'password' => Hash::make($data['password']),
         ]);
 
@@ -101,11 +110,15 @@ class AuthController extends Controller
 
     public function sendResetLink(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'email' => ['required', 'email'],
         ]);
 
-        PasswordBroker::sendResetLink($request->only('email'));
+        $email = strtolower(trim($data['email']));
+
+        if (User::where('email', $email)->exists()) {
+            PasswordBroker::sendResetLink(['email' => $email]);
+        }
 
         return back()->with('status', 'If an account exists for that email, we have sent a password reset link.');
     }

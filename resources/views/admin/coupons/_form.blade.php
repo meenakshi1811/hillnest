@@ -13,7 +13,7 @@
             <option value="" disabled @selected(! $selectedUser)>Select a customer</option>
             @foreach($customers as $customer)
                 <option value="{{ $customer->id }}" @selected((string) $selectedUser === (string) $customer->id)>
-                    {{ $customer->name }} ({{ $customer->email }})
+                    {{ $customer->name }} ({{ $customer->loginIdentifier() }})
                 </option>
             @endforeach
         </select>

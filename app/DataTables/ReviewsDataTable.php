@@ -24,7 +24,7 @@ class ReviewsDataTable
                 return '<div><strong>'.$name.'</strong></div>';
             })
             ->addColumn('customer', function (ProductReview $review) {
-                return '<div><strong>'.e($review->user?->name ?? '—').'</strong><br><span style="color:var(--text-light);font-size:12px">'.e($review->user?->email ?? '').'</span></div>';
+                return '<div><strong>'.e($review->user?->name ?? '—').'</strong><br><span style="color:var(--text-light);font-size:12px">'.e($review->user?->loginIdentifier() ?? '').'</span></div>';
             })
             ->addColumn('rating_stars', function (ProductReview $review) {
                 $stars = str_repeat('★', $review->rating).str_repeat('☆', 5 - $review->rating);

@@ -30,7 +30,7 @@
                 <div class="auth-panel__header">
                     <p class="auth-eyebrow">Forgot password</p>
                     <h1 id="forgot-password-title">Reset your password</h1>
-                    <p>We will email you a link to choose a new password for your account.</p>
+                    <p>We will email you a link if an account exists for that address.</p>
                 </div>
 
                 @if (session('status'))

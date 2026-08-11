@@ -68,6 +68,34 @@
                 </div>
                 <button type="submit" class="admin-btn admin-btn--block">Update Status</button>
             </form>
+
+            <div class="admin-section-gap" style="margin-top:28px;padding-top:24px;border-top:1px solid rgba(30,59,47,0.08)">
+                <h2 class="admin-card__title">Shipment Tracking</h2>
+                <p style="margin:10px 0 16px;font-size:13px;color:var(--text-light)">Add the courier tracking number and link. Customers will see this on their order page.</p>
+                <form method="POST" action="{{ route('admin.orders.tracking', $order) }}" class="admin-form-grid">
+                    @csrf @method('PATCH')
+                    <div class="admin-field">
+                        <label class="admin-label" for="tracking_number">Tracking number</label>
+                        <input id="tracking_number" type="text" name="tracking_number" class="admin-input" value="{{ old('tracking_number', $order->tracking_number) }}" placeholder="e.g. 1234567890">
+                    </div>
+                    <div class="admin-field">
+                        <label class="admin-label" for="tracking_url">Courier tracking link</label>
+                        <input id="tracking_url" type="url" name="tracking_url" class="admin-input" value="{{ old('tracking_url', $order->tracking_url) }}" placeholder="https://www.delhivery.com/track/...">
+                    </div>
+                    <button type="submit" class="admin-btn admin-btn--block">Save tracking details</button>
+                </form>
+                @if($order->hasTracking())
+                <div class="admin-meta" style="margin-top:14px">
+                    @if($order->tracking_number)
+                    <p>Tracking #: <code class="admin-code">{{ $order->tracking_number }}</code></p>
+                    @endif
+                    @if($order->tracking_url)
+                    <p><a href="{{ $order->tracking_url }}" class="admin-inline-link" target="_blank" rel="noopener noreferrer">Open courier tracking →</a></p>
+                    @endif
+                </div>
+                @endif
+            </div>
+
             <div class="admin-meta">
                 <p>Payment: {{ strtoupper($order->payment_method) }}</p>
                 <p>

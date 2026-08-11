@@ -47,6 +47,22 @@
         </tr>
     </table>
 
+    @if($order->hasTracking())
+    <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="margin-top:16px;border:1px solid #E8D9BC;border-radius:16px;overflow:hidden;">
+        <tr>
+            <td style="padding:20px 22px;">
+                <p style="margin:0 0 10px;color:#8A7560;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;">Shipment tracking</p>
+                @if($order->tracking_number)
+                <p style="margin:0 0 8px;color:#5C4A34;font-size:14px;">Tracking number: <strong style="color:#1E3B2F;">{{ $order->tracking_number }}</strong></p>
+                @endif
+                @if($order->tracking_url)
+                <p style="margin:0;"><a href="{{ $order->tracking_url }}" style="color:#1E3B2F;font-weight:700;text-decoration:underline;">Track your package on the courier website</a></p>
+                @endif
+            </td>
+        </tr>
+    </table>
+    @endif
+
     @include('emails.partials.button', [
         'url' => $orderUrl,
         'label' => 'View order details',

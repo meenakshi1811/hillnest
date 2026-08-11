@@ -8,7 +8,7 @@
         <div>
             <p class="account-user-card__welcome">Welcome back</p>
             <h2>{{ $user->name }}</h2>
-            <p class="account-user-card__email">{{ $user->email }}</p>
+            <p class="account-user-card__email">{{ $user->loginIdentifier() }}</p>
         </div>
     </div>
 

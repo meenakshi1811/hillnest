@@ -18,7 +18,7 @@ class CouponsDataTable
     public function json()
     {
         return DataTables::eloquent($this->query())
-            ->addColumn('customer', fn (Coupon $coupon) => '<div><strong>'.e($coupon->user?->name ?? '—').'</strong><br><span style="color:var(--text-light);font-size:12px">'.e($coupon->user?->email ?? '').'</span></div>')
+            ->addColumn('customer', fn (Coupon $coupon) => '<div><strong>'.e($coupon->user?->name ?? '—').'</strong><br><span style="color:var(--text-light);font-size:12px">'.e($coupon->user?->loginIdentifier() ?? '').'</span></div>')
             ->editColumn('code', fn (Coupon $coupon) => '<code class="admin-code">'.e($coupon->code).'</code>')
             ->addColumn('discount', fn (Coupon $coupon) => e($coupon->value_label))
             ->addColumn('status_badge', function (Coupon $coupon) {

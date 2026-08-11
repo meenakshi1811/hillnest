@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class AccountController extends Controller
 {
@@ -60,12 +62,35 @@ class AccountController extends Controller
     {
         $user = auth()->user();
 
-        $data = $request->validate([
+        $rules = [
             'name' => ['required', 'string', 'max:255'],
             'phone' => ['nullable', 'string', 'max:20'],
-        ]);
+        ];
 
-        $user->update($data);
+        if (! $user->email) {
+            $rules['email'] = ['required', 'email', 'max:255', 'unique:users,email'];
+        }
+
+        $data = $request->validate($rules);
+
+        $phone = User::normalizePhone($data['phone'] ?? null);
+        $email = $user->email;
+
+        if (! $user->email && ! empty($data['email'])) {
+            $email = strtolower(trim($data['email']));
+        }
+
+        if ($phone && User::where('phone', $phone)->where('id', '!=', $user->id)->exists()) {
+            throw ValidationException::withMessages([
+                'phone' => 'This phone number is already registered.',
+            ]);
+        }
+
+        $user->update([
+            'name' => $data['name'],
+            'email' => $email,
+            'phone' => $phone,
+        ]);
 
         if ($request->expectsJson() || $request->ajax()) {
             return response()->json([
@@ -73,6 +98,7 @@ class AccountController extends Controller
                 'message' => 'Profile updated successfully.',
                 'name' => $user->name,
                 'phone' => $user->phone,
+                'email' => $user->email,
             ]);
         }
 

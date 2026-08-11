@@ -24,8 +24,10 @@ class User extends Authenticatable
         'name',
         'email',
         'phone',
+        'google_id',
         'password',
         'is_admin',
+        'is_blocked',
     ];
 
     /**
@@ -49,6 +51,7 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
             'is_admin' => 'boolean',
+            'is_blocked' => 'boolean',
         ];
     }
 
@@ -67,8 +70,48 @@ class User extends Authenticatable
         return (bool) $this->is_admin;
     }
 
+    public function isBlocked(): bool
+    {
+        return (bool) $this->is_blocked;
+    }
+
+    public static function normalizePhone(?string $phone): ?string
+    {
+        if ($phone === null || trim($phone) === '') {
+            return null;
+        }
+
+        $digits = preg_replace('/\D/', '', $phone) ?? '';
+
+        if (strlen($digits) === 12 && str_starts_with($digits, '91')) {
+            $digits = substr($digits, 2);
+        }
+
+        if (strlen($digits) === 11 && str_starts_with($digits, '0')) {
+            $digits = substr($digits, 1);
+        }
+
+        return $digits !== '' ? $digits : null;
+    }
+
+    public function loginIdentifier(): string
+    {
+        return $this->email ?? $this->phone ?? '';
+    }
+
+    public function contactDisplay(): string
+    {
+        $parts = array_filter([$this->email, $this->phone]);
+
+        return $parts !== [] ? implode(' · ', $parts) : '—';
+    }
+
     public function sendPasswordResetNotification($token): void
     {
+        if (! $this->email) {
+            return;
+        }
+
         Mail::to($this->email)->send(new ResetPasswordMail($this, $token));
     }
 }

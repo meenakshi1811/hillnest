@@ -1342,6 +1342,13 @@ body.admin-page table { border-collapse: collapse; width: 100%; }
   font-size: 14px;
 }
 
+.admin-customer-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 /* ── DataTables ── */
 .admin-dt { width: 100% !important; }
 

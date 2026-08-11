@@ -58,4 +58,19 @@ class OrderController extends Controller
 
         return back()->with('success', 'Order status updated and customer notified by email.');
     }
+
+    public function updateTracking(Request $request, Order $order)
+    {
+        $data = $request->validate([
+            'tracking_number' => ['nullable', 'string', 'max:100'],
+            'tracking_url' => ['nullable', 'url', 'max:500'],
+        ]);
+
+        $order->update([
+            'tracking_number' => filled($data['tracking_number'] ?? null) ? trim($data['tracking_number']) : null,
+            'tracking_url' => filled($data['tracking_url'] ?? null) ? trim($data['tracking_url']) : null,
+        ]);
+
+        return back()->with('success', 'Shipment tracking details saved.');
+    }
 }

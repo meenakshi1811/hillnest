@@ -84,6 +84,27 @@
                             @endif
                         @endif
 
+                        @if($order->hasTracking())
+                        <div class="order-detail-tracking">
+                            <div class="order-detail-tracking__head">
+                                <p class="account-page-eyebrow">Shipment tracking</p>
+                                <h3>Track your package</h3>
+                            </div>
+                            @if($order->tracking_number)
+                            <p class="order-detail-tracking__number">
+                                <span>Tracking number</span>
+                                <strong>{{ $order->tracking_number }}</strong>
+                            </p>
+                            @endif
+                            @if($order->tracking_url)
+                            <a href="{{ $order->tracking_url }}" class="order-detail-tracking__btn" target="_blank" rel="noopener noreferrer">
+                                <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>
+                                Track on courier website
+                            </a>
+                            @endif
+                        </div>
+                        @endif
+
                         <div class="order-detail-shipping">
                             <p class="account-page-eyebrow">Delivery to</p>
                             <p class="order-detail-shipping__name">{{ $order->customer_name }}</p>
@@ -132,6 +153,18 @@
                         </div>
 
                         <p class="order-detail-summary__note">{{ $order->statusUpdateMessage() }}</p>
+
+                        @if($order->hasTracking())
+                        <div class="order-detail-summary__tracking">
+                            <span class="order-detail-summary__label">Tracking</span>
+                            @if($order->tracking_number)
+                            <p class="order-detail-summary__tracking-no">{{ $order->tracking_number }}</p>
+                            @endif
+                            @if($order->tracking_url)
+                            <a href="{{ $order->tracking_url }}" class="order-detail-summary__tracking-link" target="_blank" rel="noopener noreferrer">Track shipment</a>
+                            @endif
+                        </div>
+                        @endif
 
                         <div class="order-detail-summary__actions">
                             <a href="{{ route('shop.index') }}" class="btn-primary order-detail-summary__shop">

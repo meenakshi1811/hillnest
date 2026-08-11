@@ -33,6 +33,9 @@
                     <p>Set up your account to track shipments, save contact details, and reorder your favourites without starting over.</p>
                 </div>
 
+                @include('auth.partials.google-button')
+                <div class="auth-divider" role="separator"><span>or</span></div>
+
                 <form method="POST" action="{{ route('register') }}" class="auth-form auth-form--register" data-register-form novalidate>
                     @csrf
 
@@ -45,22 +48,13 @@
                         <p class="auth-error" data-field-error="name" @if(!$errors->has('name')) hidden @endif>{{ $errors->first('name') }}</p>
                     </div>
 
-                    <div class="auth-field">
+                    <div class="auth-field auth-field--full">
                         <label for="email">Email address</label>
                         <div class="auth-input-wrap">
                             <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M4 4h16v16H4z"/><path d="m22 6-10 7L2 6"/></svg>
                             <input id="email" type="email" name="email" value="{{ old('email') }}" required autocomplete="email" placeholder="you@example.com" @class(['is-invalid' => $errors->has('email')])>
                         </div>
                         <p class="auth-error" data-field-error="email" @if(!$errors->has('email')) hidden @endif>{{ $errors->first('email') }}</p>
-                    </div>
-
-                    <div class="auth-field">
-                        <label for="phone">Phone</label>
-                        <div class="auth-input-wrap">
-                            <svg aria-hidden="true" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 2.12 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.35 1.9.66 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.23a2 2 0 0 1 2.11-.45c.91.31 1.85.53 2.81.66A2 2 0 0 1 22 16.92z"/></svg>
-                            <input id="phone" type="tel" name="phone" value="{{ old('phone') }}" autocomplete="tel" placeholder="Optional phone number" @class(['is-invalid' => $errors->has('phone')])>
-                        </div>
-                        <p class="auth-error" data-field-error="phone" @if(!$errors->has('phone')) hidden @endif>{{ $errors->first('phone') }}</p>
                     </div>
 
                     <div class="auth-field">

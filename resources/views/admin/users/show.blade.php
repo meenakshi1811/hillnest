@@ -7,7 +7,22 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-header__title">{{ $user->name }}</h1>
-        <p class="admin-customer-meta">{{ $user->email }} @if($user->phone)· {{ $user->phone }}@endif</p>
+        <p class="admin-customer-meta">{{ $user->contactDisplay() }}</p>
+    </div>
+    <div class="admin-customer-actions">
+        @if($user->is_blocked)
+            <span class="admin-badge admin-badge--cancelled">Blocked</span>
+        @else
+            <span class="admin-badge admin-badge--active">Active</span>
+        @endif
+        <label class="admin-toggle" title="{{ $user->is_blocked ? 'Blocked — click to unblock' : 'Active — click to block' }}">
+            <input type="checkbox"
+                   class="admin-toggle__input js-user-block-toggle"
+                   data-url="{{ route('admin.users.toggle-block', $user) }}"
+                   @checked(! $user->is_blocked)>
+            <span class="admin-toggle__track" aria-hidden="true"></span>
+            <span class="admin-toggle__label">{{ $user->is_blocked ? 'Blocked' : 'Active' }}</span>
+        </label>
     </div>
 </div>
 
@@ -31,6 +46,7 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('js/admin-users.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     AdminDT.init('#user-orders-table', {

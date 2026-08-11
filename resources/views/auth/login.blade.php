@@ -41,6 +41,11 @@
                     <p class="auth-status" role="status">{{ session('status') }}</p>
                 @endif
 
+                @unless($isAdminRedirect)
+                    @include('auth.partials.google-button')
+                    <div class="auth-divider" role="separator"><span>or</span></div>
+                @endunless
+
                 <form method="POST" action="{{ route('login') }}" class="auth-form">
                     @csrf
                     @if($isAdminRedirect)

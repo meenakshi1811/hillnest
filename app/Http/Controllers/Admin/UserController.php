@@ -6,6 +6,7 @@ use App\DataTables\UserOrdersDataTable;
 use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\User;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
@@ -28,5 +29,20 @@ class UserController extends Controller
         }
 
         return view('admin.users.show', compact('user'));
+    }
+
+    public function toggleBlock(User $user): JsonResponse
+    {
+        abort_if($user->is_admin, 403);
+
+        $user->update(['is_blocked' => ! $user->is_blocked]);
+
+        return response()->json([
+            'success' => true,
+            'message' => $user->is_blocked
+                ? 'Customer blocked successfully. They can no longer log in.'
+                : 'Customer unblocked successfully. They can log in again.',
+            'is_blocked' => $user->is_blocked,
+        ]);
     }
 }

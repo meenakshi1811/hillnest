@@ -142,6 +142,10 @@ $(function () {
         $('.account-user-card h2').text(response.name);
         $('.account-user-card__avatar').text(response.name.charAt(0).toUpperCase());
       }
+
+      if (response.email || response.phone) {
+        $('.account-user-card__email').text(response.email || response.phone);
+      }
     },
   });
 });

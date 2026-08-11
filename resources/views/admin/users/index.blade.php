@@ -16,7 +16,9 @@
             <tr>
                 <th>Name</th>
                 <th>Email</th>
+                <th>Phone</th>
                 <th>Orders</th>
+                <th>Status</th>
                 <th>Joined</th>
             </tr>
         </thead>
@@ -25,15 +27,18 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('js/admin-users.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     AdminDT.init('#users-table', {
         ajax: '{{ route('admin.users.index') }}',
-        order: [[3, 'desc']],
+        order: [[5, 'desc']],
         columns: [
             { data: 'name_link', name: 'name', orderable: true, searchable: true },
             { data: 'email', name: 'email', orderable: true, searchable: true },
+            { data: 'phone', name: 'phone', orderable: true, searchable: true },
             { data: 'orders_count', name: 'orders_count', orderable: true, searchable: false },
+            { data: 'status_toggle', name: 'is_blocked', orderable: true, searchable: false },
             { data: 'created_at', name: 'created_at', orderable: true, searchable: false }
         ]
     });

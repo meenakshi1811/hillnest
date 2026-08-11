@@ -29,7 +29,7 @@ class Order extends Model
         'shipping_address', 'city', 'state', 'pincode', 'coupon_id', 'coupon_code',
         'subtotal', 'shipping_fee', 'discount_amount', 'total', 'payment_method',
         'payment_status', 'razorpay_order_id', 'razorpay_payment_id', 'paid_at', 'payment_error',
-        'status', 'notes',
+        'status', 'tracking_number', 'tracking_url', 'notes',
     ];
 
     protected function casts(): array
@@ -100,6 +100,11 @@ class Order extends Model
     public function isPaid(): bool
     {
         return $this->payment_status === 'paid';
+    }
+
+    public function hasTracking(): bool
+    {
+        return filled($this->tracking_number) || filled($this->tracking_url);
     }
 
     public function statusUpdateMessage(): string
