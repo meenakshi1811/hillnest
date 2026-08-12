@@ -147,7 +147,8 @@ class Order extends Model
             if ($index < $currentIndex) {
                 $state = 'complete';
             } elseif ($index === $currentIndex) {
-                $state = 'current';
+                // Final delivery step should show as completed, not "in progress".
+                $state = $this->status === 'delivered' ? 'complete' : 'current';
             } else {
                 $state = 'upcoming';
             }

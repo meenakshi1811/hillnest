@@ -20,6 +20,8 @@ class ProductReviewController extends Controller
         $data = $request->validate([
             'rating' => ['required', 'integer', 'min:1', 'max:5'],
             'comment' => ['nullable', 'string', 'max:1000'],
+            'images' => ['nullable', 'array', 'max:3'],
+            'images.*' => ['image', 'mimes:jpeg,jpg,png,webp', 'max:2048'],
         ]);
 
         try {
@@ -27,7 +29,8 @@ class ProductReviewController extends Controller
                 auth()->user(),
                 $orderItem,
                 $data['rating'],
-                $data['comment'] ?? null
+                $data['comment'] ?? null,
+                $request->file('images', []) ?? []
             );
         } catch (ValidationException $exception) {
             if ($request->expectsJson()) {

@@ -32,17 +32,31 @@ class ReviewsDataTable
                 return '<span class="admin-review-stars" aria-label="'.$review->rating.' out of 5 stars">'.$stars.'</span>';
             })
             ->addColumn('comment_cell', function (ProductReview $review) {
-                if (! filled($review->comment)) {
+                $parts = [];
+
+                if (filled($review->comment)) {
+                    $comment = e($review->comment);
+
+                    if (strlen($review->comment) > 120) {
+                        $comment = e(substr($review->comment, 0, 117)).'...';
+                    }
+
+                    $parts[] = '<span class="admin-review-comment">'.$comment.'</span>';
+                }
+
+                if ($review->hasImages()) {
+                    $thumbs = collect($review->imageUrls())->take(3)->map(function (string $url) {
+                        return '<a href="'.e($url).'" target="_blank" rel="noopener noreferrer" class="admin-review-thumb"><img src="'.e($url).'" alt=""></a>';
+                    })->implode('');
+
+                    $parts[] = '<div class="admin-review-thumbs">'.$thumbs.'</div>';
+                }
+
+                if ($parts === []) {
                     return '<span style="color:var(--text-light)">—</span>';
                 }
 
-                $comment = e($review->comment);
-
-                if (strlen($comment) > 120) {
-                    $comment = e(substr($review->comment, 0, 117)).'...';
-                }
-
-                return '<span class="admin-review-comment">'.$comment.'</span>';
+                return implode('', $parts);
             })
             ->addColumn('order_link', function (ProductReview $review) {
                 if (! $review->order) {

@@ -26,10 +26,25 @@
             @if($review->comment)
                 <p class="order-review-card__comment">"{{ $review->comment }}"</p>
             @endif
+            @if($review->hasImages())
+                <div class="review-photos">
+                    @foreach($review->imageUrls() as $url)
+                        <a href="{{ $url }}" class="review-photos__item" target="_blank" rel="noopener noreferrer">
+                            <img src="{{ $url }}" alt="Review photo">
+                        </a>
+                    @endforeach
+                </div>
+            @endif
             <p class="order-review-card__meta">Submitted {{ $review->created_at->format('d M Y') }}</p>
         </div>
     @else
-        <form class="order-review-form" method="POST" action="{{ route('account.reviews.store', $item) }}" data-order-review-form>
+        <form
+            class="order-review-form"
+            method="POST"
+            action="{{ route('account.reviews.store', $item) }}"
+            enctype="multipart/form-data"
+            data-order-review-form
+        >
             @csrf
             <fieldset class="order-review-form__rating">
                 <legend>Rate this product</legend>
@@ -57,10 +72,30 @@
                 placeholder="How was the taste, aroma, and packaging?"
             >{{ old('comment') }}</textarea>
 
+            <div class="order-review-form__photos">
+                <label class="order-review-form__comment-label" for="images-{{ $item->id }}">Add photos (optional)</label>
+                <p class="order-review-form__hint">Up to 3 images · JPG, PNG or WEBP · max 2MB each</p>
+                <input
+                    id="images-{{ $item->id }}"
+                    type="file"
+                    name="images[]"
+                    accept="image/jpeg,image/png,image/webp"
+                    multiple
+                    data-review-images
+                >
+                <div class="order-review-form__previews" data-review-previews hidden></div>
+            </div>
+
             @error('rating')
                 <p class="order-review-form__error">{{ $message }}</p>
             @enderror
             @error('comment')
+                <p class="order-review-form__error">{{ $message }}</p>
+            @enderror
+            @error('images')
+                <p class="order-review-form__error">{{ $message }}</p>
+            @enderror
+            @error('images.*')
                 <p class="order-review-form__error">{{ $message }}</p>
             @enderror
             <p class="order-review-form__error" data-order-review-error hidden></p>

@@ -58,8 +58,6 @@ class UserController extends Controller
         Auth::login($user);
         $request->session()->regenerate();
 
-        return redirect()
-            ->route('account.orders')
-            ->with('success', 'You are now viewing '.$user->name.'’s account.');
+        return redirect()->route('account.orders');
     }
 }
