@@ -12,6 +12,16 @@
   <link href="{{ asset('css/style.css') }}?v={{ filemtime(public_path('css/style.css')) }}" rel="stylesheet" />
 </head>
 <body class="min-h-screen flex flex-col bg-cream">
+    @if(session()->has('impersonator_id'))
+        <div class="impersonation-banner" role="status">
+            <p>You are viewing <strong>{{ auth()->user()?->name }}</strong>’s account as admin.</p>
+            <form method="POST" action="{{ route('impersonation.leave') }}">
+                @csrf
+                <button type="submit">Return to admin</button>
+            </form>
+        </div>
+    @endif
+
     @include('partials.site-header')
 
     @if(session('success'))

@@ -41,6 +41,21 @@
                             <span class="order-status order-status--{{ $order->status }}">{{ $order->status_label }}</span>
                         </header>
 
+                        <section class="order-timeline" aria-label="Order progress">
+                            <div class="order-timeline__head">
+                                <p class="account-page-eyebrow">Order progress</p>
+                                <h3>Track your order</h3>
+                            </div>
+                            <ol class="order-timeline__steps">
+                                @foreach($order->timelineSteps() as $step)
+                                    <li class="order-timeline__step order-timeline__step--{{ $step['state'] }}">
+                                        <span class="order-timeline__marker" aria-hidden="true"></span>
+                                        <span class="order-timeline__label">{{ $step['label'] }}</span>
+                                    </li>
+                                @endforeach
+                            </ol>
+                        </section>
+
                         <ul class="order-detail-items">
                             @foreach($order->items as $item)
                             <li class="order-detail-item">
@@ -84,11 +99,11 @@
                             @endif
                         @endif
 
-                        @if($order->hasTracking())
-                        <div class="order-detail-tracking">
+                        @if($order->canShowTracking())
+                        <div class="order-detail-tracking" id="tracking">
                             <div class="order-detail-tracking__head">
                                 <p class="account-page-eyebrow">Shipment tracking</p>
-                                <h3>Track your package</h3>
+                                <h3>Your order has been dispatched</h3>
                             </div>
                             @if($order->tracking_number)
                             <p class="order-detail-tracking__number">
@@ -99,8 +114,10 @@
                             @if($order->tracking_url)
                             <a href="{{ $order->tracking_url }}" class="order-detail-tracking__btn" target="_blank" rel="noopener noreferrer">
                                 <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>
-                                Track on courier website
+                                Track order
                             </a>
+                            @elseif($order->tracking_number)
+                            <p class="order-detail-tracking__hint">Use this tracking number on the courier website to follow your shipment.</p>
                             @endif
                         </div>
                         @endif
@@ -154,14 +171,14 @@
 
                         <p class="order-detail-summary__note">{{ $order->statusUpdateMessage() }}</p>
 
-                        @if($order->hasTracking())
+                        @if($order->canShowTracking())
                         <div class="order-detail-summary__tracking">
                             <span class="order-detail-summary__label">Tracking</span>
                             @if($order->tracking_number)
                             <p class="order-detail-summary__tracking-no">{{ $order->tracking_number }}</p>
                             @endif
                             @if($order->tracking_url)
-                            <a href="{{ $order->tracking_url }}" class="order-detail-summary__tracking-link" target="_blank" rel="noopener noreferrer">Track shipment</a>
+                            <a href="{{ $order->tracking_url }}" class="order-detail-summary__tracking-link" target="_blank" rel="noopener noreferrer">Track order</a>
                             @endif
                         </div>
                         @endif

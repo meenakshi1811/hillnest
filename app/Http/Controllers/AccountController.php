@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\ValidationException;
 
 class AccountController extends Controller
@@ -46,6 +48,34 @@ class AccountController extends Controller
         $stats = $this->accountStats($user);
 
         return view('account.order-show', compact('order', 'user', 'stats'));
+    }
+
+    public function leaveImpersonation(Request $request): RedirectResponse
+    {
+        $adminId = $request->session()->pull('impersonator_id');
+
+        if (! $adminId) {
+            return redirect()->route('home');
+        }
+
+        $admin = User::query()->whereKey($adminId)->where('is_admin', true)->first();
+
+        if (! $admin) {
+            Auth::logout();
+            $request->session()->invalidate();
+            $request->session()->regenerateToken();
+
+            return redirect()->route('login')->withErrors([
+                'email' => 'Unable to return to the admin account. Please log in again.',
+            ]);
+        }
+
+        Auth::login($admin);
+        $request->session()->regenerate();
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('success', 'Returned to your admin account.');
     }
 
     public function profile()

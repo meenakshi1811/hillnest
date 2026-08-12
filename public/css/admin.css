@@ -729,6 +729,22 @@ body.admin-page table { border-collapse: collapse; width: 100%; }
   font-size: 11px;
 }
 
+.admin-btn--ghost {
+  background: transparent;
+  border: 1px solid rgba(30, 59, 47, 0.22);
+  color: var(--forest);
+}
+
+.admin-btn--ghost:hover {
+  background: rgba(30, 59, 47, 0.06);
+  color: var(--forest);
+}
+
+.admin-inline-form {
+  display: inline-flex;
+  margin: 0;
+}
+
 /* ── Table ── */
 .admin-table-wrap {
   overflow: hidden;

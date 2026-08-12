@@ -7,7 +7,9 @@ use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -44,5 +46,20 @@ class UserController extends Controller
                 : 'Customer unblocked successfully. They can log in again.',
             'is_blocked' => $user->is_blocked,
         ]);
+    }
+
+    public function impersonate(Request $request, User $user): RedirectResponse
+    {
+        abort_if($user->is_admin, 403);
+        abort_unless($request->user()?->isAdmin(), 403);
+
+        $request->session()->put('impersonator_id', $request->user()->id);
+
+        Auth::login($user);
+        $request->session()->regenerate();
+
+        return redirect()
+            ->route('account.orders')
+            ->with('success', 'You are now viewing '.$user->name.'’s account.');
     }
 }

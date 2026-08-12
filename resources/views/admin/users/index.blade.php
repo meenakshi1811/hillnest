@@ -20,6 +20,7 @@
                 <th>Orders</th>
                 <th>Status</th>
                 <th>Joined</th>
+                <th>Actions</th>
             </tr>
         </thead>
     </table>
@@ -39,7 +40,8 @@ document.addEventListener('DOMContentLoaded', function () {
             { data: 'phone', name: 'phone', orderable: true, searchable: true },
             { data: 'orders_count', name: 'orders_count', orderable: true, searchable: false },
             { data: 'status_toggle', name: 'is_blocked', orderable: true, searchable: false },
-            { data: 'created_at', name: 'created_at', orderable: true, searchable: false }
+            { data: 'created_at', name: 'created_at', orderable: true, searchable: false },
+            { data: 'actions', name: 'actions', orderable: false, searchable: false }
         ]
     });
 });

@@ -13,13 +13,13 @@ class EnsureUserNotBlocked
     {
         $user = $request->user();
 
-        if ($user && ! $user->isAdmin() && $user->is_blocked) {
+        if ($user && ! $user->isAdmin() && $user->isBlocked() && ! $request->session()->has('impersonator_id')) {
             Auth::logout();
             $request->session()->invalidate();
             $request->session()->regenerateToken();
 
             return redirect()->route('login')->withErrors([
-                'login' => 'Your account has been blocked. Please contact support.',
+                'email' => 'Your account has been blocked. Please contact support.',
             ]);
         }
 

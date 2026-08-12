@@ -78,16 +78,20 @@
                                     @if($order->hasCoupon())
                                         · Coupon {{ $order->coupon_code }} (-₹{{ number_format($order->discount_amount, 0) }})
                                     @endif
-                                    @if($order->hasTracking())
-                                        · <span class="order-panel__tracking">Tracking available</span>
-                                    @endif
                                 </span>
                                 <strong>₹{{ number_format($order->total, 0) }}</strong>
                             </div>
-                            <a href="{{ route('account.orders.show', $order->order_number) }}" class="order-panel__cta">
-                                View order
-                                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
-                            </a>
+                            <div class="order-panel__actions">
+                                @if($order->canShowTracking() && $order->tracking_url)
+                                    <a href="{{ $order->tracking_url }}" class="order-panel__track" target="_blank" rel="noopener noreferrer">Track order</a>
+                                @elseif($order->canShowTracking())
+                                    <a href="{{ route('account.orders.show', $order->order_number) }}#tracking" class="order-panel__track">Track order</a>
+                                @endif
+                                <a href="{{ route('account.orders.show', $order->order_number) }}" class="order-panel__cta">
+                                    View order
+                                    <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                                </a>
+                            </div>
                         </div>
                     </article>
                     @endforeach

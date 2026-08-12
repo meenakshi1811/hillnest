@@ -15,6 +15,10 @@
         @else
             <span class="admin-badge admin-badge--active">Active</span>
         @endif
+        <form method="POST" action="{{ route('admin.users.impersonate', $user) }}" onsubmit="return confirm('Log in as {{ $user->name }}?');">
+            @csrf
+            <button type="submit" class="admin-btn admin-btn--sm admin-btn--ghost">Login as customer</button>
+        </form>
         <label class="admin-toggle" title="{{ $user->is_blocked ? 'Blocked — click to unblock' : 'Active — click to block' }}">
             <input type="checkbox"
                    class="admin-toggle__input js-user-block-toggle"

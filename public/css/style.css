@@ -3959,6 +3959,36 @@
   transform: translateY(-1px);
 }
 
+.order-panel__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.order-panel__track {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 18px;
+  border: 1.5px solid rgba(30, 59, 47, 0.28);
+  border-radius: 999px;
+  color: var(--forest);
+  background: transparent;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.order-panel__track:hover {
+  background: rgba(30, 59, 47, 0.06);
+  border-color: var(--forest);
+}
+
 .order-status {
   display: inline-flex;
   align-items: center;
@@ -4222,6 +4252,109 @@
   white-space: nowrap;
 }
 
+.order-timeline {
+  margin: 8px 0 28px;
+  padding: 22px 22px 18px;
+  border-radius: 20px;
+  border: 1px solid rgba(201, 151, 58, 0.18);
+  background:
+    linear-gradient(160deg, rgba(255, 255, 255, 0.9), rgba(250, 245, 236, 0.7));
+}
+
+.order-timeline__head h3 {
+  margin: 6px 0 0;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 22px;
+  color: var(--forest);
+}
+
+.order-timeline__steps {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  overflow-x: auto;
+}
+
+.order-timeline__step {
+  position: relative;
+  flex: 1 1 0;
+  min-width: 88px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.order-timeline__step:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  top: 11px;
+  left: calc(50% + 14px);
+  right: calc(-50% + 14px);
+  height: 2px;
+  background: rgba(30, 59, 47, 0.14);
+}
+
+.order-timeline__step--complete:not(:last-child)::after,
+.order-timeline__step--current:not(:last-child)::after {
+  background: var(--forest);
+}
+
+.order-timeline__marker {
+  position: relative;
+  z-index: 1;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 2px solid rgba(30, 59, 47, 0.2);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.9);
+}
+
+.order-timeline__step--complete .order-timeline__marker {
+  border-color: var(--forest);
+  background: var(--forest);
+}
+
+.order-timeline__step--complete .order-timeline__marker::after {
+  content: '';
+  position: absolute;
+  top: 5px;
+  left: 7px;
+  width: 6px;
+  height: 9px;
+  border: solid #fff;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.order-timeline__step--current .order-timeline__marker {
+  border-color: var(--gold);
+  background: var(--gold);
+  box-shadow: 0 0 0 4px rgba(201, 151, 58, 0.18);
+}
+
+.order-timeline__step--upcoming .order-timeline__label {
+  color: var(--text-light);
+}
+
+.order-timeline__label {
+  max-width: 9.5ch;
+  color: var(--forest);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  line-height: 1.35;
+}
+
+.order-timeline__step--current .order-timeline__label {
+  color: #92600a;
+}
+
 .order-detail-tracking {
   margin-top: 28px;
   padding: 22px 24px;
@@ -4272,6 +4405,13 @@
 .order-detail-tracking__btn:hover {
   background: var(--forest-light);
   transform: translateY(-1px);
+}
+
+.order-detail-tracking__hint {
+  margin: 14px 0 0;
+  color: var(--text-mid);
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .order-detail-shipping {
@@ -4406,6 +4546,45 @@
 .order-panel__tracking {
   color: var(--forest);
   font-weight: 600;
+}
+
+.impersonation-banner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 12px 18px;
+  padding: 12px 18px;
+  background: #1e3b2f;
+  color: #f7f0e4;
+  font-size: 14px;
+  text-align: center;
+}
+
+.impersonation-banner p {
+  margin: 0;
+}
+
+.impersonation-banner strong {
+  color: #e8c47a;
+}
+
+.impersonation-banner button {
+  min-height: 34px;
+  padding: 0 14px;
+  border: 1px solid rgba(232, 196, 122, 0.45);
+  border-radius: 999px;
+  background: transparent;
+  color: #e8c47a;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.impersonation-banner button:hover {
+  background: rgba(232, 196, 122, 0.12);
 }
 
 .order-detail-summary__actions {
@@ -4867,8 +5046,18 @@
     align-items: stretch;
   }
 
-  .order-panel__cta {
+  .order-panel__actions {
+    width: 100%;
+  }
+
+  .order-panel__cta,
+  .order-panel__track {
+    flex: 1 1 auto;
     justify-content: center;
+  }
+
+  .order-timeline__steps {
+    padding-bottom: 4px;
   }
 }
 

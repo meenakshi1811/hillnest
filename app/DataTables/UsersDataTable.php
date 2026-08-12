@@ -44,8 +44,17 @@ class UsersDataTable
                         <span class="admin-toggle__label">'.($user->is_blocked ? 'Blocked' : 'Active').'</span>
                     </label>';
             })
+            ->addColumn('actions', function (User $user) {
+                $loginUrl = route('admin.users.impersonate', $user);
+
+                return '
+                    <form method="POST" action="'.$loginUrl.'" class="admin-inline-form" onsubmit="return confirm(\'Log in as '.e(addslashes($user->name)).'?\');">
+                        <input type="hidden" name="_token" value="'.csrf_token().'">
+                        <button type="submit" class="admin-btn admin-btn--sm admin-btn--ghost">Login as</button>
+                    </form>';
+            })
             ->editColumn('created_at', fn (User $user) => $user->created_at->format('d M Y'))
-            ->rawColumns(['name_link', 'status_toggle'])
+            ->rawColumns(['name_link', 'status_toggle', 'actions'])
             ->toJson();
     }
 }
