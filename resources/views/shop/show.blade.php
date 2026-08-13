@@ -173,14 +173,14 @@
                         <div class="review-photos">
                             @foreach($review->imageUrls() as $url)
                                 <a href="{{ $url }}" class="review-photos__item" target="_blank" rel="noopener noreferrer">
-                                    <img src="{{ $url }}" alt="Review photo from {{ $review->user->name }}">
+                                    <img src="{{ $url }}" alt="Review photo from {{ $review->user->publicDisplayName() }}">
                                 </a>
                             @endforeach
                         </div>
                     @endif
                     <footer class="product-review-card__author">
                         <span class="product-review-card__avatar" aria-hidden="true">{{ strtoupper(substr($review->user->name, 0, 1)) }}</span>
-                        <cite>{{ $review->user->name }}</cite>
+                        <cite>{{ $review->user->publicDisplayName() }}</cite>
                         <span class="product-review-card__badge">Verified Buyer</span>
                     </footer>
                 </article>

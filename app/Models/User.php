@@ -106,6 +106,38 @@ class User extends Authenticatable
         return $parts !== [] ? implode(' · ', $parts) : '—';
     }
 
+    /**
+     * First name plus last-name initial, e.g. "Sudesh S."
+     */
+    public function publicDisplayName(): string
+    {
+        $name = trim((string) $this->name);
+
+        if ($name === '') {
+            return 'Customer';
+        }
+
+        $parts = preg_split('/\s+/u', $name) ?: [];
+        $first = $parts[0];
+
+        if (count($parts) === 1) {
+            $length = mb_strlen($first);
+
+            if ($length <= 2) {
+                return $first;
+            }
+
+            return mb_substr($first, 0, 1).str_repeat('*', $length - 1);
+        }
+
+        $initials = array_map(
+            fn (string $part) => mb_strtoupper(mb_substr($part, 0, 1)).'.',
+            array_slice($parts, 1)
+        );
+
+        return $first.' '.implode(' ', $initials);
+    }
+
     public function sendPasswordResetNotification($token): void
     {
         if (! $this->email) {
