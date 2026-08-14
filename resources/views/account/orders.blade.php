@@ -82,10 +82,15 @@
                                 <strong>₹{{ number_format($order->total, 0) }}</strong>
                             </div>
                             <div class="order-panel__actions">
-                                @if($order->canShowTracking() && $order->tracking_url)
-                                    <a href="{{ $order->tracking_url }}" class="order-panel__track" target="_blank" rel="noopener noreferrer">Track order</a>
-                                @elseif($order->canShowTracking())
-                                    <a href="{{ route('account.orders.show', $order->order_number) }}#tracking" class="order-panel__track">Track order</a>
+                                @if($order->canShowTracking())
+                                    <button
+                                        type="button"
+                                        class="order-panel__track"
+                                        data-tracking-open
+                                        data-order-number="{{ $order->order_number }}"
+                                        data-tracking-number="{{ $order->tracking_number }}"
+                                        data-tracking-url="{{ $order->tracking_url }}"
+                                    >Track order</button>
                                 @endif
                                 <a href="{{ route('account.orders.show', $order->order_number) }}" class="order-panel__cta">
                                     View order
@@ -114,4 +119,35 @@
         </div>
     </div>
 </section>
+
+<div class="tracking-modal" data-tracking-modal hidden aria-live="polite">
+    <div class="tracking-modal__backdrop" data-tracking-close tabindex="-1" aria-hidden="true"></div>
+    <div class="tracking-modal__panel" role="dialog" aria-modal="true" aria-labelledby="tracking-modal-title">
+        <button type="button" class="tracking-modal__close" data-tracking-close aria-label="Close tracking details">
+            <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+        </button>
+        <p class="account-page-eyebrow">Shipment tracking</p>
+        <h2 id="tracking-modal-title" class="tracking-modal__title">Track your order</h2>
+        <p class="tracking-modal__order" data-tracking-modal-order></p>
+        <p class="tracking-modal__hint" data-tracking-modal-hint>Copy the tracking number below and use it on the courier website to follow your shipment.</p>
+        <div class="tracking-modal__number-row" data-tracking-modal-number-wrap hidden>
+            <div class="tracking-modal__number">
+                <span class="tracking-modal__number-label">Tracking number</span>
+                <strong data-tracking-modal-number></strong>
+            </div>
+            <button type="button" class="tracking-modal__copy" data-tracking-copy>
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+                Copy
+            </button>
+        </div>
+        <a href="#" class="tracking-modal__link" data-tracking-modal-link target="_blank" rel="noopener noreferrer" hidden>
+            <svg width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><path d="M15 3h6v6"/><path d="M10 14 21 3"/></svg>
+            Open courier tracking
+        </a>
+    </div>
+</div>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/order-tracking.js') }}?v={{ filemtime(public_path('js/order-tracking.js')) }}"></script>
+@endpush
