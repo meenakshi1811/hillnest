@@ -37,10 +37,16 @@ class CouponController extends Controller
     public function store(Request $request): JsonResponse|RedirectResponse
     {
         $data = $this->validatedCoupon($request);
+        $forAll = $request->input('assignment') === 'all';
 
         Coupon::create([
-            ...$data,
             'code' => strtoupper($data['code']),
+            'for_all' => $forAll,
+            'user_id' => $forAll ? null : $data['user_id'],
+            'type' => $data['type'],
+            'value' => $data['value'],
+            'expires_at' => $data['expires_at'] ?? null,
+            'notes' => $data['notes'] ?? null,
             'created_by' => $request->user()->id,
         ]);
 
@@ -75,10 +81,16 @@ class CouponController extends Controller
         }
 
         $data = $this->validatedCoupon($request, $coupon);
+        $forAll = $request->input('assignment') === 'all';
 
         $coupon->update([
-            ...$data,
             'code' => strtoupper($data['code']),
+            'for_all' => $forAll,
+            'user_id' => $forAll ? null : $data['user_id'],
+            'type' => $data['type'],
+            'value' => $data['value'],
+            'expires_at' => $data['expires_at'] ?? null,
+            'notes' => $data['notes'] ?? null,
         ]);
 
         if ($request->expectsJson()) {
@@ -119,7 +131,8 @@ class CouponController extends Controller
         }
 
         $data = $request->validate([
-            'user_id' => ['required', 'exists:users,id'],
+            'assignment' => ['required', 'in:individual,all'],
+            'user_id' => ['required_if:assignment,individual', 'nullable', 'exists:users,id'],
             'code' => $codeRule,
             'type' => ['required', 'in:'.implode(',', array_keys(Coupon::TYPES))],
             'value' => ['required', 'numeric', 'min:0.01'],
@@ -133,12 +146,16 @@ class CouponController extends Controller
             ]);
         }
 
-        $user = User::find($data['user_id']);
-        if ($user?->isAdmin()) {
-            throw \Illuminate\Validation\ValidationException::withMessages([
-                'user_id' => 'Coupons can only be assigned to customers.',
-            ]);
+        if ($data['assignment'] === 'individual') {
+            $user = User::find($data['user_id']);
+            if ($user?->isAdmin()) {
+                throw \Illuminate\Validation\ValidationException::withMessages([
+                    'user_id' => 'Coupons can only be assigned to customers.',
+                ]);
+            }
         }
+
+        unset($data['assignment']);
 
         return $data;
     }

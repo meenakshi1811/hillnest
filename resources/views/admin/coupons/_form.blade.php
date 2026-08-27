@@ -2,14 +2,47 @@
 
 @php
     $selectedType = old('type', $coupon->type ?? 'fixed');
+    $selectedAssignment = old('assignment', isset($coupon) && $coupon->for_all ? 'all' : 'individual');
     $selectedUser = old('user_id', $coupon->user_id ?? '');
     $defaultCode = old('code', $coupon->code ?? \App\Models\Coupon::generateCode());
 @endphp
 
 <div class="admin-form-grid admin-expense-form">
     <div class="admin-field">
-        <label class="admin-label" for="user_id">Assign to customer</label>
-        <select id="user_id" name="user_id" required class="admin-select">
+        <span class="admin-label">Assign to</span>
+        <div class="admin-segmented" role="radiogroup" aria-label="Coupon assignment">
+            <label class="admin-segmented__option">
+                <input
+                    type="radio"
+                    name="assignment"
+                    value="individual"
+                    @checked($selectedAssignment === 'individual')
+                    required
+                    data-coupon-assignment
+                >
+                <span>One customer</span>
+            </label>
+            <label class="admin-segmented__option">
+                <input
+                    type="radio"
+                    name="assignment"
+                    value="all"
+                    @checked($selectedAssignment === 'all')
+                    required
+                    data-coupon-assignment
+                >
+                <span>All customers</span>
+            </label>
+        </div>
+        <p class="admin-field__hint" data-coupon-all-hint @unless($selectedAssignment === 'all') hidden @endunless>
+            Any customer can use this code once, including new sign-ups.
+        </p>
+        <p class="admin-field__error" data-field-error="assignment" hidden></p>
+    </div>
+
+    <div class="admin-field" data-coupon-customer-field @if($selectedAssignment === 'all') hidden @endif>
+        <label class="admin-label" for="user_id">Customer</label>
+        <select id="user_id" name="user_id" @if($selectedAssignment === 'individual') required @endif class="admin-select">
             <option value="" disabled @selected(! $selectedUser)>Select a customer</option>
             @foreach($customers as $customer)
                 <option value="{{ $customer->id }}" @selected((string) $selectedUser === (string) $customer->id)>

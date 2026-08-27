@@ -153,7 +153,13 @@ class CheckoutController extends Controller
         if ($coupon) {
             $coupon->refresh();
 
-            if ($coupon->isUsed()) {
+            if ($coupon->for_all && $coupon->isRedeemedByUser(auth()->user())) {
+                return response()->json([
+                    'errors' => ['coupon_code' => ['You have already used this coupon.']],
+                ], 422);
+            }
+
+            if (! $coupon->for_all && $coupon->isUsed()) {
                 return response()->json([
                     'errors' => ['coupon_code' => ['This coupon has already been used.']],
                 ], 422);

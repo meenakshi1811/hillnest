@@ -12,16 +12,33 @@ class CouponsDataTable
     {
         return Coupon::query()
             ->with(['user', 'order'])
+            ->withCount('redemptions')
             ->latest('id');
     }
 
     public function json()
     {
         return DataTables::eloquent($this->query())
-            ->addColumn('customer', fn (Coupon $coupon) => '<div><strong>'.e($coupon->user?->name ?? '—').'</strong><br><span style="color:var(--text-light);font-size:12px">'.e($coupon->user?->loginIdentifier() ?? '').'</span></div>')
+            ->addColumn('customer', function (Coupon $coupon) {
+                if ($coupon->for_all) {
+                    $count = (int) ($coupon->redemptions_count ?? 0);
+
+                    return '<div><strong>All customers</strong><br><span style="color:var(--text-light);font-size:12px">'.$count.' used</span></div>';
+                }
+
+                return '<div><strong>'.e($coupon->user?->name ?? '—').'</strong><br><span style="color:var(--text-light);font-size:12px">'.e($coupon->user?->loginIdentifier() ?? '').'</span></div>';
+            })
             ->editColumn('code', fn (Coupon $coupon) => '<code class="admin-code">'.e($coupon->code).'</code>')
             ->addColumn('discount', fn (Coupon $coupon) => e($coupon->value_label))
             ->addColumn('status_badge', function (Coupon $coupon) {
+                if ($coupon->for_all) {
+                    if ($coupon->isExpired()) {
+                        return '<span class="admin-badge admin-badge--expired">Expired</span>';
+                    }
+
+                    return '<span class="admin-badge admin-badge--active">Active</span>';
+                }
+
                 if ($coupon->isUsed()) {
                     return '<span class="admin-badge admin-badge--used">Used</span>';
                 }
@@ -34,7 +51,7 @@ class CouponsDataTable
             })
             ->editColumn('expires_at', fn (Coupon $coupon) => $coupon->expires_at?->format('d M Y') ?? '—')
             ->addColumn('action', function (Coupon $coupon) {
-                if ($coupon->isUsed()) {
+                if (! $coupon->for_all && $coupon->isUsed()) {
                     $orderLink = $coupon->order
                         ? '<a href="'.route('admin.orders.show', $coupon->order).'" class="admin-inline-link">View order</a>'
                         : '—';

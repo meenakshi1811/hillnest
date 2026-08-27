@@ -26,13 +26,19 @@ class CouponService
             ]);
         }
 
-        if ((int) $coupon->user_id !== (int) $user->id) {
+        if (! $coupon->for_all && (int) $coupon->user_id !== (int) $user->id) {
             throw ValidationException::withMessages([
                 'coupon_code' => 'This coupon is not assigned to your account.',
             ]);
         }
 
-        if ($coupon->isUsed()) {
+        if ($coupon->for_all && $coupon->isRedeemedByUser($user)) {
+            throw ValidationException::withMessages([
+                'coupon_code' => 'You have already used this coupon.',
+            ]);
+        }
+
+        if (! $coupon->for_all && $coupon->isUsed()) {
             throw ValidationException::withMessages([
                 'coupon_code' => 'This coupon has already been used.',
             ]);
@@ -78,6 +84,16 @@ class CouponService
 
     public function markUsed(Coupon $coupon, Order $order): void
     {
+        if ($coupon->for_all) {
+            $coupon->redemptions()->create([
+                'user_id' => $order->user_id,
+                'order_id' => $order->id,
+                'used_at' => now(),
+            ]);
+
+            return;
+        }
+
         $coupon->update([
             'used_at' => now(),
             'order_id' => $order->id,

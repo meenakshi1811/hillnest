@@ -6,7 +6,7 @@
 <div class="admin-page-header">
     <div>
         <h1 class="admin-page-header__title">Coupons</h1>
-        <p class="admin-page-header__subtitle">Assign one-time discount codes to customers</p>
+        <p class="admin-page-header__subtitle">Assign one-time discount codes to customers or everyone</p>
     </div>
 </div>
 
@@ -36,7 +36,7 @@
         <div class="admin-card__head admin-expense-form-card__head">
             <div>
                 <h2 class="admin-card__title">Assign New Coupon</h2>
-                <p class="admin-expense-form-card__subtitle">Each coupon works once for the assigned customer only</p>
+                <p class="admin-expense-form-card__subtitle">Assign to one customer or all customers (including future sign-ups)</p>
             </div>
         </div>
         @include('admin.coupons._form')

@@ -66,12 +66,34 @@ $(function () {
     }
   }
 
+  function updateAssignmentField($form) {
+    var assignment = $form.find('[data-coupon-assignment]:checked').val();
+    var isAll = assignment === 'all';
+    var $customerField = $form.find('[data-coupon-customer-field]');
+    var $customerSelect = $form.find('#user_id');
+
+    $customerField.toggle(!isAll);
+    $form.find('[data-coupon-all-hint]').toggle(isAll);
+
+    if (isAll) {
+      $customerSelect.prop('required', false).val('');
+    } else {
+      $customerSelect.prop('required', true);
+    }
+  }
+
   $('[data-coupon-form]').each(function () {
-    updateValueField($(this));
+    var $form = $(this);
+    updateValueField($form);
+    updateAssignmentField($form);
   });
 
   $(document).on('change', '[data-coupon-type]', function () {
     updateValueField($(this).closest('[data-coupon-form]'));
+  });
+
+  $(document).on('change', '[data-coupon-assignment]', function () {
+    updateAssignmentField($(this).closest('[data-coupon-form]'));
   });
 
   $(document).on('click', '[data-generate-code]', function () {

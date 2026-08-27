@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Str;
 
 class Coupon extends Model
@@ -16,6 +17,7 @@ class Coupon extends Model
     protected $fillable = [
         'code',
         'user_id',
+        'for_all',
         'type',
         'value',
         'expires_at',
@@ -28,6 +30,7 @@ class Coupon extends Model
     protected function casts(): array
     {
         return [
+            'for_all' => 'boolean',
             'value' => 'decimal:2',
             'expires_at' => 'datetime',
             'used_at' => 'datetime',
@@ -49,9 +52,23 @@ class Coupon extends Model
         return $this->belongsTo(User::class, 'created_by');
     }
 
+    public function redemptions(): HasMany
+    {
+        return $this->hasMany(CouponRedemption::class);
+    }
+
     public function isUsed(): bool
     {
+        if ($this->for_all) {
+            return false;
+        }
+
         return $this->used_at !== null;
+    }
+
+    public function isRedeemedByUser(User $user): bool
+    {
+        return $this->redemptions()->where('user_id', $user->id)->exists();
     }
 
     public function isExpired(): bool
@@ -66,7 +83,15 @@ class Coupon extends Model
 
     public function isValidForUser(User $user): bool
     {
-        return (int) $this->user_id === (int) $user->id && $this->isAvailable();
+        if (! $this->isAvailable()) {
+            return false;
+        }
+
+        if ($this->for_all) {
+            return ! $this->isRedeemedByUser($user);
+        }
+
+        return (int) $this->user_id === (int) $user->id;
     }
 
     public function getTypeLabelAttribute(): string
