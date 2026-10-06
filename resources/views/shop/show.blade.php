@@ -207,3 +207,17 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+  if (typeof fbq === 'function') {
+    fbq('track', 'ViewContent', {
+      content_ids: ['{{ $product->id }}'],
+      content_name: @json($product->name),
+      content_type: 'product',
+      value: {{ (float) $product->price }},
+      currency: 'INR'
+    });
+  }
+</script>
+@endpush

@@ -10,6 +10,7 @@
     $amountToFree = $shippingMeta['amount_to_free'] ?? 0;
     $discount = $discount ?? 0;
     $appliedCoupon = $appliedCoupon ?? null;
+    $cartProductIds = $items->pluck('product_id')->map(fn ($id) => (string) $id)->values()->all();
 @endphp
 
 <section class="checkout-page">
@@ -201,6 +202,16 @@
 @endsection
 
 @push('scripts')
+<script>
+  if (typeof fbq === 'function') {
+    fbq('track', 'InitiateCheckout', {
+      content_ids: @json($cartProductIds),
+      content_type: 'product',
+      value: {{ (float) $total }},
+      currency: 'INR'
+    });
+  }
+</script>
 <script>
     window.checkoutCouponApplyUrl = @json(route('checkout.coupon.apply'));
     window.checkoutCouponRemoveUrl = @json(route('checkout.coupon.remove'));

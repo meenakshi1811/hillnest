@@ -11,6 +11,8 @@
     class="cart-action {{ $inCart ? 'cart-action--in-cart' : '' }} {{ $variant === 'page' ? 'cart-action--page product-detail__cart' : 'product-card-rosier__form' }}"
     data-cart-action
     data-product-id="{{ $product->id }}"
+    data-product-name="{{ $product->name }}"
+    data-product-price="{{ $product->price }}"
     data-add-url="{{ route('cart.add', $product) }}"
     data-remove-url="{{ route('cart.remove', $product) }}"
 >

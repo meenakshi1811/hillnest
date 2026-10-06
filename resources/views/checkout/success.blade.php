@@ -3,6 +3,15 @@
 @section('title', 'Thank You — Hillnest')
 
 @section('content')
+@php
+    $orderProductIds = $order->items
+        ->pluck('product_id')
+        ->filter()
+        ->unique()
+        ->map(fn ($id) => (string) $id)
+        ->values()
+        ->all();
+@endphp
 <section class="checkout-success-page">
     <div class="checkout-success-hero">
         <div class="checkout-shell checkout-success-hero__inner">
@@ -104,3 +113,28 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+  (function () {
+    if (typeof fbq !== 'function') {
+      return;
+    }
+
+    var storageKey = 'hillnest_meta_purchase_{{ $order->id }}';
+    if (sessionStorage.getItem(storageKey)) {
+      return;
+    }
+    sessionStorage.setItem(storageKey, '1');
+
+    fbq('track', 'Purchase', {
+      content_ids: @json($orderProductIds),
+      content_type: 'product',
+      value: {{ (float) $order->total }},
+      currency: 'INR'
+    }, {
+      eventID: 'order_{{ $order->id }}'
+    });
+  })();
+</script>
+@endpush

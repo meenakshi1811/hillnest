@@ -61,6 +61,25 @@ $(function () {
     });
   }
 
+  function trackAddToCart($action, quantityAdded) {
+    if (typeof fbq !== 'function') {
+      return;
+    }
+
+    const productId = String($action.data('product-id'));
+    const productName = $action.data('product-name');
+    const productPrice = parseFloat($action.data('product-price'), 10) || 0;
+    const qty = parseInt(quantityAdded, 10) || 1;
+
+    fbq('track', 'AddToCart', {
+      content_ids: [productId],
+      content_name: productName,
+      content_type: 'product',
+      value: productPrice * qty,
+      currency: 'INR',
+    });
+  }
+
   function getErrorMessage(xhr) {
     if (xhr.responseJSON && xhr.responseJSON.message) {
       return xhr.responseJSON.message;
@@ -210,6 +229,9 @@ $(function () {
       },
     })
       .done(function (response) {
+        if (response.success !== false) {
+          trackAddToCart($action, quantity);
+        }
         toastr.success(response.message || 'Added to cart successfully.');
         updateCartCount(response.cart_count);
         updateAllCartActions(productId, true, response.quantity);
