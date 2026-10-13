@@ -4,15 +4,21 @@ namespace App\Http\Controllers\Admin;
 
 use App\DataTables\OrdersDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Coupon;
 use App\Models\Order;
+use App\Models\ProductReview;
 use App\Services\OrderNotificationService;
+use App\Services\ProductReviewService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class OrderController extends Controller
 {
     public function __construct(
         protected OrderNotificationService $orderNotifications,
+        protected ProductReviewService $reviews,
     ) {}
 
     public function index(Request $request, OrdersDataTable $dataTable)
@@ -72,5 +78,31 @@ class OrderController extends Controller
         ]);
 
         return back()->with('success', 'Shipment tracking details saved.');
+    }
+
+    public function destroy(Order $order): JsonResponse
+    {
+        DB::transaction(function () use ($order) {
+            // Go through the review service so product rating stats and uploaded images are cleaned up.
+            ProductReview::where('order_id', $order->id)
+                ->with('product')
+                ->get()
+                ->each(fn (ProductReview $review) => $this->reviews->delete($review));
+
+            // Release a single-use coupon redeemed by this order; for-all redemptions cascade with the order.
+            Coupon::where('order_id', $order->id)
+                ->where('for_all', false)
+                ->update(['used_at' => null, 'order_id' => null]);
+
+            $order->items()->delete();
+
+            // Payment details (Razorpay ids, status, paid_at) live on the order row itself.
+            $order->delete();
+        });
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Order '.$order->order_number.' deleted successfully.',
+        ]);
     }
 }

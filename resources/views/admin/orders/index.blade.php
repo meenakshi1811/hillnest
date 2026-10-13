@@ -29,6 +29,7 @@
                 <th>Status</th>
                 <th>Payment</th>
                 <th>Date</th>
+                <th></th>
             </tr>
         </thead>
     </table>
@@ -36,9 +37,10 @@
 @endsection
 
 @push('scripts')
+<script src="{{ asset('js/admin-orders.js') }}"></script>
 <script>
 document.addEventListener('DOMContentLoaded', function () {
-    var table = AdminDT.init('#orders-table', {
+    window.ordersTable = AdminDT.init('#orders-table', {
         ajax: {
             url: '{{ route('admin.orders.index') }}',
             data: function (d) {
@@ -53,12 +55,13 @@ document.addEventListener('DOMContentLoaded', function () {
             { data: 'total', name: 'total', orderable: true, searchable: false },
             { data: 'status_badge', name: 'status', orderable: true, searchable: false },
             { data: 'payment_badge', name: 'payment_status', orderable: true, searchable: false },
-            { data: 'created_at', name: 'created_at', orderable: true, searchable: false }
+            { data: 'created_at', name: 'created_at', orderable: true, searchable: false },
+            { data: 'action', name: 'action', orderable: false, searchable: false, className: 'dt-right' }
         ]
     });
 
     document.getElementById('orders-status-filter').addEventListener('change', function () {
-        table.ajax.reload();
+        window.ordersTable.ajax.reload();
     });
 });
 </script>
