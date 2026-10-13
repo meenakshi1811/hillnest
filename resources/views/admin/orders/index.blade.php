@@ -29,7 +29,7 @@
                 <th>Status</th>
                 <th>Payment</th>
                 <th>Date</th>
-                <th></th>
+                <th>Action</th>
             </tr>
         </thead>
     </table>
