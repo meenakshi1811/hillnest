@@ -1,6 +1,42 @@
 @extends('layouts.app')
 
-@section('title', 'Homepage — Hillnest')
+@section('title', 'HillNest — Pure A2 Bilona Ghee from Upper Shimla')
+@section('meta_description', 'Pure A2 bilona ghee, hand-churned in village homes of Upper Shimla. Small-batch, slow-cooked over wood fire, no preservatives. Delivered across India.')
+
+@push('structured_data')
+@php
+    $store = config('hillnest.store');
+    $organizationLd = [
+        '@context' => 'https://schema.org',
+        '@graph' => [
+            [
+                '@type' => 'Organization',
+                '@id' => url('/').'#organization',
+                'name' => $store['name'],
+                'url' => url('/'),
+                'logo' => asset('images/logo.png'),
+                'email' => $store['email'],
+                'sameAs' => [$store['instagram_url'], $store['facebook_url']],
+                'address' => [
+                    '@type' => 'PostalAddress',
+                    'addressLocality' => 'Jubbal, Shimla',
+                    'addressRegion' => 'Himachal Pradesh',
+                    'addressCountry' => 'IN',
+                ],
+            ],
+            [
+                '@type' => 'WebSite',
+                'name' => $store['name'],
+                'url' => url('/'),
+                'publisher' => ['@id' => url('/').'#organization'],
+            ],
+        ],
+    ];
+@endphp
+<script type="application/ld+json">
+@json($organizationLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG)
+</script>
+@endpush
 
 @section('content')
 
@@ -39,14 +75,17 @@
       <div class="hero-circle-bg" aria-hidden="true"></div>
       <div class="hero-jar-container">
         <div class="hero-jar">
-          <img
-            src="{{ asset('images/homepage_image.png') }}?v={{ @filemtime(public_path('images/homepage_image.png')) }}"
-            alt="HillNest Pure A2 Bilona Ghee — 250g, 500g and 1kg jars"
-            width="900"
-            height="900"
-            decoding="async"
-            fetchpriority="high"
-          />
+          <picture>
+            <source srcset="{{ asset('images/homepage_image.webp') }}?v={{ @filemtime(public_path('images/homepage_image.webp')) }}" type="image/webp">
+            <img
+              src="{{ asset('images/homepage_image.png') }}?v={{ @filemtime(public_path('images/homepage_image.png')) }}"
+              alt="HillNest Pure A2 Bilona Ghee — 250g, 500g and 1kg jars"
+              width="900"
+              height="900"
+              decoding="async"
+              fetchpriority="high"
+            />
+          </picture>
         </div>
       </div>
     </div>
@@ -56,7 +95,7 @@
 <!-- Strip -->
 <div class="strip">
   <div class="strip-track" id="strip">
-    <div class="strip-item"><span class="strip-dot"></span>Pure Organic Ghee</div>
+    <div class="strip-item"><span class="strip-dot"></span>Pure Desi Ghee</div>
     <div class="strip-item"><span class="strip-dot"></span>Bilona Method</div>
     <div class="strip-item"><span class="strip-dot"></span>Upper Shimla</div>
     <div class="strip-item"><span class="strip-dot"></span>A2 Cow Milk</div>
@@ -64,7 +103,7 @@
     <div class="strip-item"><span class="strip-dot"></span>No Preservatives</div>
     <div class="strip-item"><span class="strip-dot"></span>Himalayan Purity</div>
     <div class="strip-item"><span class="strip-dot"></span>Nurtured by Nature</div>
-    <div class="strip-item"><span class="strip-dot"></span>Pure Organic Ghee</div>
+    <div class="strip-item"><span class="strip-dot"></span>Pure Desi Ghee</div>
     <div class="strip-item"><span class="strip-dot"></span>Bilona Method</div>
     <div class="strip-item"><span class="strip-dot"></span>Upper Shimla</div>
     <div class="strip-item"><span class="strip-dot"></span>A2 Cow Milk</div>
@@ -319,6 +358,7 @@
 --}}
 
 <!-- Pan India Delivery -->
+@inject('shippingService', 'App\Services\ShippingService')
 <section class="delivery-section" id="delivery">
   <div class="delivery-section__glow" aria-hidden="true"></div>
 
@@ -346,10 +386,17 @@
           <strong>Pan India</strong>
           <span>All states covered</span>
         </li>
+        @if($shippingService->hasFreeThreshold())
         <li>
-          <strong>₹999+</strong>
+          <strong>₹{{ number_format($shippingService->freeThreshold(), 0) }}+</strong>
           <span>Free delivery</span>
         </li>
+        @elseif(! $shippingService->isEnabled())
+        <li>
+          <strong>Free</strong>
+          <span>Delivery on all orders</span>
+        </li>
+        @endif
         <li>
           <strong>Secure</strong>
           <span>Protected packaging</span>
@@ -409,10 +456,12 @@
       <h2 class="prefooter-cta__title">Taste the <em>Himalayas</em> Today</h2>
       <p class="prefooter-cta__desc">Pure A2 bilona ghee, hand-crafted in village homes and delivered fresh to your doorstep.</p>
       <ul class="prefooter-cta__trust">
+        @if($shippingService->freeDeliveryLabel())
         <li>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
-          Free delivery on first order
+          {{ $shippingService->freeDeliveryLabel() }}
         </li>
+        @endif
         <li>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>
           100% pure, no preservatives

@@ -4,8 +4,29 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <meta name="csrf-token" content="{{ csrf_token() }}" />
-  <title>HillNest — Pure A2 Bilona Ghee</title>
+  @php
+    // yieldContent() returns already-escaped text, so these are printed raw below.
+    $metaTitle = trim($__env->yieldContent('title', 'HillNest — Pure A2 Bilona Ghee from Upper Shimla'));
+    $metaDescription = trim($__env->yieldContent('meta_description', 'Pure A2 bilona ghee, hand-churned in village homes of Upper Shimla. Small-batch, slow-cooked over wood fire, no preservatives. Delivered across India.'));
+    $metaImage = trim($__env->yieldContent('og_image', asset('images/og-image.jpg')));
+  @endphp
+  <title>{!! $metaTitle !!}</title>
+  <meta name="description" content="{!! $metaDescription !!}" />
+  @hasSection('robots')
+  <meta name="robots" content="@yield('robots')" />
+  @endif
+  <link rel="canonical" href="{{ url()->current() }}" />
+  <meta property="og:site_name" content="HillNest" />
+  <meta property="og:type" content="@yield('og_type', 'website')" />
+  <meta property="og:title" content="{!! $metaTitle !!}" />
+  <meta property="og:description" content="{!! $metaDescription !!}" />
+  <meta property="og:url" content="{{ url()->current() }}" />
+  <meta property="og:image" content="{!! $metaImage !!}" />
+  <meta property="og:locale" content="en_IN" />
+  <meta name="twitter:card" content="summary_large_image" />
   <link rel="icon" type="image/png" href="{{ asset('images/favicon.png') }}" />
+  <link rel="apple-touch-icon" href="{{ asset('images/apple-touch-icon.png') }}" />
+  @stack('structured_data')
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />

@@ -1,4 +1,9 @@
 <IfModule mod_rewrite.c>
    RewriteEngine On
+
+   # Serve the site on hillnest.co only: send www. visitors to the bare domain.
+   RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
+   RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
+
    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>

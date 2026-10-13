@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Shop Pure Bilona Ghee — Hillnest')
+@section('title', 'Shop Pure A2 Bilona Ghee — HillNest')
+@section('meta_description', 'Buy HillNest pure A2 bilona ghee online. Hand-churned in small batches in Upper Shimla and delivered to your door across India.')
 
 @section('content')
 <section class="shop-page-hero" id="collection">

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'My Orders — Hillnest')
+@section('title', 'My Orders — HillNest')
+@section('robots', 'noindex')
 
 @section('content')
 <section class="account-page">

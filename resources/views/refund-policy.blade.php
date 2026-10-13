@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Refund Policy — HillNest')
+@section('meta_description', 'HillNest refund, return, and cancellation policy for our A2 bilona ghee, including damaged or incorrect deliveries.')
 
 @section('content')
 @include('partials.legal-header', [
@@ -73,6 +74,7 @@
         <nav class="legal-nav" aria-label="Related policies">
             <a href="{{ route('privacy') }}">Privacy Policy</a>
             <a href="{{ route('terms') }}">Terms of Use</a>
+            <a href="{{ route('shipping') }}">Shipping Policy</a>
         </nav>
     </div>
 </section>

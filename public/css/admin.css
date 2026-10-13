@@ -1700,3 +1700,18 @@ body.admin-page button.admin-icon-btn {
   object-fit: cover;
   display: block;
 }
+
+.admin-sidebar__badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+  height: 20px;
+  margin-left: auto;
+  padding: 0 6px;
+  border-radius: 999px;
+  background: var(--gold);
+  color: var(--forest);
+  font-size: 11px;
+  font-weight: 700;
+}

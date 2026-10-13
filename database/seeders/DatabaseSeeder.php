@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             [
                 'name' => 'Hill Nest Pure Bilona Ghee — 250gm',
                 'slug' => 'hill-nest-pure-bilona-ghee-250gm',
-                'short_description' => 'Pure • Organic • Himalayan ghee from upper Shimla.',
+                'short_description' => 'Pure • A2 • Himalayan ghee from upper Shimla.',
                 'description' => "Our signature pure bilona cow ghee is slow-cooked from fresh curd using the traditional wooden churn method. Sourced from free-grazing A2 cows in Chhajpur, Upper Shimla, every jar carries the warmth of the Himalayas — rich aroma, golden colour, and authentic taste your family deserves.\n\nThis 250gm jar is ideal for first-time buyers, small households, or anyone who wants to taste true village-made ghee before stocking up. Use it for tadka, drizzle over dal and rice, or enjoy a spoonful in warm milk. No additives, no palm oil, no factory shortcuts — just pure A2 bilona ghee, handcrafted in local homes and sealed with care before it leaves the mountains.",
                 'price' => 499,
                 'compare_price' => 549,

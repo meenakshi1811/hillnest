@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Order ' . $order->order_number . ' — Hillnest')
+@section('title', 'Order ' . $order->order_number . ' — HillNest')
+@section('robots', 'noindex')
 
 @section('content')
 <section class="account-page">

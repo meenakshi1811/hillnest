@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Our Story — Hillnest')
+@section('title', 'Our Story — HillNest')
+@section('meta_description', 'Two sisters from Chhajpur, Upper Shimla, bringing village-made A2 bilona ghee to kitchens across India. Read the HillNest story.')
 
 @section('content')
 

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Terms of Use — HillNest')
+@section('meta_description', 'Terms and conditions for using the HillNest website and buying our pure A2 bilona ghee.')
 
 @section('content')
 @include('partials.legal-header', [
@@ -41,7 +42,7 @@
                 <h2>7. Shipping and Delivery</h2>
                 <p>We ship within India to the address you provide at checkout. Delivery timelines are estimates and may vary due to location, weather, courier delays, or other factors beyond our control.</p>
                 <p>You are responsible for providing a complete and accurate delivery address and a reachable phone number. Risk of loss passes to you upon delivery to the address provided or to the courier's proof of delivery, whichever occurs first under applicable law.</p>
-                <p>Free delivery may be offered on orders above a specified threshold, as displayed on the Website from time to time.</p>
+                <p>Free delivery may be offered on orders above a specified threshold, as displayed on the Website from time to time. See our <a href="{{ route('shipping') }}">Shipping Policy</a> for dispatch times, delivery timelines, and charges.</p>
 
                 <h2>8. No Refunds</h2>
                 <p>Because our products are food items and perishable in nature once opened, <strong>all sales are final</strong>. HillNest does not offer refunds, returns, or exchanges except where expressly required by applicable law.</p>
@@ -92,6 +93,7 @@
         <nav class="legal-nav" aria-label="Related policies">
             <a href="{{ route('privacy') }}">Privacy Policy</a>
             <a href="{{ route('refund') }}">Refund Policy</a>
+            <a href="{{ route('shipping') }}">Shipping Policy</a>
         </nav>
     </div>
 </section>

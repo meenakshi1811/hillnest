@@ -26,6 +26,19 @@ class ShippingService
         return $this->isEnabled() && $this->freeThreshold() > 0;
     }
 
+    public function freeDeliveryLabel(): ?string
+    {
+        if (! $this->isEnabled()) {
+            return 'Free delivery on all orders';
+        }
+
+        if ($this->hasFreeThreshold()) {
+            return 'Free delivery on orders above ₹'.number_format($this->freeThreshold(), 0);
+        }
+
+        return null;
+    }
+
     public function calculateFee(float $subtotal): float
     {
         if (! $this->isEnabled() || $subtotal <= 0) {

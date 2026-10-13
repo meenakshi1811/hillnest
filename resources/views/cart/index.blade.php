@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Shopping Cart — Hillnest')
+@section('title', 'Shopping Cart — HillNest')
+@section('robots', 'noindex')
 
 @section('content')
 @php

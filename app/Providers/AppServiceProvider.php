@@ -3,8 +3,12 @@
 namespace App\Providers;
 
 use App\Services\CartService;
+use Illuminate\Cache\RateLimiting\Limit;
+use Illuminate\Http\Request;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\View;
+use Illuminate\Support\Str;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -23,6 +27,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Paginator::defaultView('vendor.pagination.tailwind');
+
+        $this->configureRateLimiting();
 
         $shareCartData = function ($view) {
             $cart = app(CartService::class);
@@ -47,5 +53,21 @@ class AppServiceProvider extends ServiceProvider
             $view->with('logoUrl', $logoUrl);
             $view->with('shopUrl', route('shop.index'));
         });
+    }
+
+    protected function configureRateLimiting(): void
+    {
+        RateLimiter::for('login', fn (Request $request) => [
+            Limit::perMinute(5)->by(Str::lower((string) $request->input('email')).'|'.$request->ip()),
+            Limit::perMinute(20)->by($request->ip()),
+        ]);
+
+        RateLimiter::for('register', fn (Request $request) => Limit::perHour(20)->by($request->ip()));
+
+        RateLimiter::for('password-reset', fn (Request $request) => Limit::perMinutes(15, 5)->by($request->ip()));
+
+        RateLimiter::for('coupon', fn (Request $request) => Limit::perMinute(10)->by($request->user()?->id ?: $request->ip()));
+
+        RateLimiter::for('contact', fn (Request $request) => Limit::perMinutes(10, 5)->by($request->ip()));
     }
 }

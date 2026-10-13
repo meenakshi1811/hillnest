@@ -1,6 +1,61 @@
 @extends('layouts.app')
 
-@section('title', $product->name . ' — Hillnest')
+@section('title', $product->name . ' — HillNest')
+@section('meta_description', Str::limit($product->short_description ?: $product->description, 155))
+@section('og_type', 'product')
+@section('og_image', $product->image_url)
+
+@push('structured_data')
+@php
+    $productLd = [
+        '@context' => 'https://schema.org',
+        '@type' => 'Product',
+        'name' => $product->name,
+        'image' => [$product->image_url],
+        'description' => $product->short_description ?: Str::limit($product->description, 300),
+        'sku' => $product->slug,
+        'brand' => ['@type' => 'Brand', 'name' => 'HillNest'],
+        'countryOfOrigin' => 'IN',
+        'offers' => [
+            '@type' => 'Offer',
+            'url' => route('shop.show', $product),
+            'priceCurrency' => 'INR',
+            'price' => number_format((float) $product->price, 2, '.', ''),
+            'availability' => $product->stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock',
+            'itemCondition' => 'https://schema.org/NewCondition',
+            'hasMerchantReturnPolicy' => [
+                '@type' => 'MerchantReturnPolicy',
+                'applicableCountry' => 'IN',
+                'returnPolicyCategory' => 'https://schema.org/MerchantReturnNotPermitted',
+            ],
+        ],
+    ];
+
+    if ($product->reviews_count > 0) {
+        $productLd['aggregateRating'] = [
+            '@type' => 'AggregateRating',
+            'ratingValue' => $product->displayRating(),
+            'reviewCount' => $product->reviews_count,
+        ];
+    }
+
+    $breadcrumbLd = [
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'Shop', 'item' => route('shop.index')],
+            ['@type' => 'ListItem', 'position' => 3, 'name' => $product->name, 'item' => route('shop.show', $product)],
+        ],
+    ];
+@endphp
+<script type="application/ld+json">
+@json($productLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG)
+</script>
+<script type="application/ld+json">
+@json($breadcrumbLd, JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_HEX_TAG)
+</script>
+@endpush
 
 @section('content')
 <section class="product-detail">
@@ -23,7 +78,12 @@
                     @if($product->display_badges)
                         <x-product-badges :product="$product" class="product-detail-badges" />
                     @endif
-                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
+                    <picture>
+                        @if($product->image_webp_url)
+                            <source srcset="{{ $product->image_webp_url }}" type="image/webp">
+                        @endif
+                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
+                    </picture>
                 </div>
             </div>
 
@@ -46,12 +106,13 @@
                     <div class="product-detail-price-group">
                         <span class="product-detail-price">₹{{ number_format($product->price, 0) }}</span>
                         @if($product->compare_price && $product->compare_price > $product->price)
-                            <span class="product-detail-compare">₹{{ number_format($product->compare_price, 0) }}</span>
+                            <span class="product-detail-compare"><span class="product-detail-compare__label">MRP</span> ₹{{ number_format($product->compare_price, 0) }}</span>
                         @endif
                     </div>
                     @if($product->is_on_sale)
                         <span class="product-detail-save">Save {{ $product->discount_percent }}%</span>
                     @endif
+                    <p class="product-detail-tax-note">Inclusive of all taxes</p>
                 </div>
 
                 <p class="product-detail-stock {{ $product->stock > 0 ? 'product-detail-stock--in' : 'product-detail-stock--out' }}">
@@ -78,6 +139,56 @@
                     <div class="product-detail-panel__content">
                         <p class="product-detail-description">{{ $product->description }}</p>
                     </div>
+                </article>
+
+                @php($store = config('hillnest.store'))
+                <article class="product-detail-panel">
+                    <p class="product-detail-panel__eyebrow">Product information</p>
+                    <h2>Details &amp; declarations</h2>
+                    <dl class="product-detail-specs">
+                        <div>
+                            <dt>Product</dt>
+                            <dd>Cow Ghee (A2 Bilona)</dd>
+                        </div>
+                        @if($product->net_quantity)
+                        <div>
+                            <dt>Net quantity</dt>
+                            <dd>{{ $product->net_quantity }}</dd>
+                        </div>
+                        @endif
+                        <div>
+                            <dt>MRP</dt>
+                            <dd>₹{{ number_format($product->mrp, 2) }} (inclusive of all taxes)</dd>
+                        </div>
+                        <div>
+                            <dt>Best before</dt>
+                            <dd>{{ $store['best_before'] }}</dd>
+                        </div>
+                        <div>
+                            <dt>Country of origin</dt>
+                            <dd>{{ $store['country_of_origin'] }}</dd>
+                        </div>
+                        <div>
+                            <dt>Manufactured &amp; packed by</dt>
+                            <dd>{{ $store['name'] }}, {{ implode(', ', $store['address']) }}</dd>
+                        </div>
+                        @if($store['fssai_license'])
+                        <div>
+                            <dt>FSSAI Lic. No.</dt>
+                            <dd>{{ $store['fssai_license'] }}</dd>
+                        </div>
+                        @endif
+                        <div>
+                            <dt>Customer care</dt>
+                            <dd>
+                                <a href="mailto:{{ $store['email'] }}">{{ $store['email'] }}</a>
+                                @if($store['phone'])
+                                    · <a href="tel:{{ preg_replace('/[^\d+]/', '', $store['phone']) }}">{{ $store['phone'] }}</a>
+                                @endif
+                                <br><a href="{{ route('contact') }}">All contact options</a>
+                            </dd>
+                        </div>
+                    </dl>
                 </article>
 
                 <article class="product-detail-panel product-detail-care">

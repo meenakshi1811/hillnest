@@ -1,6 +1,7 @@
 <!-- Announcement Bar -->
+@inject('shippingService', 'App\Services\ShippingService')
 <div class="announcement">
-  <span>🌿</span> Free delivery on orders above ₹999 &nbsp;·&nbsp; Pure A2 Bilona Ghee from Upper Shimla <span>🌿</span>
+  <span>🌿</span> @if($shippingService->freeDeliveryLabel()){{ $shippingService->freeDeliveryLabel() }} &nbsp;·&nbsp; @endif Pure A2 Bilona Ghee from Upper Shimla <span>🌿</span>
 </div>
 
 <!-- Header -->

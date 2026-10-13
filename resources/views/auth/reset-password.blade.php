@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Reset password — Hillnest')
+@section('title', 'Reset password — HillNest')
+@section('robots', 'noindex')
 
 @section('content')
 <section class="auth-page" aria-labelledby="reset-password-title">

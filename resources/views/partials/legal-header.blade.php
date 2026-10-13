@@ -5,7 +5,9 @@
         @isset($subtitle)
             <p class="legal-subtitle">{{ $subtitle }}</p>
         @endisset
-        <p class="legal-updated">Last updated: {{ $updated ?? 'July 27, 2026' }}</p>
+        @if(($updated ?? null) !== false)
+            <p class="legal-updated">Last updated: {{ $updated ?? 'July 27, 2026' }}</p>
+        @endif
     </div>
 </section>
 <section class="legal-page-body">

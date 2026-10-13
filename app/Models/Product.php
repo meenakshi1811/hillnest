@@ -82,6 +82,17 @@ class Product extends Model
         return 'https://images.unsplash.com/photo-1628088062856-eee32a9352e2?w=800&q=80&auto=format&fit=crop';
     }
 
+    public function getImageWebpUrlAttribute(): ?string
+    {
+        if (! $this->image || str_starts_with($this->image, 'http')) {
+            return null;
+        }
+
+        $webp = (string) preg_replace('/\.(png|jpe?g)$/i', '.webp', $this->image);
+
+        return $webp !== $this->image && file_exists(public_path($webp)) ? asset($webp) : null;
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';
@@ -118,6 +129,16 @@ class Product extends Model
         }
 
         return (string) preg_replace('/(\d)(gm|kg|ml|l)\b/i', '$1 $2', $this->size);
+    }
+
+    public function getNetQuantityAttribute(): string
+    {
+        return (string) preg_replace('/\bgm\b/i', 'g', $this->formatted_size);
+    }
+
+    public function getMrpAttribute(): float
+    {
+        return (float) ($this->is_on_sale ? $this->compare_price : $this->price);
     }
 
     public function getCardTitleAttribute(): string

@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
 @section('title', 'Privacy Policy — HillNest')
+@section('meta_description', 'How HillNest collects, uses, and protects your personal information when you shop with us.')
 
 @section('content')
 @include('partials.legal-header', [
@@ -89,6 +90,7 @@
         <nav class="legal-nav" aria-label="Related policies">
             <a href="{{ route('terms') }}">Terms of Use</a>
             <a href="{{ route('refund') }}">Refund Policy</a>
+            <a href="{{ route('shipping') }}">Shipping Policy</a>
         </nav>
     </div>
 </section>

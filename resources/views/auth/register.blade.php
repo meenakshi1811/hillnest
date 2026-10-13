@@ -1,6 +1,7 @@
 @extends('layouts.app')
 
-@section('title', 'Register — Hillnest')
+@section('title', 'Register — HillNest')
+@section('robots', 'noindex')
 
 @section('content')
 <section class="auth-page" aria-labelledby="register-title">

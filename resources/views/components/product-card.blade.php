@@ -5,11 +5,16 @@
         <a href="{{ route('shop.show', $product) }}" class="product-card-rosier__media" aria-label="View {{ $product->card_title }} details">
             <div class="product-card-rosier__media-bg" aria-hidden="true"></div>
             <div class="product-card-rosier__media-glow" aria-hidden="true"></div>
-            <img
-                src="{{ $product->image_url }}"
-                alt="{{ $product->name }}"
-                loading="lazy"
-            >
+            <picture>
+                @if($product->image_webp_url)
+                    <source srcset="{{ $product->image_webp_url }}" type="image/webp">
+                @endif
+                <img
+                    src="{{ $product->image_url }}"
+                    alt="{{ $product->name }}"
+                    loading="lazy"
+                >
+            </picture>
         </a>
 
         @if($product->display_badges)
