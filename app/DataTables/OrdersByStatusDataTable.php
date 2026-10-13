@@ -10,7 +10,7 @@ class OrdersByStatusDataTable
 {
     public function json(string $from, string $to)
     {
-        $rows = Order::query()
+        $rows = Order::paid()
             ->whereDate('created_at', '>=', $from)
             ->whereDate('created_at', '<=', $to)
             ->select(

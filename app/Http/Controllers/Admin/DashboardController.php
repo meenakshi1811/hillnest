@@ -19,14 +19,15 @@ class DashboardController extends Controller
         }
 
         $stats = [
-            'total_revenue' => Order::whereNotIn('status', ['cancelled'])->sum('total'),
-            'orders_count' => Order::count(),
-            'pending_orders' => Order::where('status', 'pending')->count(),
+            'total_revenue' => Order::paid()->whereNotIn('status', ['cancelled'])->sum('total'),
+            'orders_count' => Order::paid()->count(),
+            'pending_orders' => Order::paid()->where('status', 'pending')->count(),
             'users_count' => User::where('is_admin', false)->count(),
             'products_count' => Product::count(),
         ];
 
-        $monthlyRevenue = Order::whereNotIn('status', ['cancelled'])
+        $monthlyRevenue = Order::paid()
+            ->whereNotIn('status', ['cancelled'])
             ->select(
                 DB::raw("DATE_FORMAT(created_at, '%Y-%m') as month"),
                 DB::raw('SUM(total) as revenue'),

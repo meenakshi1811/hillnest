@@ -13,7 +13,7 @@ class UserOrdersDataTable
 
     public function query(): Builder
     {
-        return Order::query()
+        return Order::paid()
             ->where('user_id', $this->user->id)
             ->latest();
     }

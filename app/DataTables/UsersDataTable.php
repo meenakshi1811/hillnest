@@ -12,7 +12,7 @@ class UsersDataTable
     {
         return User::query()
             ->where('is_admin', false)
-            ->withCount('orders')
+            ->withCount(['orders' => fn (Builder $query) => $query->paid()])
             ->latest();
     }
 

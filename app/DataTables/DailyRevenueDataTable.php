@@ -10,7 +10,7 @@ class DailyRevenueDataTable
 {
     public function json(string $from, string $to)
     {
-        $rows = Order::query()
+        $rows = Order::paid()
             ->whereNotIn('status', ['cancelled'])
             ->whereDate('created_at', '>=', $from)
             ->whereDate('created_at', '<=', $to)

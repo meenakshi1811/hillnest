@@ -58,6 +58,11 @@ class Order extends Model
         return $this->belongsTo(Coupon::class);
     }
 
+    public function scopePaid($query)
+    {
+        return $query->where('payment_status', 'paid');
+    }
+
     public function hasCoupon(): bool
     {
         return $this->discount_amount > 0 && filled($this->coupon_code);

@@ -25,7 +25,8 @@ class ReportController extends Controller
             };
         }
 
-        $baseQuery = Order::whereNotIn('status', ['cancelled'])
+        $baseQuery = Order::paid()
+            ->whereNotIn('status', ['cancelled'])
             ->whereDate('created_at', '>=', $from)
             ->whereDate('created_at', '<=', $to);
 

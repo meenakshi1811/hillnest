@@ -11,6 +11,7 @@ class TopProductsDataTable
     {
         $rows = DB::table('order_items')
             ->join('orders', 'order_items.order_id', '=', 'orders.id')
+            ->where('orders.payment_status', 'paid')
             ->whereNotIn('orders.status', ['cancelled'])
             ->whereDate('orders.created_at', '>=', $from)
             ->whereDate('orders.created_at', '<=', $to)

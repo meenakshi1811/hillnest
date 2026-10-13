@@ -10,7 +10,7 @@ class RecentOrdersDataTable
 {
     public function query(): Builder
     {
-        return Order::query()->latest();
+        return Order::paid()->latest();
     }
 
     public function json()
