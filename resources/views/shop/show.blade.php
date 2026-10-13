@@ -160,10 +160,12 @@
                             <dt>MRP</dt>
                             <dd>₹{{ number_format($product->mrp, 2) }} (inclusive of all taxes)</dd>
                         </div>
+                        @if(! empty($store['best_before']))
                         <div>
                             <dt>Best before</dt>
                             <dd>{{ $store['best_before'] }}</dd>
                         </div>
+                        @endif
                         <div>
                             <dt>Country of origin</dt>
                             <dd>{{ $store['country_of_origin'] }}</dd>
