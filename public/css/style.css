@@ -9226,9 +9226,14 @@ a.contact-card:hover {
 /* ── Diwali offer page ── */
 .diwali-hero {
   position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   overflow: hidden;
-  min-height: 680px;
-  padding: 84px 20px 150px;
+  /* Exactly the screen below the header and sale ticker, so the whole offer shows without scrolling. */
+  min-height: calc(100vh - 132px);
+  min-height: calc(100svh - 132px);
+  padding: 44px 20px 92px;
   background:
     radial-gradient(ellipse at 50% 0%, rgba(110,52,140,0.55) 0%, transparent 60%),
     radial-gradient(ellipse at 50% 105%, rgba(190,90,20,0.55) 0%, transparent 55%),
@@ -9290,7 +9295,7 @@ a.contact-card:hover {
   align-items: center;
   gap: 8px;
   margin: 0;
-  padding: 8px 18px;
+  padding: 6px 16px;
   border: 1px solid rgba(232,196,122,0.5);
   border-radius: 999px;
   background: rgba(232,196,122,0.12);
@@ -9302,10 +9307,10 @@ a.contact-card:hover {
 }
 
 .diwali-hero__title {
-  margin: 22px 0 0;
+  margin: 14px 0 0;
   color: #FFF4DC;
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-size: clamp(44px, 7vw, 78px);
+  font-size: clamp(38px, 5vw, 62px);
   font-weight: 600;
   line-height: 1;
   text-shadow: 0 6px 30px rgba(0,0,0,0.45);
@@ -9319,11 +9324,11 @@ a.contact-card:hover {
 }
 
 .diwali-hero__lead {
-  max-width: 560px;
-  margin: 18px auto 0;
+  max-width: 600px;
+  margin: 10px auto 0;
   color: rgba(255,244,220,0.82);
-  font-size: 17px;
-  line-height: 1.7;
+  font-size: 16px;
+  line-height: 1.6;
 }
 
 .diwali-hero__shop {
@@ -9338,8 +9343,8 @@ a.contact-card:hover {
   position: relative;
   display: grid;
   justify-items: center;
-  min-height: 330px;
-  margin-top: 34px;
+  min-height: 290px;
+  margin-top: 18px;
 }
 
 .diwali-stage__rays {
@@ -9366,7 +9371,7 @@ a.contact-card:hover {
   position: relative;
   width: 180px;
   height: 170px;
-  margin-top: 40px;
+  margin-top: 26px;
   padding: 0;
   border: 0;
   background: none;
@@ -9476,7 +9481,7 @@ a.contact-card:hover {
 }
 
 .diwali-stage__hint {
-  margin: 34px 0 0;
+  margin: 18px 0 0;
   color: rgba(255,244,220,0.78);
   font-size: 15px;
   letter-spacing: 0.4px;
@@ -9492,8 +9497,8 @@ a.contact-card:hover {
 /* Coupon ticket */
 .diwali-coupon {
   position: relative;
-  width: min(100%, 470px);
-  padding: 30px 28px 24px;
+  width: min(100%, 460px);
+  padding: 22px 26px 16px;
   border-radius: 24px;
   background: linear-gradient(160deg, #FFFAF0 0%, #F7E9CC 100%);
   color: var(--forest);
@@ -9518,9 +9523,9 @@ a.contact-card:hover {
 }
 
 .diwali-coupon__value {
-  margin: 8px 0 0;
+  margin: 4px 0 0;
   font-family: 'Cormorant Garamond', 'Playfair Display', serif;
-  font-size: clamp(26px, 4vw, 32px);
+  font-size: clamp(24px, 3.4vw, 30px);
   line-height: 1.2;
 }
 
@@ -9533,8 +9538,8 @@ a.contact-card:hover {
   align-items: center;
   justify-content: center;
   gap: 14px;
-  margin: 18px 0 0;
-  padding: 16px 18px;
+  margin: 12px 0 0;
+  padding: 10px 16px;
   border: 2px dashed var(--gold);
   border-radius: 16px;
   background: #FFFDF8;
@@ -9547,7 +9552,7 @@ a.contact-card:hover {
   background-clip: text;
   color: transparent;
   font-family: 'Playfair Display', Georgia, serif;
-  font-size: clamp(32px, 7vw, 44px);
+  font-size: clamp(30px, 6vw, 40px);
   font-weight: 700;
   letter-spacing: 5px;
   animation: diwali-shine 3s linear infinite;
@@ -9573,7 +9578,7 @@ a.contact-card:hover {
 }
 
 .diwali-coupon__meta {
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   color: var(--text-light);
   font-size: 13px;
 }
@@ -9583,8 +9588,8 @@ a.contact-card:hover {
   align-items: center;
   justify-content: center;
   width: 100%;
-  min-height: 54px;
-  margin-top: 20px;
+  min-height: 48px;
+  margin-top: 14px;
   border: 0;
   border-radius: 999px;
   background: var(--forest);
@@ -9606,7 +9611,7 @@ a.contact-card:hover {
 }
 
 .diwali-coupon__note {
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   color: var(--text-light);
   font-size: 12px;
 }
@@ -9616,7 +9621,7 @@ a.contact-card:hover {
   position: absolute;
   left: 0;
   right: 0;
-  bottom: 22px;
+  bottom: 18px;
   z-index: 1;
   display: flex;
   justify-content: space-evenly;
@@ -9764,12 +9769,34 @@ a.contact-card:hover {
 }
 
 @media (max-width: 760px) {
-  .diwali-hero { min-height: 620px; padding: 64px 16px 120px; }
+  .diwali-hero {
+    min-height: calc(100vh - 104px);
+    min-height: calc(100svh - 104px);
+    padding: 38px 16px 80px;
+  }
+  .diwali-hero__lead { font-size: 15px; }
   .diwali-steps__list { grid-template-columns: 1fr; }
   .diwali-diya:nth-child(n+6) { display: none; }
-  .diwali-coupon { padding: 26px 18px 20px; }
-  .diwali-coupon__code-box { flex-direction: column; gap: 10px; }
+  .diwali-coupon { padding: 20px 18px 14px; }
+  .diwali-coupon__code-box { flex-direction: column; gap: 6px; }
   .diwali-coupon__code { letter-spacing: 3px; }
+}
+
+/* Small phones (e.g. 360x740) */
+@media (max-width: 760px) and (max-height: 760px) {
+  .diwali-hero { padding-top: 24px; padding-bottom: 70px; }
+  .diwali-hero__title { font-size: 34px; }
+  .diwali-hero__lead { font-size: 14px; line-height: 1.5; }
+  .diwali-stage { margin-top: 12px; }
+}
+
+/* Short laptop screens (e.g. 1366x768) */
+@media (max-height: 800px) and (min-width: 761px) {
+  .diwali-hero { padding-top: 30px; padding-bottom: 84px; }
+  .diwali-hero__title { font-size: clamp(34px, 4.4vw, 52px); }
+  .diwali-hero__lead { font-size: 15px; }
+  .diwali-stage { min-height: 270px; margin-top: 14px; }
+  .diwali-gift { margin-top: 18px; transform-origin: center; }
 }
 
 @media (prefers-reduced-motion: reduce) {
