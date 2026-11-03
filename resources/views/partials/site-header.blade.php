@@ -27,12 +27,12 @@
   </div>
 @endif
 
+@if($saleBanner->isActive() && ! request()->routeIs('checkout.*'))
+  <script src="{{ asset('js/festive-fireworks.js') }}?v={{ filemtime(public_path('js/festive-fireworks.js')) }}" defer></script>
+@endif
+
 <!-- Header -->
 <header id="header">
-  @if($saleBanner->isActive() && ! request()->routeIs('checkout.*'))
-    <canvas class="festive-fireworks" aria-hidden="true"></canvas>
-    <script src="{{ asset('js/festive-fireworks.js') }}?v={{ filemtime(public_path('js/festive-fireworks.js')) }}" defer></script>
-  @endif
   <div class="header-inner">
     <nav class="nav-left">
       <a href="{{ route('home') }}">Home</a>

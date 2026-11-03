@@ -9094,25 +9094,13 @@ a.contact-card:hover {
   }
 }
 
-/* Festive sale banner: fireworks behind the header content */
+/* Festive sale banner: full-page fireworks.
+   Above page content, but below the sticky header (1000), cart drawer (200) and popups. */
 .festive-fireworks {
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 0;
+  position: fixed;
+  inset: 0;
+  z-index: 150;
   width: 100%;
-  height: calc(100% + 160px);
+  height: 100%;
   pointer-events: none;
-}
-
-@media (max-width: 640px) {
-  .festive-fireworks {
-    height: calc(100% + 80px);
-  }
-}
-
-.festive-fireworks ~ .header-inner,
-.festive-fireworks ~ .nav-search {
-  position: relative;
-  z-index: 1;
 }
