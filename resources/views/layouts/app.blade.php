@@ -15,6 +15,9 @@
   @hasSection('robots')
   <meta name="robots" content="@yield('robots')" />
   @endif
+  @if(config('hillnest.google.site_verification'))
+  <meta name="google-site-verification" content="{{ config('hillnest.google.site_verification') }}" />
+  @endif
   <link rel="canonical" href="{{ url()->current() }}" />
   <meta property="og:site_name" content="HillNest" />
   <meta property="og:type" content="@yield('og_type', 'website')" />
@@ -48,6 +51,17 @@
   src="https://www.facebook.com/tr?id=1102097026017807&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
+  @php($gaMeasurementId = auth()->user()?->isAdmin() ? null : config('hillnest.google.analytics_id'))
+  @if($gaMeasurementId)
+  <!-- Google Analytics 4 (skipped for admins so their browsing isn't counted) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id={{ $gaMeasurementId }}"></script>
+  <script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', @json($gaMeasurementId));
+  </script>
+  @endif
 </head>
 <body class="min-h-screen flex flex-col bg-cream">
     @if(session()->has('impersonator_id'))
@@ -78,7 +92,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-    <script src="{{ asset('js/cart.js') }}"></script>
+    <script src="{{ asset('js/cart.js') }}?v={{ filemtime(public_path('js/cart.js')) }}"></script>
     @stack('scripts')
 </body>
 </html>

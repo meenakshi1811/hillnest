@@ -332,5 +332,18 @@
       currency: 'INR'
     });
   }
+
+  if (typeof gtag === 'function') {
+    gtag('event', 'view_item', {
+      currency: 'INR',
+      value: {{ (float) $product->price }},
+      items: [{
+        item_id: '{{ $product->id }}',
+        item_name: @json($product->name),
+        item_brand: 'HillNest',
+        price: {{ (float) $product->price }}
+      }]
+    });
+  }
 </script>
 @endpush

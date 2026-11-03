@@ -39,6 +39,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Google
+    |--------------------------------------------------------------------------
+    |
+    | GOOGLE_ANALYTICS_ID is the GA4 Measurement ID (G-XXXXXXXXXX).
+    | GOOGLE_SITE_VERIFICATION is only needed when Search Console is verified
+    | with the HTML tag method instead of DNS.
+    |
+    */
+
+    'google' => [
+        'analytics_id' => env('GOOGLE_ANALYTICS_ID'),
+        'site_verification' => env('GOOGLE_SITE_VERIFICATION'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Store Details
     |--------------------------------------------------------------------------
     |

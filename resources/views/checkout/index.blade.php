@@ -12,6 +12,13 @@
     $discount = $discount ?? 0;
     $appliedCoupon = $appliedCoupon ?? null;
     $cartProductIds = $items->pluck('product_id')->map(fn ($id) => (string) $id)->values()->all();
+    $gaItems = $items->map(fn ($item) => [
+        'item_id' => (string) $item['product_id'],
+        'item_name' => $item['product']->name,
+        'item_brand' => 'HillNest',
+        'price' => (float) $item['product']->price,
+        'quantity' => $item['quantity'],
+    ])->values()->all();
 @endphp
 
 <section class="checkout-page">
@@ -210,6 +217,15 @@
       content_type: 'product',
       value: {{ (float) $total }},
       currency: 'INR'
+    });
+  }
+
+  if (typeof gtag === 'function') {
+    gtag('event', 'begin_checkout', {
+      currency: 'INR',
+      value: {{ (float) $total }},
+      coupon: @json($appliedCoupon?->code),
+      items: @json($gaItems)
     });
   }
 </script>

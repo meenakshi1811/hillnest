@@ -12,6 +12,13 @@
         ->map(fn ($id) => (string) $id)
         ->values()
         ->all();
+    $gaItems = $order->items->map(fn ($item) => [
+        'item_id' => (string) $item->product_id,
+        'item_name' => $item->product_name,
+        'item_brand' => 'HillNest',
+        'price' => (float) $item->unit_price,
+        'quantity' => $item->quantity,
+    ])->values()->all();
 @endphp
 <section class="checkout-success-page">
     <div class="checkout-success-hero">
@@ -118,7 +125,7 @@
 @push('scripts')
 <script>
   (function () {
-    if (typeof fbq !== 'function') {
+    if (typeof fbq !== 'function' && typeof gtag !== 'function') {
       return;
     }
 
@@ -128,14 +135,27 @@
     }
     sessionStorage.setItem(storageKey, '1');
 
-    fbq('track', 'Purchase', {
-      content_ids: @json($orderProductIds),
-      content_type: 'product',
-      value: {{ (float) $order->total }},
-      currency: 'INR'
-    }, {
-      eventID: 'order_{{ $order->id }}'
-    });
+    if (typeof fbq === 'function') {
+      fbq('track', 'Purchase', {
+        content_ids: @json($orderProductIds),
+        content_type: 'product',
+        value: {{ (float) $order->total }},
+        currency: 'INR'
+      }, {
+        eventID: 'order_{{ $order->id }}'
+      });
+    }
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'purchase', {
+        transaction_id: @json($order->order_number),
+        currency: 'INR',
+        value: {{ (float) $order->total }},
+        shipping: {{ (float) $order->shipping_fee }},
+        coupon: @json($order->coupon_code),
+        items: @json($gaItems)
+      });
+    }
   })();
 </script>
 @endpush

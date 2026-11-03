@@ -62,22 +62,34 @@ $(function () {
   }
 
   function trackAddToCart($action, quantityAdded) {
-    if (typeof fbq !== 'function') {
-      return;
-    }
-
     const productId = String($action.data('product-id'));
     const productName = $action.data('product-name');
     const productPrice = parseFloat($action.data('product-price'), 10) || 0;
     const qty = parseInt(quantityAdded, 10) || 1;
 
-    fbq('track', 'AddToCart', {
-      content_ids: [productId],
-      content_name: productName,
-      content_type: 'product',
-      value: productPrice * qty,
-      currency: 'INR',
-    });
+    if (typeof fbq === 'function') {
+      fbq('track', 'AddToCart', {
+        content_ids: [productId],
+        content_name: productName,
+        content_type: 'product',
+        value: productPrice * qty,
+        currency: 'INR',
+      });
+    }
+
+    if (typeof gtag === 'function') {
+      gtag('event', 'add_to_cart', {
+        currency: 'INR',
+        value: productPrice * qty,
+        items: [{
+          item_id: productId,
+          item_name: productName,
+          item_brand: 'HillNest',
+          price: productPrice,
+          quantity: qty,
+        }],
+      });
+    }
   }
 
   function getErrorMessage(xhr) {

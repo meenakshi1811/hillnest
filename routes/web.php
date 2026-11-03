@@ -17,6 +17,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ProductFeedController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\RazorpayWebhookController;
 use App\Http\Controllers\ShopController;
@@ -25,6 +26,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::get('/feeds/google-merchant.xml', [ProductFeedController::class, 'google'])->name('feeds.google');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacy');
 Route::get('/terms-of-use', [HomeController::class, 'termsOfUse'])->name('terms');
