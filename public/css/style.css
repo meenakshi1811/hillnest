@@ -9034,3 +9034,85 @@ a.contact-card:hover {
   font-weight: 600;
   text-decoration: none;
 }
+
+/* Festive sale banner: scrolling ticker */
+.announcement--sale {
+  padding: 0;
+  background: linear-gradient(90deg, #7A2A10 0%, #A8521C 50%, #7A2A10 100%);
+  color: var(--gold-pale);
+  text-align: left;
+}
+
+.announcement-ticker {
+  display: flex;
+  width: max-content;
+  color: inherit;
+  text-decoration: none;
+  animation: announcement-ticker 38s linear infinite;
+}
+
+.announcement--sale:hover .announcement-ticker {
+  animation-play-state: paused;
+}
+
+.announcement-ticker__group {
+  display: flex;
+  flex-shrink: 0;
+}
+
+.announcement-ticker__item {
+  padding: 10px 40px;
+  white-space: nowrap;
+}
+
+@keyframes announcement-ticker {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@media (max-width: 640px) {
+  .announcement-ticker__item {
+    padding: 8px 28px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .announcement-ticker {
+    width: auto;
+    justify-content: center;
+    animation: none;
+  }
+
+  .announcement-ticker__group[aria-hidden="true"],
+  .announcement-ticker__item:not(:first-child) {
+    display: none;
+  }
+
+  .announcement-ticker__item {
+    white-space: normal;
+    text-align: center;
+  }
+}
+
+/* Festive sale banner: fireworks behind the header content */
+.festive-fireworks {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 0;
+  width: 100%;
+  height: calc(100% + 160px);
+  pointer-events: none;
+}
+
+@media (max-width: 640px) {
+  .festive-fireworks {
+    height: calc(100% + 80px);
+  }
+}
+
+.festive-fireworks ~ .header-inner,
+.festive-fireworks ~ .nav-search {
+  position: relative;
+  z-index: 1;
+}

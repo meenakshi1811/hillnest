@@ -1,11 +1,38 @@
 <!-- Announcement Bar -->
 @inject('shippingService', 'App\Services\ShippingService')
-<div class="announcement">
-  <span>🌿</span> @if($shippingService->freeDeliveryLabel()){{ $shippingService->freeDeliveryLabel() }} &nbsp;·&nbsp; @endif Pure A2 Bilona Ghee from Upper Shimla <span>🌿</span>
-</div>
+@inject('saleBanner', 'App\Services\SaleBannerService')
+@if($saleBanner->isActive())
+  @php
+    $saleMessages = array_values(array_filter([
+        '🪔 '.$saleBanner->name().' is Live'.($saleBanner->maxDiscountPercent() > 0 ? ' — Save up to '.$saleBanner->maxDiscountPercent().'% on Pure A2 Bilona Ghee' : ''),
+        $shippingService->freeDeliveryLabel() ? '🚚 '.$shippingService->freeDeliveryLabel() : null,
+        '🎁 Gift pure Himalayan ghee to your loved ones this festive season',
+        '🌿 Pure A2 Bilona Ghee from Upper Shimla',
+    ]));
+  @endphp
+  <div class="announcement announcement--sale">
+    <a href="{{ route('shop.index') }}" class="announcement-ticker" aria-label="{{ $saleMessages[0] }} — shop now">
+      @foreach([false, true] as $isCopy)
+        <span class="announcement-ticker__group" @if($isCopy) aria-hidden="true" @endif>
+          @foreach($saleMessages as $saleMessage)
+            <span class="announcement-ticker__item">{{ $saleMessage }}</span>
+          @endforeach
+        </span>
+      @endforeach
+    </a>
+  </div>
+@else
+  <div class="announcement">
+    <span>🌿</span> @if($shippingService->freeDeliveryLabel()){{ $shippingService->freeDeliveryLabel() }} &nbsp;·&nbsp; @endif Pure A2 Bilona Ghee from Upper Shimla <span>🌿</span>
+  </div>
+@endif
 
 <!-- Header -->
 <header id="header">
+  @if($saleBanner->isActive() && ! request()->routeIs('checkout.*'))
+    <canvas class="festive-fireworks" aria-hidden="true"></canvas>
+    <script src="{{ asset('js/festive-fireworks.js') }}?v={{ filemtime(public_path('js/festive-fireworks.js')) }}" defer></script>
+  @endif
   <div class="header-inner">
     <nav class="nav-left">
       <a href="{{ route('home') }}">Home</a>

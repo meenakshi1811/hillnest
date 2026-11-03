@@ -39,6 +39,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Festive Sale Banner
+    |--------------------------------------------------------------------------
+    |
+    | Shows the sale ticker and header fireworks until ends_at (India time),
+    | then switches off by itself. SALE_BANNER_ENABLED=false hides it early.
+    |
+    */
+
+    'sale_banner' => [
+        'enabled' => env('SALE_BANNER_ENABLED', true),
+        'name' => env('SALE_BANNER_NAME', 'Diwali Sale'),
+        'ends_at' => env('SALE_BANNER_ENDS_AT', '2026-11-15 23:59'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Google
     |--------------------------------------------------------------------------
     |
