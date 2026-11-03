@@ -44,6 +44,7 @@ class CheckoutController extends Controller
             'discount' => $summary['discount'],
             'total' => $summary['total'],
             'appliedCoupon' => $summary['coupon'],
+            'availableCoupons' => $this->coupons->availableFor(auth()->user()),
             'user' => auth()->user(),
             'razorpayKey' => $this->razorpay->getKey(),
             'shippingMeta' => $shippingMeta,

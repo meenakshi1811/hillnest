@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use App\Services\CartService;
+use App\Services\CouponService;
 use App\Services\ShippingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -13,18 +14,24 @@ class CartController extends Controller
     public function __construct(
         protected CartService $cart,
         protected ShippingService $shipping,
+        protected CouponService $coupons,
     ) {}
 
     public function index()
     {
         $subtotal = $this->cart->subtotal();
         $shippingMeta = $this->shipping->cartSummaryMeta($subtotal);
+        $appliedCoupon = $this->coupons->getApplied();
+        $discount = $appliedCoupon ? $appliedCoupon->calculateDiscount($subtotal) : 0;
 
         return view('cart.index', [
             'items' => $this->cart->all(),
             'subtotal' => $subtotal,
             'shipping' => $shippingMeta['shipping'],
-            'total' => $subtotal + $shippingMeta['shipping'],
+            'discount' => $discount,
+            'total' => max(0, $subtotal - $discount + $shippingMeta['shipping']),
+            'appliedCoupon' => $appliedCoupon,
+            'availableCoupons' => $this->coupons->availableFor(auth()->user()),
             'shippingMeta' => $shippingMeta,
             'shippingConfig' => $this->shipping->configForFrontend(),
         ]);
@@ -80,6 +87,8 @@ class CartController extends Controller
             $qty = $this->cart->quantity($product->id);
             $subtotal = $this->cart->subtotal();
             $shippingMeta = $this->shipping->cartSummaryMeta($subtotal);
+            $coupon = $this->coupons->getApplied();
+            $discount = $coupon ? $coupon->calculateDiscount($subtotal) : 0;
 
             return response()->json([
                 'success' => $success,
@@ -91,7 +100,8 @@ class CartController extends Controller
                 'unit_price' => (float) $product->price,
                 'subtotal' => $subtotal,
                 'shipping' => $shippingMeta['shipping'],
-                'total' => $subtotal + $shippingMeta['shipping'],
+                'discount' => $discount,
+                'total' => max(0, $subtotal - $discount + $shippingMeta['shipping']),
                 'product_id' => $product->id,
                 'shipping_enabled' => $shippingMeta['shipping_enabled'],
                 'has_free_threshold' => $shippingMeta['has_free_threshold'],

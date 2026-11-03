@@ -153,18 +153,24 @@
                 <div class="cart-summary__shipping" data-shipping-block hidden></div>
                 @endif
 
-                <dl class="cart-summary__totals">
+                @include('partials.coupon-box')
+
+                <dl class="cart-summary__totals" data-checkout-totals>
                     <div>
                         <dt>Subtotal</dt>
-                        <dd data-cart-subtotal>₹{{ number_format($subtotal, 0) }}</dd>
+                        <dd data-cart-subtotal data-total-subtotal>₹{{ number_format($subtotal, 0) }}</dd>
+                    </div>
+                    <div data-total-discount-row @unless($discount > 0) hidden @endunless>
+                        <dt>Coupon discount</dt>
+                        <dd data-total-discount>-₹{{ number_format($discount, 0) }}</dd>
                     </div>
                     <div>
                         <dt>Shipping</dt>
-                        <dd data-cart-shipping>{{ $shipping > 0 ? '₹'.number_format($shipping, 0) : 'FREE' }}</dd>
+                        <dd data-cart-shipping data-total-shipping>{{ $shipping > 0 ? '₹'.number_format($shipping, 0) : 'FREE' }}</dd>
                     </div>
                     <div class="cart-summary__grand-total">
                         <dt>Total</dt>
-                        <dd data-cart-total>₹{{ number_format($total, 0) }}</dd>
+                        <dd data-cart-total data-total-grand>₹{{ number_format($total, 0) }}</dd>
                     </div>
                 </dl>
 
@@ -201,3 +207,7 @@
     </div>
 </section>
 @endsection
+
+@push('scripts')
+<script src="{{ asset('js/checkout-coupon.js') }}?v={{ filemtime(public_path('js/checkout-coupon.js')) }}"></script>
+@endpush

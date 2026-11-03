@@ -43,10 +43,12 @@ Route::post('/cart/add/{product:slug}', [CartController::class, 'add'])->name('c
 Route::patch('/cart/{product:slug}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/{product:slug}', [CartController::class, 'remove'])->name('cart.remove');
 
+// Open to guests so coupons can be applied from the cart; payment re-checks the coupon for the account.
+Route::post('/checkout/coupon/apply', [CheckoutController::class, 'applyCoupon'])->middleware('throttle:coupon')->name('checkout.coupon.apply');
+Route::delete('/checkout/coupon/remove', [CheckoutController::class, 'removeCoupon'])->name('checkout.coupon.remove');
+
 Route::middleware('auth')->group(function () {
     Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
-    Route::post('/checkout/coupon/apply', [CheckoutController::class, 'applyCoupon'])->middleware('throttle:coupon')->name('checkout.coupon.apply');
-    Route::delete('/checkout/coupon/remove', [CheckoutController::class, 'removeCoupon'])->name('checkout.coupon.remove');
     Route::post('/checkout/payment/create', [CheckoutController::class, 'createPayment'])->name('checkout.payment.create');
     Route::post('/checkout/payment/verify', [CheckoutController::class, 'verifyPayment'])->name('checkout.payment.verify');
     Route::post('/checkout/payment/failed', [CheckoutController::class, 'paymentFailed'])->name('checkout.payment.failed');

@@ -111,6 +111,11 @@ $(function () {
     );
     $('[data-cart-total]').text(formatMoney(response.total));
 
+    if (typeof response.discount !== 'undefined') {
+      $('[data-total-discount-row]').prop('hidden', !(response.discount > 0));
+      $('[data-total-discount]').text('-' + formatMoney(response.discount));
+    }
+
     if ($('[data-shipping-block]').length) {
       const $block = $('[data-shipping-block]');
 

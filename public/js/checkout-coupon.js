@@ -3,10 +3,13 @@ document.addEventListener('DOMContentLoaded', function () {
   if (!couponBlock) return;
 
   var csrf = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content');
+  var applyUrl = couponBlock.dataset.applyUrl || window.checkoutCouponApplyUrl;
+  var removeUrl = couponBlock.dataset.removeUrl || window.checkoutCouponRemoveUrl;
   var input = couponBlock.querySelector('[data-coupon-input]');
   var errorEl = couponBlock.querySelector('[data-coupon-error]');
   var applyBtn = couponBlock.querySelector('[data-coupon-apply]');
   var removeBtn = couponBlock.querySelector('[data-coupon-remove]');
+  var offerButtons = couponBlock.querySelectorAll('[data-coupon-pick]');
   var totals = document.querySelector('[data-checkout-totals]');
 
   function formatMoney(amount) {
@@ -45,7 +48,21 @@ document.addEventListener('DOMContentLoaded', function () {
     totals.querySelector('[data-total-grand]').textContent = formatMoney(summary.total);
   }
 
+  function markOffers(appliedCode) {
+    offerButtons.forEach(function (button) {
+      var isApplied = button.getAttribute('data-coupon-pick') === appliedCode;
+      var label = button.querySelector('[data-coupon-pick-label]');
+
+      button.classList.toggle('is-applied', isApplied);
+
+      if (label) {
+        label.textContent = isApplied ? 'Applied' : 'Apply';
+      }
+    });
+  }
+
   function setAppliedState(coupon) {
+    markOffers(coupon.code);
     input.readOnly = true;
     input.value = coupon.code;
 
@@ -68,13 +85,15 @@ document.addEventListener('DOMContentLoaded', function () {
     if (!appliedNote) {
       appliedNote = document.createElement('p');
       appliedNote.className = 'checkout-coupon__applied';
-      couponBlock.appendChild(appliedNote);
+      // Directly under the coupon box, above the offers list, as on page load.
+      errorEl.insertAdjacentElement('afterend', appliedNote);
     }
 
     appliedNote.innerHTML = '<span>' + coupon.code + '</span> applied — ' + coupon.label + ' off';
   }
 
   function setRemovedState() {
+    markOffers(null);
     input.readOnly = false;
     input.value = '';
 
@@ -100,10 +119,10 @@ document.addEventListener('DOMContentLoaded', function () {
     }
   }
 
-  function applyCoupon() {
+  function applyCoupon(code) {
     clearError();
 
-    fetch(window.checkoutCouponApplyUrl, {
+    fetch(applyUrl, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -111,7 +130,7 @@ document.addEventListener('DOMContentLoaded', function () {
         'X-CSRF-TOKEN': csrf,
         'X-Requested-With': 'XMLHttpRequest',
       },
-      body: JSON.stringify({ coupon_code: input.value.trim() }),
+      body: JSON.stringify({ coupon_code: typeof code === 'string' ? code : input.value.trim() }),
     })
       .then(function (response) {
         return response.json().then(function (data) {
@@ -141,7 +160,7 @@ document.addEventListener('DOMContentLoaded', function () {
   function removeCoupon() {
     clearError();
 
-    fetch(window.checkoutCouponRemoveUrl, {
+    fetch(removeUrl, {
       method: 'DELETE',
       headers: {
         Accept: 'application/json',
@@ -173,4 +192,22 @@ document.addEventListener('DOMContentLoaded', function () {
   if (removeBtn) {
     removeBtn.addEventListener('click', removeCoupon);
   }
+
+  // Clicking an offer fills the coupon box with its code and applies it.
+  offerButtons.forEach(function (button) {
+    button.addEventListener('click', function () {
+      var code = button.getAttribute('data-coupon-pick');
+
+      if (button.classList.contains('is-applied')) {
+        return;
+      }
+
+      // While another coupon is applied the box stays on it until the new code is accepted.
+      if (!input.readOnly) {
+        input.value = code;
+      }
+
+      applyCoupon(code);
+    });
+  });
 });

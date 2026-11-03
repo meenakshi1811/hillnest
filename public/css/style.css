@@ -9104,3 +9104,100 @@ a.contact-card:hover {
   height: 100%;
   pointer-events: none;
 }
+
+/* Order totals rows are display:flex, which would otherwise override the hidden attribute. */
+[data-total-discount-row][hidden] {
+  display: none;
+}
+
+/* Available coupon offers (cart and checkout) */
+.coupon-offers {
+  margin-top: 14px;
+}
+
+.coupon-offers__title {
+  margin: 0 0 8px;
+  color: var(--text-light);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.4px;
+  text-transform: uppercase;
+}
+
+.coupon-offers__list {
+  display: grid;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coupon-offer {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px dashed rgba(201,151,58,0.6);
+  border-radius: 14px;
+  background: rgba(201,151,58,0.06);
+  color: var(--text);
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.coupon-offer:hover {
+  border-color: var(--gold);
+  background: rgba(201,151,58,0.12);
+}
+
+.coupon-offer:focus-visible {
+  outline: 2px solid rgba(201,151,58,0.45);
+  outline-offset: 2px;
+}
+
+.coupon-offer__code {
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: var(--forest);
+  color: var(--gold-pale);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1px;
+}
+
+.coupon-offer__desc {
+  display: grid;
+  gap: 2px;
+  color: var(--forest);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.coupon-offer__desc small {
+  color: var(--text-light);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.coupon-offer__action {
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+}
+
+.coupon-offer.is-applied {
+  border-style: solid;
+  border-color: var(--forest-light);
+  background: rgba(62,107,82,0.08);
+  cursor: default;
+}
+
+.coupon-offer.is-applied .coupon-offer__action {
+  color: var(--forest-light);
+}

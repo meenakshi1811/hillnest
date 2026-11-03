@@ -135,33 +135,7 @@
                 </p>
                 @endif
 
-                <div class="checkout-coupon" data-checkout-coupon>
-                    <label class="checkout-label" for="coupon_code">Coupon code</label>
-                    <div class="checkout-coupon__row">
-                        <input
-                            class="checkout-input"
-                            type="text"
-                            id="coupon_code"
-                            name="coupon_code"
-                            value="{{ old('coupon_code', $appliedCoupon?->code) }}"
-                            placeholder="Enter your coupon"
-                            autocomplete="off"
-                            @if($appliedCoupon) readonly @endif
-                            data-coupon-input
-                        >
-                        @if($appliedCoupon)
-                            <button type="button" class="checkout-coupon__btn checkout-coupon__btn--remove" data-coupon-remove>Remove</button>
-                        @else
-                            <button type="button" class="checkout-coupon__btn" data-coupon-apply>Apply</button>
-                        @endif
-                    </div>
-                    <p class="checkout-field-error" data-coupon-error @unless($errors->has('coupon_code')) hidden @endunless>{{ $errors->first('coupon_code') }}</p>
-                    @if($appliedCoupon)
-                    <p class="checkout-coupon__applied">
-                        <span>{{ $appliedCoupon->code }}</span> applied — {{ $appliedCoupon->value_label }} off
-                    </p>
-                    @endif
-                </div>
+                @include('partials.coupon-box')
 
                 <dl class="checkout-summary__totals" data-checkout-totals>
                     <div>
@@ -238,6 +212,6 @@
     window.checkoutBrandName = @json(config('app.name', 'Hillnest'));
 </script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-<script src="{{ asset('js/checkout-coupon.js') }}"></script>
+<script src="{{ asset('js/checkout-coupon.js') }}?v={{ filemtime(public_path('js/checkout-coupon.js')) }}"></script>
 <script src="{{ asset('js/checkout-payment.js') }}?v={{ filemtime(public_path('js/checkout-payment.js')) }}"></script>
 @endpush
