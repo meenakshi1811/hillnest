@@ -1070,6 +1070,12 @@ body.admin-page table { border-collapse: collapse; width: 100%; }
   box-shadow: 0 0 0 3px rgba(201, 151, 58, 0.12);
 }
 
+.admin-segmented__option input:checked + span {
+  border-color: var(--forest);
+  background: var(--forest);
+  color: var(--gold-pale);
+}
+
 .admin-segmented__option--meenakshi input:checked + span {
   border-color: rgba(201, 151, 58, 0.55);
   background: rgba(201, 151, 58, 0.12);
