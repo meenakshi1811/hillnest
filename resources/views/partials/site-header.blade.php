@@ -5,8 +5,9 @@
   @php
     $saleMessages = array_values(array_filter([
         '🪔 '.$saleBanner->name().' is Live'.($saleBanner->maxDiscountPercent() > 0 ? ' — Save up to '.$saleBanner->maxDiscountPercent().'% on Pure A2 Bilona Ghee' : ''),
+        $saleBanner->coupon() ? '🎁 Extra '.$saleBanner->coupon()->value_label.' off with code '.$saleBanner->coupon()->code : null,
         $shippingService->freeDeliveryLabel() ? '🚚 '.$shippingService->freeDeliveryLabel() : null,
-        '🎁 Gift pure Himalayan ghee to your loved ones this festive season',
+        '✨ Gift pure Himalayan ghee to your loved ones this festive season',
         '🌿 Pure A2 Bilona Ghee from Upper Shimla',
     ]));
   @endphp

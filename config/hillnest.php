@@ -51,6 +51,8 @@ return [
         'enabled' => env('SALE_BANNER_ENABLED', true),
         'name' => env('SALE_BANNER_NAME', 'Diwali Sale'),
         'ends_at' => env('SALE_BANNER_ENDS_AT', '2026-11-15 23:59'),
+        // Promoted in the ticker only while this all-customer coupon exists and is still valid.
+        'coupon_code' => env('SALE_BANNER_COUPON', 'DIWALI15'),
     ],
 
     /*

@@ -2,12 +2,15 @@
 
 namespace App\Services;
 
+use App\Models\Coupon;
 use App\Models\Product;
 use Illuminate\Support\Carbon;
 
 class SaleBannerService
 {
     protected ?int $maxDiscount = null;
+
+    protected Coupon|false|null $coupon = null;
 
     public function isActive(): bool
     {
@@ -37,5 +40,17 @@ class SaleBannerService
             ->where('stock', '>', 0)
             ->get(['price', 'compare_price'])
             ->max('discount_percent');
+    }
+
+    public function coupon(): ?Coupon
+    {
+        if ($this->coupon === null) {
+            $code = config('hillnest.sale_banner.coupon_code');
+            $coupon = $code ? Coupon::where('code', strtoupper($code))->first() : null;
+
+            $this->coupon = $coupon && $coupon->for_all && $coupon->isAvailable() ? $coupon : false;
+        }
+
+        return $this->coupon ?: null;
     }
 }
