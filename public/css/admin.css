@@ -41,6 +41,12 @@ body.admin-page a.admin-btn {
 body.admin-page a.admin-btn:hover {
   color: var(--white);
 }
+
+/* Outline buttons sit on light backgrounds, so links styled as them keep dark text. */
+body.admin-page a.admin-btn--ghost,
+body.admin-page a.admin-btn--ghost:hover {
+  color: var(--forest);
+}
 body.admin-page button,
 body.admin-page input,
 body.admin-page select,
