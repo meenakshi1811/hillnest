@@ -18,6 +18,7 @@ use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
+use App\Http\Controllers\DiwaliOfferController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MarketingUnsubscribeController;
 use App\Http\Controllers\ProductFeedController;
@@ -37,6 +38,9 @@ Route::get('/refund-policy', [HomeController::class, 'refundPolicy'])->name('ref
 Route::get('/shipping-policy', [HomeController::class, 'shippingPolicy'])->name('shipping');
 Route::get('/contact', [ContactController::class, 'show'])->name('contact');
 Route::post('/contact', [ContactController::class, 'store'])->middleware('throttle:contact')->name('contact.store');
+
+Route::get('/diwali', [DiwaliOfferController::class, 'show'])->name('diwali.offer');
+Route::post('/diwali/apply', [DiwaliOfferController::class, 'apply'])->middleware('throttle:coupon')->name('diwali.apply');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product:slug}', [ShopController::class, 'show'])->name('shop.show');

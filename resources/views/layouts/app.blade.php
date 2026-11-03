@@ -63,7 +63,7 @@
   </script>
   @endif
 </head>
-<body class="min-h-screen flex flex-col bg-cream">
+<body class="min-h-screen flex flex-col bg-cream" data-fireworks="@yield('fireworks', 'site')">
     @if(session()->has('impersonator_id'))
         <div class="impersonation-banner" role="status">
             <p>You are viewing <strong>{{ auth()->user()?->name }}</strong>’s account as admin.</p>
@@ -77,10 +77,10 @@
     @include('partials.site-header')
 
     @if(session('success'))
-        <div class="bg-emerald-50 border-b border-emerald-200 px-4 py-3 text-center text-base text-emerald-800">{{ session('success') }}</div>
+        <div class="site-flash site-flash--success" role="status">{{ session('success') }}</div>
     @endif
     @if(session('error'))
-        <div class="bg-red-50 border-b border-red-200 px-4 py-3 text-center text-base text-red-800">{{ session('error') }}</div>
+        <div class="site-flash site-flash--error" role="alert">{{ session('error') }}</div>
     @endif
 
     <main class="flex-1 site-main">

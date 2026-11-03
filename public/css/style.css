@@ -9201,3 +9201,589 @@ a.contact-card:hover {
 .coupon-offer.is-applied .coupon-offer__action {
   color: var(--forest-light);
 }
+
+/* Flash messages (success / error) under the header */
+.site-flash {
+  padding: 12px 20px;
+  border-bottom: 1px solid;
+  font-size: 15px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.site-flash--success {
+  border-color: rgba(62,107,82,0.25);
+  background: #E8F3EC;
+  color: var(--forest);
+}
+
+.site-flash--error {
+  border-color: rgba(180,35,24,0.22);
+  background: #FCEDEB;
+  color: #8a2a20;
+}
+
+/* ── Diwali offer page ── */
+.diwali-hero {
+  position: relative;
+  overflow: hidden;
+  min-height: 680px;
+  padding: 84px 20px 150px;
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(110,52,140,0.55) 0%, transparent 60%),
+    radial-gradient(ellipse at 50% 105%, rgba(190,90,20,0.55) 0%, transparent 55%),
+    linear-gradient(180deg, #110a22 0%, #1b0f2c 45%, #2b130f 100%);
+  color: #FFF4DC;
+  text-align: center;
+}
+
+.diwali-hero__fireworks {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.diwali-hero__stars {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    radial-gradient(1.5px 1.5px at 8% 14%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 22% 32%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 36% 9%, #ffe9b8 50%, transparent 51%),
+    radial-gradient(1px 1px at 51% 24%, #fff 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 66% 12%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 79% 30%, #ffe9b8 50%, transparent 51%),
+    radial-gradient(1.5px 1.5px at 91% 18%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 14% 52%, #fff 50%, transparent 51%),
+    radial-gradient(1px 1px at 87% 48%, #fff 50%, transparent 51%);
+  opacity: 0.7;
+  animation: diwali-twinkle 4s ease-in-out infinite alternate;
+}
+
+/* Marigold garland (toran) along the top */
+.diwali-hero__garland {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2;
+  height: 34px;
+  background:
+    radial-gradient(circle at 14px 12px, #FFB300 0 9px, transparent 10px) 0 0 / 28px 24px repeat-x,
+    radial-gradient(circle at 14px 12px, #FF7A00 0 9px, transparent 10px) 14px 8px / 28px 24px repeat-x;
+  filter: drop-shadow(0 4px 6px rgba(0,0,0,0.4));
+}
+
+.diwali-hero__inner {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 760px);
+  margin: 0 auto;
+}
+
+.diwali-hero__eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0;
+  padding: 8px 18px;
+  border: 1px solid rgba(232,196,122,0.5);
+  border-radius: 999px;
+  background: rgba(232,196,122,0.12);
+  color: var(--gold-light);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+}
+
+.diwali-hero__title {
+  margin: 22px 0 0;
+  color: #FFF4DC;
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(44px, 7vw, 78px);
+  font-weight: 600;
+  line-height: 1;
+  text-shadow: 0 6px 30px rgba(0,0,0,0.45);
+}
+
+.diwali-hero__title em {
+  background: linear-gradient(90deg, #E8C47A, #FFE8A8, #E8A33D);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+.diwali-hero__lead {
+  max-width: 560px;
+  margin: 18px auto 0;
+  color: rgba(255,244,220,0.82);
+  font-size: 17px;
+  line-height: 1.7;
+}
+
+.diwali-hero__shop {
+  display: inline-flex;
+  width: auto;
+  margin-top: 28px;
+  padding: 0 36px;
+}
+
+/* Gift box and reveal */
+.diwali-stage {
+  position: relative;
+  display: grid;
+  justify-items: center;
+  min-height: 330px;
+  margin-top: 34px;
+}
+
+.diwali-stage__rays {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 760px;
+  height: 760px;
+  margin: -380px 0 0 -380px;
+  background: repeating-conic-gradient(rgba(255,214,120,0.2) 0deg 7deg, transparent 7deg 22deg);
+  -webkit-mask-image: radial-gradient(circle, #000 0%, transparent 62%);
+  mask-image: radial-gradient(circle, #000 0%, transparent 62%);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.8s ease;
+  animation: diwali-spin 40s linear infinite;
+}
+
+.diwali-stage.is-open .diwali-stage__rays {
+  opacity: 1;
+}
+
+.diwali-gift {
+  position: relative;
+  width: 180px;
+  height: 170px;
+  margin-top: 40px;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  animation: diwali-float 2.4s ease-in-out infinite;
+}
+
+.diwali-gift::before {
+  content: "";
+  position: absolute;
+  inset: -60px;
+  z-index: -1;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,200,90,0.5) 0%, transparent 65%);
+  animation: diwali-pulse 2.4s ease-in-out infinite;
+}
+
+.diwali-gift:hover {
+  animation-play-state: paused;
+}
+
+.diwali-gift:focus-visible {
+  outline: 3px solid var(--gold-light);
+  outline-offset: 10px;
+  border-radius: 16px;
+}
+
+.diwali-gift__base {
+  position: absolute;
+  left: 14px;
+  right: 14px;
+  bottom: 0;
+  height: 108px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, #C0302A, #7D1414);
+  box-shadow: inset 0 -12px 22px rgba(0,0,0,0.28), 0 22px 44px rgba(0,0,0,0.5);
+  transition: transform 0.5s ease 0.1s, opacity 0.5s ease 0.1s;
+}
+
+.diwali-gift__base::before,
+.diwali-gift__lid::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 26px;
+  transform: translateX(-50%);
+  background: linear-gradient(90deg, #B8862E, #FFE08A, #B8862E);
+}
+
+.diwali-gift__lid {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 32px;
+  height: 38px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #D2392F, #8E1A16);
+  box-shadow: 0 8px 16px rgba(0,0,0,0.35);
+  transform-origin: 20% 100%;
+  transition: transform 0.6s cubic-bezier(0.2, 0.8, 0.2, 1.2), opacity 0.6s ease;
+}
+
+.diwali-gift__bow {
+  position: absolute;
+  bottom: 100%;
+  left: 50%;
+  width: 84px;
+  height: 36px;
+  transform: translateX(-50%);
+}
+
+.diwali-gift__bow::before,
+.diwali-gift__bow::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  width: 38px;
+  height: 28px;
+  border: 8px solid #E8B94A;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+}
+
+.diwali-gift__bow::before {
+  left: 0;
+  transform: rotate(-18deg);
+}
+
+.diwali-gift__bow::after {
+  right: 0;
+  transform: rotate(18deg);
+}
+
+.diwali-stage.is-open .diwali-gift {
+  animation: none;
+}
+
+.diwali-stage.is-open .diwali-gift__lid {
+  transform: translate(50px, -150px) rotate(40deg);
+  opacity: 0;
+}
+
+.diwali-stage.is-open .diwali-gift__base {
+  transform: scale(0.6) translateY(40px);
+  opacity: 0;
+}
+
+.diwali-stage__hint {
+  margin: 34px 0 0;
+  color: rgba(255,244,220,0.78);
+  font-size: 15px;
+  letter-spacing: 0.4px;
+  animation: diwali-pulse-text 1.8s ease-in-out infinite;
+}
+
+.diwali-gift[hidden],
+.diwali-coupon[hidden],
+.diwali-stage__hint[hidden] {
+  display: none;
+}
+
+/* Coupon ticket */
+.diwali-coupon {
+  position: relative;
+  width: min(100%, 470px);
+  padding: 30px 28px 24px;
+  border-radius: 24px;
+  background: linear-gradient(160deg, #FFFAF0 0%, #F7E9CC 100%);
+  color: var(--forest);
+  box-shadow: 0 0 0 1px rgba(232,196,122,0.7), 0 30px 80px rgba(0,0,0,0.5), 0 0 70px rgba(255,190,80,0.35);
+  opacity: 0;
+  transform: scale(0.8) translateY(24px);
+  transition: opacity 0.5s ease, transform 0.6s cubic-bezier(0.2, 0.9, 0.25, 1.3);
+}
+
+.diwali-coupon.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+.diwali-coupon__label {
+  margin: 0;
+  color: var(--gold);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.6px;
+  text-transform: uppercase;
+}
+
+.diwali-coupon__value {
+  margin: 8px 0 0;
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: clamp(26px, 4vw, 32px);
+  line-height: 1.2;
+}
+
+.diwali-coupon__value strong {
+  color: #B4231A;
+}
+
+.diwali-coupon__code-box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: 18px 0 0;
+  padding: 16px 18px;
+  border: 2px dashed var(--gold);
+  border-radius: 16px;
+  background: #FFFDF8;
+}
+
+.diwali-coupon__code {
+  background: linear-gradient(90deg, #1E3B2F 0%, #1E3B2F 40%, #C9973A 50%, #1E3B2F 60%, #1E3B2F 100%);
+  background-size: 250% 100%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: clamp(32px, 7vw, 44px);
+  font-weight: 700;
+  letter-spacing: 5px;
+  animation: diwali-shine 3s linear infinite;
+}
+
+.diwali-coupon__copy {
+  padding: 8px 14px;
+  border: 1px solid rgba(201,151,58,0.5);
+  border-radius: 999px;
+  background: rgba(201,151,58,0.1);
+  color: var(--forest);
+  font: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.diwali-coupon__copy:hover,
+.diwali-coupon__copy.is-copied {
+  border-color: var(--forest);
+  background: var(--forest);
+  color: var(--gold-pale);
+}
+
+.diwali-coupon__meta {
+  margin: 12px 0 0;
+  color: var(--text-light);
+  font-size: 13px;
+}
+
+.diwali-coupon__apply {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: 54px;
+  margin-top: 20px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--forest);
+  color: var(--gold-pale);
+  font-family: 'Jost', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 2px;
+  text-decoration: none;
+  text-transform: uppercase;
+  cursor: pointer;
+  box-shadow: 0 14px 30px rgba(30,59,47,0.3);
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.diwali-coupon__apply:hover {
+  background: var(--forest-light);
+  transform: translateY(-2px);
+}
+
+.diwali-coupon__note {
+  margin: 12px 0 0;
+  color: var(--text-light);
+  font-size: 12px;
+}
+
+/* Diyas along the bottom */
+.diwali-diyas {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 22px;
+  z-index: 1;
+  display: flex;
+  justify-content: space-evenly;
+  pointer-events: none;
+}
+
+.diwali-diya {
+  position: relative;
+  width: 48px;
+  height: 20px;
+  border-radius: 0 0 48px 48px / 0 0 22px 22px;
+  background: linear-gradient(180deg, #E07A2C, #9A3F12);
+  box-shadow: 0 8px 22px rgba(255,140,40,0.4);
+}
+
+.diwali-diya::before {
+  content: "";
+  position: absolute;
+  top: -4px;
+  left: -2px;
+  right: -2px;
+  height: 8px;
+  border-radius: 50%;
+  background: #F0A24A;
+}
+
+.diwali-diya__flame {
+  position: absolute;
+  bottom: 16px;
+  left: 50%;
+  width: 12px;
+  height: 24px;
+  margin-left: -6px;
+  border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: radial-gradient(ellipse at 50% 70%, #FFF6C8 0%, #FFD23F 35%, #FF8A00 70%, rgba(255,80,0,0) 100%);
+  box-shadow: 0 0 20px 7px rgba(255,170,40,0.55);
+  transform-origin: 50% 100%;
+  animation: diwali-flicker 1.6s ease-in-out infinite alternate;
+}
+
+.diwali-diya:nth-child(2n) .diwali-diya__flame {
+  animation-duration: 1.2s;
+  animation-delay: -0.4s;
+}
+
+.diwali-diya:nth-child(3n) .diwali-diya__flame {
+  animation-duration: 1.9s;
+  animation-delay: -0.8s;
+}
+
+/* Steps and products */
+.diwali-steps {
+  padding: 48px 20px 8px;
+  background: var(--cream);
+}
+
+.diwali-steps__list {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.diwali-steps__list li {
+  padding: 24px;
+  border: 1px solid rgba(201,151,58,0.2);
+  border-radius: 20px;
+  background: rgba(255,255,255,0.9);
+  text-align: center;
+}
+
+.diwali-steps__num {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  background: var(--forest);
+  color: var(--gold-pale);
+  font-weight: 700;
+}
+
+.diwali-steps__list strong {
+  display: block;
+  color: var(--forest);
+  font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+  font-size: 22px;
+}
+
+.diwali-steps__list p {
+  margin: 6px 0 0;
+  color: var(--text-mid);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.diwali-products {
+  padding: 40px 0 72px;
+  background: var(--cream);
+}
+
+.diwali-products__note {
+  margin: 10px 0 0;
+  color: var(--text-mid);
+  font-size: 16px;
+}
+
+@keyframes diwali-float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+@keyframes diwali-pulse {
+  0%, 100% { opacity: 0.65; transform: scale(0.95); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes diwali-pulse-text {
+  0%, 100% { opacity: 0.55; }
+  50% { opacity: 1; }
+}
+
+@keyframes diwali-spin {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes diwali-shine {
+  from { background-position: 100% 0; }
+  to { background-position: -150% 0; }
+}
+
+@keyframes diwali-twinkle {
+  from { opacity: 0.45; }
+  to { opacity: 0.85; }
+}
+
+@keyframes diwali-flicker {
+  0% { transform: scale(1) rotate(-2deg); }
+  50% { transform: scale(1.08, 0.94) rotate(2deg); }
+  100% { transform: scale(0.94, 1.06) rotate(-1deg); }
+}
+
+@media (max-width: 760px) {
+  .diwali-hero { min-height: 620px; padding: 64px 16px 120px; }
+  .diwali-steps__list { grid-template-columns: 1fr; }
+  .diwali-diya:nth-child(n+6) { display: none; }
+  .diwali-coupon { padding: 26px 18px 20px; }
+  .diwali-coupon__code-box { flex-direction: column; gap: 10px; }
+  .diwali-coupon__code { letter-spacing: 3px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .diwali-gift,
+  .diwali-gift::before,
+  .diwali-stage__rays,
+  .diwali-stage__hint,
+  .diwali-coupon__code,
+  .diwali-diya__flame,
+  .diwali-hero__stars {
+    animation: none;
+  }
+
+  .diwali-coupon {
+    transition: none;
+  }
+}

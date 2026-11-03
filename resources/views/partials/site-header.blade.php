@@ -12,7 +12,7 @@
     ]));
   @endphp
   <div class="announcement announcement--sale">
-    <a href="{{ route('shop.index') }}" class="announcement-ticker" aria-label="{{ $saleMessages[0] }} — shop now">
+    <a href="{{ $saleBanner->coupon() ? route('diwali.offer') : route('shop.index') }}" class="announcement-ticker" aria-label="{{ $saleMessages[0] }} — see the offer">
       @foreach([false, true] as $isCopy)
         <span class="announcement-ticker__group" @if($isCopy) aria-hidden="true" @endif>
           @foreach($saleMessages as $saleMessage)
