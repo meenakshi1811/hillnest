@@ -21,6 +21,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->validateCsrfTokens(except: [
             'webhooks/razorpay',
+            // Mail apps' one-click unsubscribe can't send a CSRF token; the URL is signed instead.
+            'email/unsubscribe/*',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

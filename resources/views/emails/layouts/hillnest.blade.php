@@ -43,6 +43,12 @@
                                 <a href="{{ url('/about') }}" style="color:#C9973A;font-size:13px;font-weight:700;text-decoration:none;">Our story</a>
                             </p>
                             <p style="margin:0;color:#A8957A;font-size:12px;line-height:1.5;">&copy; {{ date('Y') }} HillNest. All rights reserved.</p>
+                            @if(! empty($unsubscribeUrl))
+                                <p style="margin:10px 0 0;color:#A8957A;font-size:12px;line-height:1.5;">
+                                    You are receiving this because you have a HillNest account.
+                                    <a href="{{ $unsubscribeUrl }}" style="color:#8A7560;text-decoration:underline;">Unsubscribe from offers</a>
+                                </p>
+                            @endif
                         </td>
                     </tr>
                 </table>

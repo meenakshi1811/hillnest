@@ -1715,3 +1715,169 @@ body.admin-page button.admin-icon-btn {
   font-size: 11px;
   font-weight: 700;
 }
+
+/* ── Emails ── */
+.admin-email-table td { vertical-align: top; }
+
+.admin-email-error {
+  display: inline-block;
+  max-width: 360px;
+  margin-top: 4px;
+  font-size: 12px;
+}
+
+.admin-email-pager {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+}
+
+.admin-placeholder-list {
+  display: grid;
+  gap: 8px;
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.admin-placeholder-list li {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  color: var(--text-light);
+  font-size: 12px;
+}
+
+.admin-placeholder {
+  padding: 4px 8px;
+  border: 1px dashed rgba(201, 151, 58, 0.55);
+  border-radius: 6px;
+  background: rgba(201, 151, 58, 0.08);
+  color: var(--forest);
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.admin-placeholder:hover {
+  border-color: var(--gold);
+  background: rgba(201, 151, 58, 0.16);
+}
+
+.admin-email-test {
+  padding-top: 16px;
+  border-top: 1px solid rgba(201, 151, 58, 0.12);
+}
+
+.admin-email-picker {
+  display: grid;
+  gap: 10px;
+}
+
+.admin-email-picker[hidden] { display: none; }
+
+.admin-email-picker__tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.admin-email-picker__tools .admin-input {
+  flex: 1 1 220px;
+  min-width: 0;
+}
+
+.admin-email-picker__count {
+  margin: 0;
+  color: var(--text-mid);
+  font-size: 13px;
+}
+
+.admin-email-picker__list {
+  max-height: 420px;
+  margin: 0;
+  padding: 4px;
+  overflow-y: auto;
+  border: 1px solid rgba(201, 151, 58, 0.18);
+  border-radius: 12px;
+  list-style: none;
+}
+
+.admin-email-picker__list li[hidden] { display: none; }
+
+.admin-email-picker__row {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) minmax(0, 1.2fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.admin-email-picker__row:hover { background: rgba(201, 151, 58, 0.08); }
+
+.admin-email-picker__row input { accent-color: var(--forest); }
+
+.admin-email-picker__row.is-disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+.admin-email-picker__name {
+  color: var(--forest);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.admin-email-picker__email {
+  overflow: hidden;
+  color: var(--text-light);
+  font-size: 13px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .admin-email-picker__row { grid-template-columns: auto minmax(0, 1fr); }
+  .admin-email-picker__email { grid-column: 2; }
+}
+
+.admin-email-preview-frame {
+  display: block;
+  width: 100%;
+  height: 72vh;
+  border: 0;
+  border-radius: 10px;
+  background: #F4EDE0;
+}
+
+.admin-email-progress {
+  height: 10px;
+  margin: 8px 0 0;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(201, 151, 58, 0.16);
+}
+
+.admin-email-progress__bar {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--forest);
+  transition: width 0.3s ease;
+}
+
+.admin-email-progress__text {
+  margin: 14px 0 0;
+  color: var(--forest);
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.admin-email-progress__hint {
+  margin: 6px 0 0;
+  color: var(--text-light);
+  font-size: 13px;
+}

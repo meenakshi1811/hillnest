@@ -52,6 +52,7 @@ class User extends Authenticatable
             'password' => 'hashed',
             'is_admin' => 'boolean',
             'is_blocked' => 'boolean',
+            'marketing_unsubscribed_at' => 'datetime',
         ];
     }
 

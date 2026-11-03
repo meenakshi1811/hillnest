@@ -5,6 +5,8 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ExpenseController as AdminExpenseController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
 use App\Http\Controllers\Admin\CouponController as AdminCouponController;
+use App\Http\Controllers\Admin\EmailCampaignController as AdminEmailCampaignController;
+use App\Http\Controllers\Admin\EmailTemplateController as AdminEmailTemplateController;
 use App\Http\Controllers\Admin\OrderController as AdminOrderController;
 use App\Http\Controllers\Admin\ProductController as AdminProductController;
 use App\Http\Controllers\Admin\ReportController as AdminReportController;
@@ -17,6 +19,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
 use App\Http\Controllers\ContactController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MarketingUnsubscribeController;
 use App\Http\Controllers\ProductFeedController;
 use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\RazorpayWebhookController;
@@ -56,6 +59,7 @@ Route::middleware('auth')->group(function () {
 });
 
 Route::post('/webhooks/razorpay', [RazorpayWebhookController::class, 'handle'])->name('webhooks.razorpay');
+Route::match(['get', 'post'], '/email/unsubscribe/{user}', MarketingUnsubscribeController::class)->middleware('signed')->name('marketing.unsubscribe');
 
 Route::middleware('guest')->group(function () {
     Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
@@ -120,4 +124,17 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/messages', [AdminContactMessageController::class, 'index'])->name('messages.index');
     Route::get('/messages/{contactMessage}', [AdminContactMessageController::class, 'show'])->name('messages.show');
     Route::delete('/messages/{contactMessage}', [AdminContactMessageController::class, 'destroy'])->name('messages.destroy');
+    Route::get('/emails', [AdminEmailCampaignController::class, 'index'])->name('emails.index');
+    Route::get('/emails/create', [AdminEmailCampaignController::class, 'create'])->name('emails.create');
+    Route::post('/emails', [AdminEmailCampaignController::class, 'store'])->name('emails.store');
+    Route::get('/emails/{emailCampaign}', [AdminEmailCampaignController::class, 'show'])->name('emails.show');
+    Route::post('/emails/{emailCampaign}/send', [AdminEmailCampaignController::class, 'sendBatch'])->name('emails.send');
+    Route::get('/email-templates', [AdminEmailTemplateController::class, 'index'])->name('email-templates.index');
+    Route::get('/email-templates/create', [AdminEmailTemplateController::class, 'create'])->name('email-templates.create');
+    Route::post('/email-templates', [AdminEmailTemplateController::class, 'store'])->name('email-templates.store');
+    Route::post('/email-templates/preview', [AdminEmailTemplateController::class, 'preview'])->name('email-templates.preview');
+    Route::post('/email-templates/test', [AdminEmailTemplateController::class, 'test'])->middleware('throttle:20,1')->name('email-templates.test');
+    Route::get('/email-templates/{emailTemplate}/edit', [AdminEmailTemplateController::class, 'edit'])->name('email-templates.edit');
+    Route::patch('/email-templates/{emailTemplate}', [AdminEmailTemplateController::class, 'update'])->name('email-templates.update');
+    Route::delete('/email-templates/{emailTemplate}', [AdminEmailTemplateController::class, 'destroy'])->name('email-templates.destroy');
 });
