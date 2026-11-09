@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Services\MetaConversionsService;
 
 class ShopController extends Controller
 {
@@ -25,7 +26,7 @@ class ShopController extends Controller
         return view('shop.index', compact('products'));
     }
 
-    public function show(Product $product)
+    public function show(Product $product, MetaConversionsService $meta)
     {
         abort_unless($product->is_active, 404);
 
@@ -41,6 +42,15 @@ class ShopController extends Controller
             ->limit(12)
             ->get();
 
-        return view('shop.show', compact('product', 'related', 'reviews'));
+        $metaEventId = $meta->newEventId();
+        $meta->send('ViewContent', $metaEventId, [
+            'content_type' => 'product',
+            'content_ids' => [(string) $product->id],
+            'content_name' => $product->name,
+            'value' => round((float) $product->price, 2),
+            'currency' => 'INR',
+        ]);
+
+        return view('shop.show', compact('product', 'related', 'reviews', 'metaEventId'));
     }
 }

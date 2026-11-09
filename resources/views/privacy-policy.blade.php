@@ -52,6 +52,7 @@
 
                 <h2>5. Cookies and Similar Technologies</h2>
                 <p>We use cookies and similar tools to keep you signed in, remember cart items, understand Website traffic, and improve performance. You can control cookies through your browser settings, though disabling them may affect certain features such as checkout or account login.</p>
+                <p>We use the Meta Pixel and Meta Conversions API (Facebook and Instagram) and Google Analytics to measure visits, cart activity, and purchases, and to show relevant HillNest ads. With Meta, we share your email address, phone number, name, city, state, and pincode only in hashed (encrypted, one-way) form, together with technical data such as your IP address and browser type. You can manage how Meta uses this data in your Facebook or Instagram ad settings.</p>
 
                 <h2>6. Data Retention</h2>
                 <p>We retain personal information for as long as needed to fulfill orders, provide customer support, maintain business records, and meet legal requirements. When data is no longer required, we take reasonable steps to delete or anonymize it.</p>

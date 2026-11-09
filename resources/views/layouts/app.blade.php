@@ -35,6 +35,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <link href="{{ asset('css/style.css') }}?v={{ filemtime(public_path('css/style.css')) }}" rel="stylesheet" />
   <!-- Meta Pixel Code -->
+  @inject('metaConversions', 'App\Services\MetaConversionsService')
+  @php($metaPixelId = $metaConversions->pixelId())
   <script>
   !function(f,b,e,v,n,t,s)
   {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
@@ -44,11 +46,12 @@
   t.src=v;s=b.getElementsByTagName(e)[0];
   s.parentNode.insertBefore(t,s)}(window, document,'script',
   'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1102097026017807');
-  fbq('track', 'PageView');
+  {{-- Advanced matching: a signed-in customer's details, which the pixel hashes before sending. --}}
+  fbq('init', @json($metaPixelId), @json((object) $metaConversions->browserMatch(auth()->user())));
+  fbq('track', 'PageView', {}, @json(($metaPageEventId ?? null) ? ['eventID' => $metaPageEventId] : (object) []));
   </script>
   <noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=1102097026017807&ev=PageView&noscript=1"
+  src="https://www.facebook.com/tr?id={{ $metaPixelId }}&ev=PageView&noscript=1"
   /></noscript>
   <!-- End Meta Pixel Code -->
   @php($gaMeasurementId = auth()->user()?->isAdmin() ? null : config('hillnest.google.analytics_id'))

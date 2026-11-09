@@ -6,6 +6,7 @@ use App\Models\Order;
 use App\Models\OrderItem;
 use App\Services\CartService;
 use App\Services\CouponService;
+use App\Services\MetaConversionsService;
 use App\Services\RazorpayService;
 use App\Services\ShippingService;
 use Illuminate\Http\RedirectResponse;
@@ -22,6 +23,7 @@ class CheckoutController extends Controller
         protected CouponService $coupons,
         protected RazorpayService $razorpay,
         protected ShippingService $shipping,
+        protected MetaConversionsService $meta,
     ) {}
 
     public function index(): View|RedirectResponse
@@ -36,8 +38,19 @@ class CheckoutController extends Controller
 
         $summary = $this->orderSummary();
         $shippingMeta = $this->shipping->progressMeta($summary['subtotal']);
+        $items = $this->cart->all();
+
+        $metaEventId = $this->meta->newEventId();
+        $this->meta->send('InitiateCheckout', $metaEventId, [
+            'content_type' => 'product',
+            'content_ids' => $items->pluck('product_id')->map(fn ($id) => (string) $id)->values()->all(),
+            'num_items' => (int) $items->sum('quantity'),
+            'value' => round((float) $summary['total'], 2),
+            'currency' => 'INR',
+        ]);
 
         return view('checkout.index', [
+            'metaEventId' => $metaEventId,
             'items' => $this->cart->all(),
             'subtotal' => $summary['subtotal'],
             'shipping' => $summary['shipping'],
@@ -312,6 +325,7 @@ class CheckoutController extends Controller
             $this->cart->clear();
             $this->coupons->clear();
             $this->rememberCompletedOrder($order);
+            $this->meta->sendPurchase($order->fresh(), true);
 
             return response()->json([
                 'success' => true,

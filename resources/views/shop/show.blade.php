@@ -330,7 +330,7 @@
       content_type: 'product',
       value: {{ (float) $product->price }},
       currency: 'INR'
-    });
+    }, { eventID: @json($metaEventId) });
   }
 
   if (typeof gtag === 'function') {

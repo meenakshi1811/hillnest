@@ -18,6 +18,10 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->append(\App\Http\Middleware\SecurityHeaders::class);
 
         $middleware->appendToGroup('web', \App\Http\Middleware\EnsureUserNotBlocked::class);
+        $middleware->appendToGroup('web', \App\Http\Middleware\TrackMetaPageView::class);
+
+        // Set by the Meta Pixel in the browser, not by Laravel, so they are never encrypted.
+        $middleware->encryptCookies(except: ['_fbp', '_fbc']);
 
         $middleware->validateCsrfTokens(except: [
             'webhooks/razorpay',

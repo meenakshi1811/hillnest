@@ -61,7 +61,8 @@ $(function () {
     });
   }
 
-  function trackAddToCart($action, quantityAdded) {
+  // eventId comes from the server, which sends the same AddToCart to Meta; Meta keeps one.
+  function trackAddToCart($action, quantityAdded, eventId) {
     const productId = String($action.data('product-id'));
     const productName = $action.data('product-name');
     const productPrice = parseFloat($action.data('product-price'), 10) || 0;
@@ -74,7 +75,7 @@ $(function () {
         content_type: 'product',
         value: productPrice * qty,
         currency: 'INR',
-      });
+      }, eventId ? { eventID: eventId } : {});
     }
 
     if (typeof gtag === 'function') {
@@ -247,7 +248,7 @@ $(function () {
     })
       .done(function (response) {
         if (response.success !== false) {
-          trackAddToCart($action, quantity);
+          trackAddToCart($action, quantity, response.meta_event_id);
         }
         toastr.success(response.message || 'Added to cart successfully.');
         updateCartCount(response.cart_count);

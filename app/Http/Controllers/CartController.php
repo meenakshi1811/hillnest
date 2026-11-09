@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Services\CartService;
 use App\Services\CouponService;
+use App\Services\MetaConversionsService;
 use App\Services\ShippingService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -15,6 +16,7 @@ class CartController extends Controller
         protected CartService $cart,
         protected ShippingService $shipping,
         protected CouponService $coupons,
+        protected MetaConversionsService $meta,
     ) {}
 
     public function index()
@@ -53,7 +55,17 @@ class CartController extends Controller
 
         $this->cart->add($product->id, $qty);
 
-        return $this->respond($request, true, 'Added to cart successfully.', $product, 'back');
+        $metaEventId = $this->meta->newEventId();
+        $this->meta->send('AddToCart', $metaEventId, [
+            'content_type' => 'product',
+            'content_ids' => [(string) $product->id],
+            'content_name' => $product->name,
+            'contents' => [['id' => (string) $product->id, 'quantity' => $qty, 'item_price' => round((float) $product->price, 2)]],
+            'value' => round((float) $product->price * $qty, 2),
+            'currency' => 'INR',
+        ], null, url()->previous());
+
+        return $this->respond($request, true, 'Added to cart successfully.', $product, 'back', ['meta_event_id' => $metaEventId]);
     }
 
     public function update(Request $request, Product $product)
@@ -80,7 +92,7 @@ class CartController extends Controller
         return $this->respond($request, true, 'Removed from cart.', $product, 'cart.index');
     }
 
-    protected function respond(Request $request, bool $success, string $message, Product $product, ?string $redirectRoute = null): JsonResponse|\Illuminate\Http\RedirectResponse
+    protected function respond(Request $request, bool $success, string $message, Product $product, ?string $redirectRoute = null, array $extra = []): JsonResponse|\Illuminate\Http\RedirectResponse
     {
         if ($request->expectsJson() || $request->ajax()) {
             $status = $success ? 200 : 422;
@@ -108,7 +120,7 @@ class CartController extends Controller
                 'show_shipping_progress' => $shippingMeta['show_progress'],
                 'amount_to_free' => $shippingMeta['amount_to_free'],
                 'free_shipping_progress' => $shippingMeta['free_shipping_progress'],
-            ], $status);
+            ] + $extra, $status);
         }
 
         if (! $success) {

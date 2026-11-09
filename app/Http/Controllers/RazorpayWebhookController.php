@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Services\CouponService;
+use App\Services\MetaConversionsService;
 use App\Services\OrderNotificationService;
 use App\Services\RazorpayService;
 use Illuminate\Http\Request;
@@ -17,6 +18,7 @@ class RazorpayWebhookController extends Controller
         protected RazorpayService $razorpay,
         protected CouponService $coupons,
         protected OrderNotificationService $orderNotifications,
+        protected MetaConversionsService $meta,
     ) {}
 
     public function handle(Request $request): Response
@@ -97,6 +99,7 @@ class RazorpayWebhookController extends Controller
                 });
             }
 
+            $this->meta->sendPurchase($order->fresh(), false);
             $this->orderNotifications->sendOrderConfirmationEmails($order->fresh(['items']));
         } catch (\Throwable $e) {
             Log::error('Razorpay webhook payment.captured failed', [

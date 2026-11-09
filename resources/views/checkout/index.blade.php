@@ -191,7 +191,7 @@
       content_type: 'product',
       value: {{ (float) $total }},
       currency: 'INR'
-    });
+    }, { eventID: @json($metaEventId ?? null) });
   }
 
   if (typeof gtag === 'function') {

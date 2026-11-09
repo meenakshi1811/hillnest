@@ -57,6 +57,25 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Meta (Facebook / Instagram)
+    |--------------------------------------------------------------------------
+    |
+    | The pixel always runs in the browser. Server-side events (Conversions API)
+    | switch on once META_CAPI_TOKEN is set; generate it in Events Manager →
+    | Settings → Conversions API. META_TEST_EVENT_CODE sends server events to the
+    | Test events tab instead of live data while checking the setup.
+    |
+    */
+
+    'meta' => [
+        'pixel_id' => env('META_PIXEL_ID', '1102097026017807'),
+        'capi_token' => env('META_CAPI_TOKEN'),
+        'test_event_code' => env('META_TEST_EVENT_CODE'),
+        'graph_version' => env('META_GRAPH_VERSION', 'v21.0'),
+    ],
+
+    /*
+    |--------------------------------------------------------------------------
     | Google
     |--------------------------------------------------------------------------
     |
