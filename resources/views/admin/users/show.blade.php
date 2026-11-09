@@ -30,6 +30,26 @@
     </div>
 </div>
 
+<div class="admin-stats">
+    <div class="admin-stat-card admin-stat-card--gold">
+        <p class="admin-stat-card__label">Last Visit</p>
+        <p class="admin-stat-card__value admin-stat-card__value--gold" style="font-size:22px">{{ $activity['last_visit']?->diffForHumans() ?? 'Not yet' }}</p>
+        @if($activity['last_visit'])
+            <p class="admin-stat-card__hint">{{ $activity['last_visit']->timezone('Asia/Kolkata')->format('d M Y, h:i A') }}</p>
+        @endif
+    </div>
+    <div class="admin-stat-card admin-stat-card--forest">
+        <p class="admin-stat-card__label">Visits</p>
+        <p class="admin-stat-card__value">{{ $activity['visits'] }}</p>
+        <p class="admin-stat-card__hint">{{ $activity['pages'] }} pages viewed</p>
+    </div>
+    <div class="admin-stat-card admin-stat-card--brown">
+        <p class="admin-stat-card__label">Total Time on Site</p>
+        <p class="admin-stat-card__value">{{ $activity['time'] }}</p>
+        <p class="admin-stat-card__hint">while logged in</p>
+    </div>
+</div>
+
 <div class="admin-card">
     <div class="admin-card__head">
         <h2 class="admin-card__title">Order History</h2>
@@ -42,6 +62,25 @@
                     <th>Date</th>
                     <th>Total</th>
                     <th>Status</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+<div class="admin-card admin-section-gap">
+    <div class="admin-card__head">
+        <h2 class="admin-card__title">Cart Activity</h2>
+    </div>
+    <div class="admin-table-wrap admin-table-wrap--scroll" style="border:0;box-shadow:none;border-radius:0">
+        <table id="user-cart-table" class="admin-table admin-dt" style="width:100%">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Product</th>
+                    <th>Action</th>
+                    <th>Qty</th>
+                    <th>Value</th>
+                    <th>Result</th>
                 </tr>
             </thead>
         </table>
@@ -61,6 +100,19 @@ document.addEventListener('DOMContentLoaded', function () {
             { data: 'created_at', name: 'created_at', orderable: true, searchable: false },
             { data: 'total', name: 'total', orderable: true, searchable: false },
             { data: 'status_badge', name: 'status', orderable: true, searchable: false }
+        ]
+    });
+
+    AdminDT.init('#user-cart-table', {
+        ajax: { url: '{{ route('admin.users.show', $user) }}', data: function (d) { d.table = 'cart'; } },
+        order: [[0, 'desc']],
+        columns: [
+            { data: 'created_at', name: 'created_at', orderable: true, searchable: false },
+            { data: 'product_name', name: 'product_name', orderable: true, searchable: true },
+            { data: 'action_badge', name: 'action', orderable: true, searchable: false },
+            { data: 'quantity', name: 'quantity', orderable: true, searchable: false },
+            { data: 'value', name: 'value', orderable: true, searchable: false },
+            { data: 'outcome', name: 'outcome', orderable: false, searchable: false }
         ]
     });
 });

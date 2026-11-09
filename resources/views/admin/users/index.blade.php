@@ -20,6 +20,7 @@
                 <th>Orders</th>
                 <th>Status</th>
                 <th>Joined</th>
+                <th>Last visit</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -41,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function () {
             { data: 'orders_count', name: 'orders_count', orderable: true, searchable: false },
             { data: 'status_toggle', name: 'is_blocked', orderable: true, searchable: false },
             { data: 'created_at', name: 'created_at', orderable: true, searchable: false },
+            { data: 'last_seen_at', name: 'last_seen_at', orderable: true, searchable: false },
             { data: 'actions', name: 'actions', orderable: false, searchable: false }
         ]
     });

@@ -96,6 +96,23 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
     <script src="{{ asset('js/cart.js') }}?v={{ filemtime(public_path('js/cart.js')) }}"></script>
+    @unless(auth()->user()?->isAdmin() || session()->has('impersonator_id'))
+    <script>
+    // Time on site: a heartbeat every 30 seconds while this tab is visible, and one when it is hidden or closed.
+    (function () {
+      var url = @json(route('visit.ping'));
+      function ping() {
+        if (navigator.sendBeacon) {
+          navigator.sendBeacon(url);
+        } else {
+          fetch(url, { method: 'POST', keepalive: true, credentials: 'same-origin' });
+        }
+      }
+      setInterval(function () { if (!document.hidden) { ping(); } }, 30000);
+      document.addEventListener('visibilitychange', function () { if (document.hidden) { ping(); } });
+    })();
+    </script>
+    @endunless
     @stack('scripts')
 </body>
 </html>

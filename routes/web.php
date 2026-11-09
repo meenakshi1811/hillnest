@@ -13,6 +13,7 @@ use App\Http\Controllers\Admin\ReportController as AdminReportController;
 use App\Http\Controllers\Admin\ReviewController as AdminReviewController;
 use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
+use App\Http\Controllers\Admin\VisitorController as AdminVisitorController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\CartController;
@@ -26,10 +27,12 @@ use App\Http\Controllers\ProductReviewController;
 use App\Http\Controllers\RazorpayWebhookController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\SitemapController;
+use App\Http\Controllers\VisitPingController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/sitemap.xml', [SitemapController::class, 'index'])->name('sitemap');
+Route::post('/visit/ping', VisitPingController::class)->middleware('throttle:30,1')->name('visit.ping');
 Route::get('/feeds/google-merchant.xml', [ProductFeedController::class, 'google'])->name('feeds.google');
 Route::get('/about', [HomeController::class, 'about'])->name('about');
 Route::get('/privacy-policy', [HomeController::class, 'privacyPolicy'])->name('privacy');
@@ -99,6 +102,7 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/orders/{order}/status', [AdminOrderController::class, 'updateStatus'])->name('orders.status');
     Route::patch('/orders/{order}/tracking', [AdminOrderController::class, 'updateTracking'])->name('orders.tracking');
     Route::delete('/orders/{order}', [AdminOrderController::class, 'destroy'])->name('orders.destroy');
+    Route::get('/visitors', [AdminVisitorController::class, 'index'])->name('visitors.index');
     Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
     Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
     Route::patch('/users/{user}/toggle-block', [AdminUserController::class, 'toggleBlock'])->name('users.toggle-block');

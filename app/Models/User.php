@@ -53,6 +53,7 @@ class User extends Authenticatable
             'is_admin' => 'boolean',
             'is_blocked' => 'boolean',
             'marketing_unsubscribed_at' => 'datetime',
+            'last_seen_at' => 'datetime',
         ];
     }
 

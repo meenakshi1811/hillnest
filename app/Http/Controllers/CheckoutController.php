@@ -9,6 +9,7 @@ use App\Services\CouponService;
 use App\Services\MetaConversionsService;
 use App\Services\RazorpayService;
 use App\Services\ShippingService;
+use App\Services\VisitTracker;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -24,6 +25,7 @@ class CheckoutController extends Controller
         protected RazorpayService $razorpay,
         protected ShippingService $shipping,
         protected MetaConversionsService $meta,
+        protected VisitTracker $visits,
     ) {}
 
     public function index(): View|RedirectResponse
@@ -326,6 +328,7 @@ class CheckoutController extends Controller
             $this->coupons->clear();
             $this->rememberCompletedOrder($order);
             $this->meta->sendPurchase($order->fresh(), true);
+            $this->visits->recordOrder($request, $order);
 
             return response()->json([
                 'success' => true,

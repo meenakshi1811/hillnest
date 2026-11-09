@@ -54,7 +54,8 @@ class UsersDataTable
                     </form>';
             })
             ->editColumn('created_at', fn (User $user) => $user->created_at->format('d M Y'))
-            ->rawColumns(['name_link', 'status_toggle', 'actions'])
+            ->editColumn('last_seen_at', fn (User $user) => $user->last_seen_at ? '<span title="'.$user->last_seen_at->timezone('Asia/Kolkata')->format('d M Y, h:i A').'">'.$user->last_seen_at->diffForHumans().'</span>' : '<span class="admin-table__muted">—</span>')
+            ->rawColumns(['name_link', 'status_toggle', 'last_seen_at', 'actions'])
             ->toJson();
     }
 }

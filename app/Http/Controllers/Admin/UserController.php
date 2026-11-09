@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\DataTables\CartEventsDataTable;
 use App\DataTables\UserOrdersDataTable;
 use App\DataTables\UsersDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\SiteVisit;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -27,10 +29,20 @@ class UserController extends Controller
         abort_if($user->is_admin, 404);
 
         if ($request->ajax()) {
-            return (new UserOrdersDataTable($user))->json();
+            return $request->get('table') === 'cart'
+                ? (new CartEventsDataTable($user->id))->json()
+                : (new UserOrdersDataTable($user))->json();
         }
 
-        return view('admin.users.show', compact('user'));
+        $visits = SiteVisit::where('user_id', $user->id)->get(['id', 'page_views', 'last_seen_at', 'created_at']);
+        $activity = [
+            'last_visit' => $user->last_seen_at,
+            'visits' => $visits->count(),
+            'pages' => (int) $visits->sum('page_views'),
+            'time' => SiteVisit::formatDuration($visits->sum(fn (SiteVisit $visit) => $visit->durationSeconds())),
+        ];
+
+        return view('admin.users.show', compact('user', 'activity'));
     }
 
     public function toggleBlock(User $user): JsonResponse

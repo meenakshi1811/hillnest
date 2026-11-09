@@ -1893,3 +1893,9 @@ body.admin-page button.admin-icon-btn {
   color: var(--text-light);
   font-size: 13px;
 }
+
+.admin-stat-card__hint {
+  margin-top: 8px;
+  color: var(--text-light);
+  font-size: 12px;
+}

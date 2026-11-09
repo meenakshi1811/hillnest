@@ -19,6 +19,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
         $middleware->appendToGroup('web', \App\Http\Middleware\EnsureUserNotBlocked::class);
         $middleware->appendToGroup('web', \App\Http\Middleware\TrackMetaPageView::class);
+        $middleware->appendToGroup('web', \App\Http\Middleware\TrackSiteVisit::class);
 
         // Set by the Meta Pixel in the browser, not by Laravel, so they are never encrypted.
         $middleware->encryptCookies(except: ['_fbp', '_fbc']);
@@ -27,6 +28,8 @@ return Application::configure(basePath: dirname(__DIR__))
             'webhooks/razorpay',
             // Mail apps' one-click unsubscribe can't send a CSRF token; the URL is signed instead.
             'email/unsubscribe/*',
+            // Time-on-site heartbeat from navigator.sendBeacon, which can't send a CSRF token.
+            'visit/ping',
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {

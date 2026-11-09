@@ -7,6 +7,7 @@ use App\Services\CartService;
 use App\Services\CouponService;
 use App\Services\MetaConversionsService;
 use App\Services\ShippingService;
+use App\Services\VisitTracker;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -17,6 +18,7 @@ class CartController extends Controller
         protected ShippingService $shipping,
         protected CouponService $coupons,
         protected MetaConversionsService $meta,
+        protected VisitTracker $visits,
     ) {}
 
     public function index()
@@ -54,6 +56,7 @@ class CartController extends Controller
         }
 
         $this->cart->add($product->id, $qty);
+        $this->visits->recordCartEvent($request, $product, 'added', $qty);
 
         $metaEventId = $this->meta->newEventId();
         $this->meta->send('AddToCart', $metaEventId, [
@@ -79,6 +82,7 @@ class CartController extends Controller
         }
 
         $this->cart->update($product->id, $data['quantity']);
+        $this->visits->recordCartEvent($request, $product, $data['quantity'] > 0 ? 'updated' : 'removed', (int) $data['quantity']);
 
         $message = $data['quantity'] > 0 ? 'Quantity updated.' : 'Removed from cart.';
 
@@ -88,6 +92,7 @@ class CartController extends Controller
     public function remove(Request $request, Product $product)
     {
         $this->cart->remove($product->id);
+        $this->visits->recordCartEvent($request, $product, 'removed', 0);
 
         return $this->respond($request, true, 'Removed from cart.', $product, 'cart.index');
     }
