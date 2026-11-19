@@ -9,6 +9,9 @@
     $metaTitle = trim($__env->yieldContent('title', 'HillNest — Pure A2 Bilona Ghee from Upper Shimla'));
     $metaDescription = trim($__env->yieldContent('meta_description', 'Pure A2 bilona ghee, hand-churned in village homes of Upper Shimla. Small-batch, slow-cooked over wood fire, no preservatives. Delivered across India.'));
     $metaImage = trim($__env->yieldContent('og_image', asset('images/og-image.jpg')));
+    // Built from APP_URL, not the incoming request, so /public/... or /index.php/... can never
+    // become a canonical of their own. Query strings (utm, fbclid, page) are left out.
+    $canonicalUrl = rtrim(config('app.url'), '/').(request()->path() === '/' ? '' : '/'.request()->path());
   @endphp
   <title>{!! $metaTitle !!}</title>
   <meta name="description" content="{!! $metaDescription !!}" />
@@ -18,12 +21,12 @@
   @if(config('hillnest.google.site_verification'))
   <meta name="google-site-verification" content="{{ config('hillnest.google.site_verification') }}" />
   @endif
-  <link rel="canonical" href="{{ url()->current() }}" />
+  <link rel="canonical" href="{{ $canonicalUrl }}" />
   <meta property="og:site_name" content="HillNest" />
   <meta property="og:type" content="@yield('og_type', 'website')" />
   <meta property="og:title" content="{!! $metaTitle !!}" />
   <meta property="og:description" content="{!! $metaDescription !!}" />
-  <meta property="og:url" content="{{ url()->current() }}" />
+  <meta property="og:url" content="{{ $canonicalUrl }}" />
   <meta property="og:image" content="{!! $metaImage !!}" />
   <meta property="og:locale" content="en_IN" />
   <meta name="twitter:card" content="summary_large_image" />

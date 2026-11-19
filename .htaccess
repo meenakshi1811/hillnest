@@ -5,5 +5,22 @@
    RewriteCond %{HTTP_HOST} ^www\.(.+)$ [NC]
    RewriteRule ^ https://%1%{REQUEST_URI} [L,R=301]
 
+   # The checks below read THE_REQUEST (what the visitor asked for), not the internally
+   # rewritten path, so they never loop. They only match on the live domain root, where
+   # the path starts with /public or /index.php; locally (/hillnest/...) they do nothing.
+
+   # /public/... is an internal folder, not a second copy of the site: send it to the clean URL.
+   RewriteCond %{THE_REQUEST} ^(?:GET|HEAD)\s/+public(?:/+(?:index\.php/*)?([^\s?]*))?[\s?] [NC]
+   RewriteRule ^ /%1 [L,R=301,NE]
+
+   # /index.php and /index.php/shop are the same pages as / and /shop.
+   RewriteCond %{THE_REQUEST} ^(?:GET|HEAD)\s/+index\.php(?:/+([^\s?]*))?[\s?] [NC]
+   RewriteRule ^ /%1 [L,R=301,NE]
+
+   # /shop/ -> /shop. Done here because public/.htaccess sees the rewritten /public/shop/
+   # path and would redirect visitors to /public/shop.
+   RewriteCond %{THE_REQUEST} ^(?:GET|HEAD)\s/+([^\s?]*[^/\s?])/+[\s?]
+   RewriteRule ^ /%1 [L,R=301,NE]
+
    RewriteRule ^(.*)$ public/$1 [L]
 </IfModule>
