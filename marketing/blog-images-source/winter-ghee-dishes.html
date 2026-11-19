@@ -1,0 +1,40 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Cormorant+Garamond:ital,wght@1,500&family=Jost:wght@400;500;600;700&display=block" rel="stylesheet"><style>
+:root { --gold:#C9973A; --gold-light:#E8C47A; --gold-pale:#F5E8C8; --forest:#1E3B2F;
+        --forest-mid:#2D5240; --forest-light:#3E6B52; --cream:#FAF5EC; --cream-dark:#F0E8D6;
+        --text:#2A1F14; --text-mid:#5C4A34; --text-light:#8A7560; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html, body { width:1200px; height:2400px; overflow:hidden; }
+body { font-family:'Jost',sans-serif; -webkit-font-smoothing:antialiased; }
+.eyebrow { font-size:15px; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:var(--gold); }
+.brand { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:24px; }
+.ridge { position:absolute; left:0; right:0; bottom:0; width:100%; height:260px; }
+
+html { background:#00FF00; }
+body { height:auto !important; background:transparent; }
+.page { position:relative; overflow:hidden; padding-bottom:110px; color:var(--text); background:
+  radial-gradient(circle at 12% 0%, rgba(232,196,122,.35), transparent 40%), var(--cream); }
+.ridge { color:var(--forest); height:120px; }
+.wrap { position:relative; padding:56px 64px 0; }
+h2 { font-family:'Playfair Display',serif; font-size:50px; font-weight:700; color:var(--forest); margin:10px 0 8px; line-height:1.15; }
+h2 em { color:var(--gold); font-style:italic; }
+.lead { font-size:24px; color:var(--text-mid); margin-bottom:34px; }
+.foot { position:absolute; left:64px; right:64px; bottom:34px; display:flex; justify-content:space-between; align-items:center; font-size:21px; color:var(--text-mid); }
+.foot .brand { color:var(--forest); }
+.steps { display:flex; align-items:flex-start; gap:10px; }
+.step { flex:1; text-align:center; }
+.badge { position:relative; width:118px; height:118px; margin:0 auto 18px; border-radius:50%; background:#fff; color:var(--forest);
+  display:flex; align-items:center; justify-content:center; box-shadow:0 14px 34px rgba(77,55,24,.12), inset 0 0 0 3px var(--gold-pale); }
+.num { position:absolute; top:-6px; right:-6px; width:36px; height:36px; border-radius:50%; background:var(--gold); color:#fff; font-weight:700; font-size:18px; display:flex; align-items:center; justify-content:center; }
+.step h3 { font-size:27px; font-weight:600; color:var(--forest); margin-bottom:8px; line-height:1.2; }
+.step p { font-size:21px; line-height:1.4; color:var(--text-mid); padding:0 2px; }
+.sep { width:40px; flex:0 0 40px; margin-top:44px; color:var(--gold); }
+.grid { display:grid; gap:20px; }
+.card { background:#fff; border-radius:22px; padding:24px 24px 22px; box-shadow:0 12px 32px rgba(77,55,24,.08); border:1px solid rgba(201,151,58,.18); }
+.card .ico { width:64px; height:64px; border-radius:18px; background:var(--gold-pale); color:var(--forest); display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+.card h3 { font-size:27px; color:var(--forest); font-weight:600; margin-bottom:6px; line-height:1.2; }
+.card p { font-size:21px; line-height:1.4; color:var(--text-mid); }
+.note { margin-top:22px; padding:16px 22px; border-radius:14px; background:rgba(30,59,47,.07); color:var(--forest); font-size:21px; line-height:1.4; }
+</style></head><body><div class="page">
+      <svg class="ridge" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true"><path d="M0 260 L0 170 L120 110 L210 150 L330 60 L430 135 L520 95 L640 170 L760 80 L880 150 L980 105 L1090 160 L1200 120 L1200 260Z" fill="currentColor" opacity=".10"/><path d="M0 260 L0 205 L150 160 L280 200 L400 150 L560 210 L700 165 L860 215 L1000 175 L1200 210 L1200 260Z" fill="currentColor" opacity=".14"/></svg>
+      <div class="wrap"><p class="eyebrow">Winter kitchen</p><h2>7 winter dishes made <em>with ghee</em></h2><p class="lead">Traditional favourites from North India and the hills of Himachal.</p><div class="grid" style="grid-template-columns:repeat(4,1fr)"><div class="card"><div class="ico"><svg class="" width="48" height="48" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 28c-4-4 4-8 0-13M32 28c-4-4 4-8 0-13M42 28c-4-4 4-8 0-13"/><path d="M10 36h44a22 14 0 0 1-44 0z"/></svg></div><h3>Makki roti &amp; sarson saag</h3><p>Ghee on hot roti and in the saag tadka</p></div><div class="card"><div class="ico"><svg class="" width="48" height="48" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 30h48"/><path d="M12 30a20 12 0 0 0 40 0"/><path d="M24 22c-3-3 3-6 0-10M32 22c-3-3 3-6 0-10M40 22c-3-3 3-6 0-10"/><path d="M28 54h8"/></svg></div><h3>Pinni &amp; panjiri</h3><p>Flour roasted slowly in ghee with jaggery</p></div><div class="card"><div class="ico"><svg class="" width="48" height="48" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 22h48"/><path d="M12 22a20 11 0 0 0 40 0"/><path d="M32 61c-7 0-10-5-8-10 1 3 4 3 4 3-2-6 3-9 4-13 3 5 9 8 7 15-1 3-4 5-7 5z"/></svg></div><h3>Gajar ka halwa</h3><p>Cooked until the ghee separates at the edges</p></div><div class="card"><div class="ico"><svg class="" width="48" height="48" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 6S14 27 14 40a18 18 0 0 0 36 0C50 27 32 6 32 6z"/></svg></div><h3>Himachali siddu</h3><p>Steamed bun, torn open and drenched in ghee</p></div><div class="card"><div class="ico"><svg class="" width="48" height="48" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><ellipse cx="21" cy="20" rx="10" ry="14" transform="rotate(-45 21 20)"/><path d="M29 28l26 26"/></svg></div><h3>Til–gur laddoo</h3><p>Made for Lohri and Makar Sankranti</p></div><div class="card"><div class="ico"><svg class="" width="48" height="48" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 28c-4-4 4-8 0-13M32 28c-4-4 4-8 0-13M42 28c-4-4 4-8 0-13"/><path d="M10 36h44a22 14 0 0 1-44 0z"/></svg></div><h3>Moong dal khichdi</h3><p>With a cumin and hing ghee tadka</p></div><div class="card"><div class="ico"><svg class="" width="48" height="48" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 30h48"/><path d="M12 30a20 12 0 0 0 40 0"/><path d="M24 22c-3-3 3-6 0-10M32 22c-3-3 3-6 0-10M40 22c-3-3 3-6 0-10"/><path d="M28 54h8"/></svg></div><h3>Roasted makhana &amp; nuts</h3><p>A quick snack roasted in a spoon of ghee</p></div><div class="card"><div class="ico"><svg class="" width="48" height="48" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M32 4v56M8 18l48 28M8 46l48-28"/><path d="M26 8l6 6 6-6M26 56l6-6 6 6M8 26l8-2-2-8M56 38l-8 2 2 8M8 38l8 2-2 8M56 26l-8-2 2-8"/></svg></div><h3>Tip</h3><p>Solid or grainy ghee in winter is normal</p></div></div></div>
+      <div class="foot"><span>Cook tadka on medium heat so the ghee doesn’t burn</span><span class="brand">hillnest.co</span></div></div></body></html>

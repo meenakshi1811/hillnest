@@ -1,0 +1,40 @@
+<!doctype html><html><head><meta charset="utf-8"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,600;0,700;1,600;1,700&family=Cormorant+Garamond:ital,wght@1,500&family=Jost:wght@400;500;600;700&display=block" rel="stylesheet"><style>
+:root { --gold:#C9973A; --gold-light:#E8C47A; --gold-pale:#F5E8C8; --forest:#1E3B2F;
+        --forest-mid:#2D5240; --forest-light:#3E6B52; --cream:#FAF5EC; --cream-dark:#F0E8D6;
+        --text:#2A1F14; --text-mid:#5C4A34; --text-light:#8A7560; }
+* { box-sizing:border-box; margin:0; padding:0; }
+html, body { width:1200px; height:2400px; overflow:hidden; }
+body { font-family:'Jost',sans-serif; -webkit-font-smoothing:antialiased; }
+.eyebrow { font-size:15px; font-weight:600; letter-spacing:4px; text-transform:uppercase; color:var(--gold); }
+.brand { font-family:'Cormorant Garamond',serif; font-style:italic; font-size:24px; }
+.ridge { position:absolute; left:0; right:0; bottom:0; width:100%; height:260px; }
+
+html { background:#00FF00; }
+body { height:auto !important; background:transparent; }
+.page { position:relative; overflow:hidden; padding-bottom:110px; color:var(--text); background:
+  radial-gradient(circle at 12% 0%, rgba(232,196,122,.35), transparent 40%), var(--cream); }
+.ridge { color:var(--forest); height:120px; }
+.wrap { position:relative; padding:56px 64px 0; }
+h2 { font-family:'Playfair Display',serif; font-size:50px; font-weight:700; color:var(--forest); margin:10px 0 8px; line-height:1.15; }
+h2 em { color:var(--gold); font-style:italic; }
+.lead { font-size:24px; color:var(--text-mid); margin-bottom:34px; }
+.foot { position:absolute; left:64px; right:64px; bottom:34px; display:flex; justify-content:space-between; align-items:center; font-size:21px; color:var(--text-mid); }
+.foot .brand { color:var(--forest); }
+.steps { display:flex; align-items:flex-start; gap:10px; }
+.step { flex:1; text-align:center; }
+.badge { position:relative; width:118px; height:118px; margin:0 auto 18px; border-radius:50%; background:#fff; color:var(--forest);
+  display:flex; align-items:center; justify-content:center; box-shadow:0 14px 34px rgba(77,55,24,.12), inset 0 0 0 3px var(--gold-pale); }
+.num { position:absolute; top:-6px; right:-6px; width:36px; height:36px; border-radius:50%; background:var(--gold); color:#fff; font-weight:700; font-size:18px; display:flex; align-items:center; justify-content:center; }
+.step h3 { font-size:27px; font-weight:600; color:var(--forest); margin-bottom:8px; line-height:1.2; }
+.step p { font-size:21px; line-height:1.4; color:var(--text-mid); padding:0 2px; }
+.sep { width:40px; flex:0 0 40px; margin-top:44px; color:var(--gold); }
+.grid { display:grid; gap:20px; }
+.card { background:#fff; border-radius:22px; padding:24px 24px 22px; box-shadow:0 12px 32px rgba(77,55,24,.08); border:1px solid rgba(201,151,58,.18); }
+.card .ico { width:64px; height:64px; border-radius:18px; background:var(--gold-pale); color:var(--forest); display:flex; align-items:center; justify-content:center; margin-bottom:14px; }
+.card h3 { font-size:27px; color:var(--forest); font-weight:600; margin-bottom:6px; line-height:1.2; }
+.card p { font-size:21px; line-height:1.4; color:var(--text-mid); }
+.note { margin-top:22px; padding:16px 22px; border-radius:14px; background:rgba(30,59,47,.07); color:var(--forest); font-size:21px; line-height:1.4; }
+</style></head><body><div class="page">
+      <svg class="ridge" viewBox="0 0 1200 260" preserveAspectRatio="none" aria-hidden="true"><path d="M0 260 L0 170 L120 110 L210 150 L330 60 L430 135 L520 95 L640 170 L760 80 L880 150 L980 105 L1090 160 L1200 120 L1200 260Z" fill="currentColor" opacity=".10"/><path d="M0 260 L0 205 L150 160 L280 200 L400 150 L560 210 L700 165 L860 215 L1000 175 L1200 210 L1200 260Z" fill="currentColor" opacity=".14"/></svg>
+      <div class="wrap"><p class="eyebrow">A1 vs A2</p><h2>What ends up <em>in ghee?</em></h2><p class="lead">Approximate composition from milk to butter to ghee.</p><div style="display:flex;align-items:center;gap:20px;margin-bottom:22px"><div style="width:150px;font-size:27px;font-weight:600;color:#1E3B2F">Cow milk</div><div style="flex:1;display:flex;height:54px;border-radius:14px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(30,59,47,.12)"><div style="flex:87;background:#BFD3C6" title="Water"></div><div style="flex:4;background:#C9973A" title="Fat"></div><div style="flex:3.5;background:#6B4F30" title="Protein"></div><div style="flex:5.5;background:#E8C47A" title="Lactose & minerals"></div></div></div><div style="display:flex;align-items:center;gap:20px;margin-bottom:22px"><div style="width:150px;font-size:27px;font-weight:600;color:#1E3B2F">Butter</div><div style="flex:1;display:flex;height:54px;border-radius:14px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(30,59,47,.12)"><div style="flex:16;background:#BFD3C6" title="Water"></div><div style="flex:82;background:#C9973A" title="Fat"></div><div style="flex:1;background:#6B4F30" title="Protein"></div><div style="flex:1;background:#E8C47A" title="Lactose & minerals"></div></div></div><div style="display:flex;align-items:center;gap:20px;margin-bottom:22px"><div style="width:150px;font-size:27px;font-weight:600;color:#1E3B2F">Ghee</div><div style="flex:1;display:flex;height:54px;border-radius:14px;overflow:hidden;box-shadow:inset 0 0 0 1px rgba(30,59,47,.12)"><div style="flex:99.5;background:#C9973A" title="Fat"></div><div style="flex:0.5;background:#6B4F30" title="Water, protein (traces)"></div></div></div><div style="margin:6px 0 0 170px"><span style="display:inline-flex;align-items:center;gap:8px;margin-right:26px;font-size:21px;color:#5C4A34"><i style="width:18px;height:18px;border-radius:5px;background:#BFD3C6;display:inline-block"></i>Water</span><span style="display:inline-flex;align-items:center;gap:8px;margin-right:26px;font-size:21px;color:#5C4A34"><i style="width:18px;height:18px;border-radius:5px;background:#C9973A;display:inline-block"></i>Fat</span><span style="display:inline-flex;align-items:center;gap:8px;margin-right:26px;font-size:21px;color:#5C4A34"><i style="width:18px;height:18px;border-radius:5px;background:#6B4F30;display:inline-block"></i>Protein (incl. beta-casein)</span><span style="display:inline-flex;align-items:center;gap:8px;margin-right:26px;font-size:21px;color:#5C4A34"><i style="width:18px;height:18px;border-radius:5px;background:#E8C47A;display:inline-block"></i>Lactose & minerals</span></div><p class="note">Most milk protein, including the A1 or A2 beta-casein, stays in the milk solids that are strained out when butter becomes ghee.</p></div>
+      <div class="foot"><span>Typical values; real numbers vary with the milk</span><span class="brand">hillnest.co</span></div></div></body></html>
