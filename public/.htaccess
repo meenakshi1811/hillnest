@@ -13,6 +13,13 @@
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
+    # Visitors who type /public/... get the clean URL. Apache only runs this file (not the
+    # root .htaccess) for paths inside public/, so the rule has to live here. THE_REQUEST is
+    # the visitor's own request line, so pages the root .htaccess rewrites in here don't match,
+    # and locally (/hillnest/public/...) it does nothing.
+    RewriteCond %{THE_REQUEST} ^(?:GET|HEAD)\s/+public(?:/+(?:index\.php/*)?([^\s?]*))?[\s?] [NC]
+    RewriteRule ^ /%1 [L,R=301,NE]
+
     # Redirect Trailing Slashes If Not A Folder...
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
