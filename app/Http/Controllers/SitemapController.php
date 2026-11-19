@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\BlogPost;
 use App\Models\Product;
 use Illuminate\Http\Response;
 
@@ -20,8 +21,20 @@ class SitemapController extends Controller
                 'lastmod' => $product->updated_at?->toAtomString(),
             ]);
 
+        $posts = BlogPost::published()
+            ->latest('published_at')
+            ->get(['slug', 'updated_at'])
+            ->map(fn (BlogPost $post) => [
+                'loc' => route('blog.show', $post),
+                'lastmod' => $post->updated_at?->toAtomString(),
+            ]);
+
+        $blog = $posts->isNotEmpty()
+            ? collect([['loc' => route('blog.index'), 'lastmod' => $posts->max('lastmod')]])
+            : collect();
+
         return response()
-            ->view('sitemap', ['urls' => $pages->concat($products)])
+            ->view('sitemap', ['urls' => $pages->concat($products)->concat($blog)->concat($posts)])
             ->header('Content-Type', 'application/xml; charset=UTF-8');
     }
 }

@@ -150,6 +150,7 @@
           <li><a href="{{ route('home') }}#our-story">Bilona Process</a></li>
           <li><a href="{{ route('home') }}#how-we-started">How We Started</a></li>
           <li><a href="{{ route('home') }}#delivery">Pan India Delivery</a></li>
+          <li><a href="{{ route('blog.index') }}">Blog</a></li>
           <li><a href="{{ route('contact') }}">Contact Us</a></li>
         </ul>
       </div>

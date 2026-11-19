@@ -39,7 +39,7 @@
       <a href="{{ route('home') }}">Home</a>
       <a href="{{ route('shop.index') }}">Shop</a>
       <a href="{{ route('about') }}">Our Story</a>
-      <a href="{{ route('shop.index') }}#collection">Ghee</a>
+      <a href="{{ route('blog.index') }}">Blog</a>
     </nav>
 
     <div class="logo-wrap">

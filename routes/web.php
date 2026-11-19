@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AccountController;
+use App\Http\Controllers\Admin\BlogPostController as AdminBlogPostController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\ExpenseController as AdminExpenseController;
 use App\Http\Controllers\Admin\ContactMessageController as AdminContactMessageController;
@@ -15,6 +16,7 @@ use App\Http\Controllers\Admin\SettingsController as AdminSettingsController;
 use App\Http\Controllers\Admin\UserController as AdminUserController;
 use App\Http\Controllers\Admin\VisitorController as AdminVisitorController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\GoogleAuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\CheckoutController;
@@ -44,6 +46,9 @@ Route::post('/contact', [ContactController::class, 'store'])->middleware('thrott
 
 Route::get('/diwali', [DiwaliOfferController::class, 'show'])->name('diwali.offer');
 Route::post('/diwali/apply', [DiwaliOfferController::class, 'apply'])->middleware('throttle:coupon')->name('diwali.apply');
+
+Route::get('/blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('/blog/{post:slug}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::get('/shop', [ShopController::class, 'index'])->name('shop.index');
 Route::get('/shop/{product:slug}', [ShopController::class, 'show'])->name('shop.show');
@@ -114,6 +119,13 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/products/{product}', [AdminProductController::class, 'update'])->name('products.update');
     Route::patch('/products/{product}/toggle', [AdminProductController::class, 'toggleActive'])->name('products.toggle');
     Route::delete('/products/{product}', [AdminProductController::class, 'destroy'])->name('products.destroy');
+    Route::get('/blog', [AdminBlogPostController::class, 'index'])->name('blog.index');
+    Route::get('/blog/create', [AdminBlogPostController::class, 'create'])->name('blog.create');
+    Route::post('/blog', [AdminBlogPostController::class, 'store'])->name('blog.store');
+    Route::get('/blog/{blogPost:id}/edit', [AdminBlogPostController::class, 'edit'])->name('blog.edit');
+    Route::patch('/blog/{blogPost:id}', [AdminBlogPostController::class, 'update'])->name('blog.update');
+    Route::patch('/blog/{blogPost:id}/toggle', [AdminBlogPostController::class, 'togglePublished'])->name('blog.toggle');
+    Route::delete('/blog/{blogPost:id}', [AdminBlogPostController::class, 'destroy'])->name('blog.destroy');
     Route::get('/reports', [AdminReportController::class, 'index'])->name('reports.index');
     Route::get('/settings/shipping', [AdminSettingsController::class, 'shipping'])->name('settings.shipping');
     Route::patch('/settings/shipping', [AdminSettingsController::class, 'updateShipping'])->name('settings.shipping.update');

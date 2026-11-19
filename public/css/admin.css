@@ -1899,3 +1899,109 @@ body.admin-page button.admin-icon-btn {
   color: var(--text-light);
   font-size: 12px;
 }
+
+/* ── Blog editor ── */
+.admin-blog-body {
+  min-height: 420px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.admin-blog-help {
+  margin-top: 8px;
+  color: var(--text-mid);
+  font-size: 13px;
+}
+
+.admin-blog-help summary {
+  cursor: pointer;
+  color: var(--forest);
+  font-weight: 600;
+}
+
+.admin-blog-help div {
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px dashed var(--admin-border);
+  border-radius: 10px;
+  background: var(--cream);
+}
+
+.admin-blog-help p { margin: 0 0 6px; }
+.admin-blog-help p:last-child { margin-bottom: 0; }
+
+.admin-blog-help code {
+  padding: 1px 5px;
+  border-radius: 4px;
+  background: var(--white);
+  font-size: 12px;
+}
+
+.admin-char-count {
+  margin-left: 6px;
+  color: var(--text-light);
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.admin-char-count.is-good { color: #2f7a4b; }
+.admin-char-count.is-long { color: #b45309; }
+
+.admin-faq-list {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.admin-faq-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  padding: 12px;
+  border: 1px solid var(--admin-border);
+  border-radius: 12px;
+  background: var(--cream);
+}
+
+.admin-faq-row .admin-input { grid-column: 1; }
+.admin-faq-row .admin-textarea { grid-column: 1; min-height: 64px; }
+.admin-faq-row [data-faq-remove] { grid-column: 2; grid-row: 1; align-self: start; }
+
+.admin-blog-seo {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid var(--admin-border);
+  border-radius: 14px;
+  background: rgba(245, 232, 200, 0.28);
+}
+
+.admin-blog-seo__title {
+  margin: 0;
+  color: var(--forest);
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.admin-serp {
+  max-width: 600px;
+  padding: 14px 16px;
+  border-radius: 10px;
+  background: var(--white);
+  font-family: Arial, sans-serif;
+  box-shadow: 0 1px 6px rgba(32, 33, 36, 0.12);
+}
+
+.admin-serp__url { margin: 0 0 4px; color: #4d5156; font-size: 13px; overflow-wrap: anywhere; }
+.admin-serp__title { margin: 0 0 4px; color: #1a0dab; font-size: 19px; line-height: 1.3; }
+.admin-serp__desc { margin: 0; color: #4d5156; font-size: 14px; line-height: 1.5; }
+
+.admin-blog-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  align-items: center;
+}

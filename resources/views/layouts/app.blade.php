@@ -11,7 +11,9 @@
     $metaImage = trim($__env->yieldContent('og_image', asset('images/og-image.jpg')));
     // Built from APP_URL, not the incoming request, so /public/... or /index.php/... can never
     // become a canonical of their own. Query strings (utm, fbclid, page) are left out.
-    $canonicalUrl = rtrim(config('app.url'), '/').(request()->path() === '/' ? '' : '/'.request()->path());
+    // A page can set its own (e.g. paginated blog pages keep their ?page=N).
+    $canonicalUrl = trim($__env->yieldContent('canonical'))
+        ?: rtrim(config('app.url'), '/').(request()->path() === '/' ? '' : '/'.request()->path());
   @endphp
   <title>{!! $metaTitle !!}</title>
   <meta name="description" content="{!! $metaDescription !!}" />
