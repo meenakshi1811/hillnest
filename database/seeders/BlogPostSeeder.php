@@ -11,8 +11,9 @@ use Illuminate\Database\Seeder;
  * Run on its own: php artisan db:seed --class=BlogPostSeeder
  * (DatabaseSeeder also resets the admin login and products, so don't run that on the live site.)
  *
- * Every article is created as a draft so the team can check the facts, add their own photos and
- * publish from Admin → Blog. Existing articles (matched by slug) are never overwritten, so it is
+ * Every article is created as a draft so the team can check the facts and publish from Admin → Blog.
+ * Covers are free Unsplash photos (see marketing/blog-images-source/PHOTO-CREDITS.md); the team can
+ * swap in their own from the article's edit page. Existing articles (matched by slug) are never overwritten, so it is
  * safe to run again after editing.
  */
 class BlogPostSeeder extends Seeder
@@ -29,8 +30,10 @@ class BlogPostSeeder extends Seeder
                 ])
             );
 
-            // An article seeded before covers existed gets one, without touching anything else.
-            if (! $model->wasRecentlyCreated && ! $model->cover_image) {
+            // An article seeded earlier without a cover, or with the old illustrated cover, gets the
+            // photo. A cover the team uploaded themselves is left alone, and so is everything else.
+            $oldIllustration = 'images/blog/'.$post['slug'].'-cover.jpg';
+            if (! $model->wasRecentlyCreated && in_array($model->cover_image, [null, '', $oldIllustration], true)) {
                 $model->update(['cover_image' => $post['cover_image'], 'cover_image_alt' => $post['cover_image_alt']]);
             }
         }
@@ -46,8 +49,8 @@ class BlogPostSeeder extends Seeder
                 'meta_title' => 'What Is Bilona Ghee? Process, Taste & How It Differs',
                 'meta_description' => 'Bilona ghee is made by churning curd, not cream. See the 5-step village process, how it differs from regular ghee, and why it turns grainy and golden.',
                 'excerpt' => 'Bilona ghee is made from curd churned by hand into butter, then slowly clarified. Here is the full village process, step by step, and how it differs from the ghee on most shop shelves.',
-                'cover_image' => 'images/blog/what-is-bilona-ghee-cover.jpg',
-                'cover_image_alt' => 'Illustration of a wooden bilona churner in a pot, with the title What is bilona ghee?',
+                'cover_image' => 'images/blog/what-is-bilona-ghee.jpg',
+                'cover_image_alt' => 'A mountain village in Himachal Pradesh',
                 'body' => <<<'MD'
 Ask anyone who grew up in a Himachali village what real ghee tastes like and they will describe the same thing: a nutty smell that fills the kitchen, a grainy texture, and a deep golden colour. That ghee is almost always **bilona ghee**.
 
@@ -119,8 +122,8 @@ MD,
                 'meta_title' => 'How to Check Pure Ghee at Home: 5 Simple Tests',
                 'meta_description' => 'Simple home tests to spot adulterated ghee, including the FSSAI iodine test for starch, plus what home tests cannot catch and what to check on the label.',
                 'excerpt' => 'Worried your ghee might be adulterated? These five kitchen tests can flag common problems, and here is what they cannot tell you.',
-                'cover_image' => 'images/blog/how-to-check-pure-ghee-at-home-cover.jpg',
-                'cover_image_alt' => 'Illustration of a magnifying glass over a drop of ghee, with the title Is your ghee pure?',
+                'cover_image' => 'images/blog/how-to-check-pure-ghee-at-home.jpg',
+                'cover_image_alt' => 'Close-up of ghee on a spoon in a glass jar',
                 'body' => <<<'MD'
 Ghee is one of the most commonly adulterated foods in India. Cheaper fats such as vanaspati, other vegetable oils, or starches like mashed potato are sometimes mixed in to cut costs.
 
@@ -197,8 +200,8 @@ MD,
                 'meta_title' => '7 Traditional Ways to Use Ghee in Winter',
                 'meta_description' => 'From makki ki roti and sarson ka saag to pinni, gajar halwa and Himachali siddu, seven traditional winter dishes made with ghee, plus simple tips.',
                 'excerpt' => 'In the hills, winter cooking and ghee go together. Here are seven traditional ways families across North India use ghee when the cold sets in.',
-                'cover_image' => 'images/blog/ways-to-use-ghee-in-winter-cover.jpg',
-                'cover_image_alt' => 'Illustration of a snowflake and a steaming bowl, with the title Ghee for winter',
+                'cover_image' => 'images/blog/ways-to-use-ghee-in-winter.jpg',
+                'cover_image_alt' => 'A field of yellow flowers in the countryside',
                 'body' => <<<'MD'
 In Upper Shimla, winter mornings start below freezing, and the kitchen is the warmest room in the house. Ghee has always been part of winter cooking here: warm, rich dishes for cold days.
 
@@ -256,8 +259,8 @@ MD,
                 'meta_title' => 'Why Is Bilona Ghee Expensive? What Goes Into a Jar',
                 'meta_description' => 'Bilona ghee costs more because of how much milk it needs, the overnight curd, hand churning and slow small-batch cooking. Here is what goes into one jar.',
                 'excerpt' => 'Bilona ghee often costs two to three times more than regular ghee. Here is where that price comes from, and how to make sure you are paying for the real thing.',
-                'cover_image' => 'images/blog/why-is-bilona-ghee-expensive-cover.jpg',
-                'cover_image_alt' => 'Illustration of a milk can and a ghee jar, with the title Why bilona ghee costs more',
+                'cover_image' => 'images/blog/why-is-bilona-ghee-expensive.jpg',
+                'cover_image_alt' => 'Old metal milk cans outdoors',
                 'body' => <<<'MD'
 If you have compared ghee prices online, you have seen the gap: bilona ghee usually costs far more than the ghee in most grocery stores. It's a fair question to ask why.
 
@@ -323,8 +326,8 @@ MD,
                 'meta_title' => 'How to Store Ghee: Shelf Life & Signs It Has Gone Bad',
                 'meta_description' => 'Does ghee need a fridge? How long does it last? Simple rules to keep ghee fresh, why it turns grainy or solid, and the signs that ghee has gone bad.',
                 'excerpt' => 'Ghee keeps well for months if you follow a few simple rules. Here is how to store it, whether it needs the fridge, and how to tell when it has gone bad.',
-                'cover_image' => 'images/blog/how-to-store-ghee-cover.jpg',
-                'cover_image_alt' => 'Illustration of a ghee jar and a dry spoon, with the title How to store ghee',
+                'cover_image' => 'images/blog/how-to-store-ghee.jpg',
+                'cover_image_alt' => 'Glass jar of ghee with a spoon',
                 'body' => <<<'MD'
 Ghee is one of the longest-lasting foods in an Indian kitchen. Because the water and milk solids are removed while it is made, there is very little left for bacteria to grow on. But it can still go stale if it is stored badly.
 
@@ -387,8 +390,8 @@ MD,
                 'meta_title' => 'A2 Ghee vs Regular Ghee: What Is the Real Difference?',
                 'meta_description' => 'What do A1 and A2 mean, why the difference matters less in ghee than in milk, and what actually decides the quality of the ghee you buy.',
                 'excerpt' => 'A2 is printed on more and more ghee jars. Here is what it means, why it matters less for ghee than most labels suggest, and what you should look at instead.',
-                'cover_image' => 'images/blog/a2-ghee-vs-regular-ghee-cover.jpg',
-                'cover_image_alt' => 'Illustration of a milk drop turning into a ghee jar, with the title A2 ghee vs regular ghee',
+                'cover_image' => 'images/blog/a2-ghee-vs-regular-ghee.jpg',
+                'cover_image_alt' => 'Two cows on a village road in India',
                 'body' => <<<'MD'
 "A2 ghee" is one of the most common phrases on ghee jars today. But what does A2 actually mean, and does it make a difference in ghee? Here is a plain explanation.
 

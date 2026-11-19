@@ -1,9 +1,9 @@
 """
-Builds the blog cover images and in-article infographics.
+Builds the in-article infographics for the blog.
 
 Each image is an HTML page (brand colours, Google Fonts, inline SVG icons) rendered to PNG with
-headless Chrome, then saved as JPG (covers, also used for social previews) or WebP (infographics)
-in public/images/blog/.
+headless Chrome, then saved as WebP in public/images/blog/. Article covers are real photos instead;
+see PHOTO-CREDITS.md.
 
     python marketing/blog-images-source/build.py
 
@@ -84,24 +84,6 @@ body { font-family:'Jost',sans-serif; -webkit-font-smoothing:antialiased; }
 .ridge { position:absolute; left:0; right:0; bottom:0; width:100%; height:260px; }
 """
 
-COVER_CSS = """
-body { position:relative; background:
-  radial-gradient(circle at 78% 30%, rgba(232,196,122,.30), transparent 42%),
-  linear-gradient(135deg, #1E3B2F 0%, #2D5240 60%, #3E6B52 100%); color:var(--cream); }
-.ridge { color:var(--gold-light); }
-.text { position:absolute; left:80px; top:0; bottom:0; width:600px; display:flex; flex-direction:column; justify-content:center; }
-h1 { font-family:'Playfair Display',serif; font-weight:700; font-size:66px; line-height:1.08; margin:20px 0 22px; color:#FFF8EA; }
-h1 em { color:var(--gold-light); font-style:italic; }
-.sub { font-size:25px; line-height:1.45; color:rgba(250,245,236,.82); max-width:540px; }
-.brand { position:absolute; left:80px; bottom:48px; color:var(--gold-light); }
-.art { position:absolute; right:90px; top:50%; transform:translateY(-54%); width:400px; height:400px; border-radius:50%;
-  background: radial-gradient(circle at 40% 35%, #FFF8EA, #F5E8C8 70%); box-shadow:0 30px 80px rgba(0,0,0,.28), inset 0 0 0 10px rgba(201,151,58,.25);
-  display:flex; align-items:center; justify-content:center; gap:14px; color:var(--forest); }
-.art .main { color:var(--forest); }
-.art .accent { color:var(--gold); }
-.art .arrow { color:var(--gold); }
-.pill { position:absolute; padding:8px 16px; border-radius:99px; background:var(--forest); color:var(--gold-light); font-weight:600; font-size:18px; letter-spacing:1px; }
-"""
 
 INFO_CSS = """
 html { background:#00FF00; }
@@ -141,13 +123,6 @@ def page(width: int, height: int, css: str, body: str) -> str:
     return f'<!doctype html><html><head><meta charset="utf-8">{FONTS}<style>{base}{css}</style></head><body>{body}</body></html>'
 
 
-def cover(eyebrow: str, title: str, sub: str, art: str) -> str:
-    return page(1200, 750, COVER_CSS, f"""
-      {MOUNTAINS}
-      <div class="text"><p class="eyebrow">{eyebrow}</p><h1>{title}</h1><p class="sub">{html.escape(sub)}</p></div>
-      <div class="art">{art}</div>
-      <p class="brand">HillNest Journal · Upper Shimla</p>""")
-
 
 INFO_WINDOW = 2400  # rendered tall, then cropped to the content (see main)
 
@@ -175,17 +150,10 @@ def cards(items, columns: int) -> str:
     return f'<div class="grid" style="grid-template-columns:repeat({columns},1fr)">{out}</div>'
 
 
-def art(*parts) -> str:
-    return ''.join(parts)
-
 
 # ── The images ──────────────────────────────────────────────────────────────────────────────────
 IMAGES = {
     # what-is-bilona-ghee
-    'what-is-bilona-ghee-cover.jpg': cover(
-        'Ghee Guide', 'What is <em>bilona</em> ghee?',
-        'How curd, a wooden churner and a slow fire turn milk into golden, grainy ghee.',
-        art(icon('bilona', 230, 2.2, 'main'))),
     'bilona-process-steps.webp': info(
         640, 'The bilona way', 'From milk to ghee in <em>5 steps</em>',
         'How bilona ghee is made in village homes of Upper Shimla.',
@@ -199,10 +167,6 @@ IMAGES = {
         'About a day and a half from milk to jar'),
 
     # how-to-check-pure-ghee-at-home
-    'how-to-check-pure-ghee-at-home-cover.jpg': cover(
-        'Ghee Guide', 'Is your ghee <em>pure?</em>',
-        'Five simple tests you can do in your kitchen, and what they can’t tell you.',
-        art(icon('search', 230, 2.2, 'main'))),
     'home-ghee-purity-tests.webp': info(
         820, 'At a glance', '5 home tests for <em>pure ghee</em>',
         'Use them as warning signs, not as proof.',
@@ -217,10 +181,6 @@ IMAGES = {
         'Iodine test from FSSAI’s DART booklet'),
 
     # ways-to-use-ghee-in-winter
-    'ways-to-use-ghee-in-winter-cover.jpg': cover(
-        'Recipes', 'Ghee for <em>winter</em>',
-        'Seven traditional ways families in the hills cook with ghee when the cold sets in.',
-        art(icon('snow', 150, 2.4, 'accent'), icon('aroma', 170, 2.2, 'main'))),
     'winter-ghee-dishes.webp': info(
         900, 'Winter kitchen', '7 winter dishes made <em>with ghee</em>',
         'Traditional favourites from North India and the hills of Himachal.',
@@ -237,10 +197,6 @@ IMAGES = {
         'Cook tadka on medium heat so the ghee doesn’t burn'),
 
     # why-is-bilona-ghee-expensive
-    'why-is-bilona-ghee-expensive-cover.jpg': cover(
-        'Ghee Guide', 'Why bilona ghee <em>costs more</em>',
-        'More milk, more time and more hands go into every jar.',
-        art(icon('milk', 150, 2.4, 'main'), icon('arrow', 60, 3, 'arrow'), icon('jar', 150, 2.4, 'main'))),
     'what-goes-into-one-jar.webp': info(
         620, 'Where the price comes from', 'What goes into <em>one jar</em>',
         'Why bilona ghee costs more than ghee made from cream.',
@@ -254,10 +210,6 @@ IMAGES = {
         'A higher price alone doesn’t prove purity'),
 
     # how-to-store-ghee
-    'how-to-store-ghee-cover.jpg': cover(
-        'Ghee Guide', 'How to <em>store ghee</em>',
-        'Keep it fresh for months, and know the signs it has gone bad.',
-        art(icon('jar', 200, 2.2, 'main'), icon('spoon', 120, 2.4, 'accent'))),
     'ghee-storage-rules.webp': info(
         820, 'Keep it fresh', 'How to <em>store ghee</em>',
         'Four rules for storing ghee, and four signs it has gone bad.',
@@ -277,12 +229,6 @@ IMAGES = {
         'Grainy, solid in winter, liquid in summer: all normal'),
 
     # a2-ghee-vs-regular-ghee
-    'a2-ghee-vs-regular-ghee-cover.jpg': cover(
-        'Ghee Guide', '<em>A2</em> ghee vs regular ghee',
-        'What A1 and A2 mean, and why the label matters less in ghee than in milk.',
-        art('<div style="position:relative">' + icon('drop', 150, 2.4, 'main') + '<span class="pill" style="left:34px;top:84px">Milk</span></div>',
-            icon('arrow', 56, 3, 'arrow'),
-            '<div style="position:relative">' + icon('jar', 150, 2.4, 'main') + '<span class="pill" style="left:32px;top:84px">Ghee</span></div>')),
 }
 
 # Milk → butter → ghee, with approximate composition bars (typical textbook values).

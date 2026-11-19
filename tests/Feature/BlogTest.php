@@ -180,6 +180,18 @@ class BlogTest extends TestCase
             ->assertJsonPath('recordsTotal', 1);
     }
 
+    public function test_seeder_swaps_old_illustrated_covers_but_keeps_uploaded_ones(): void
+    {
+        $this->makePost(['slug' => 'what-is-bilona-ghee', 'cover_image' => 'images/blog/what-is-bilona-ghee-cover.jpg', 'cover_image_alt' => 'Illustration']);
+        $this->makePost(['slug' => 'how-to-store-ghee', 'cover_image' => 'images/blog/our-own-photo.jpg', 'cover_image_alt' => 'Our kitchen']);
+
+        $this->seed(BlogPostSeeder::class);
+
+        $this->assertSame('images/blog/what-is-bilona-ghee.jpg', BlogPost::firstWhere('slug', 'what-is-bilona-ghee')->cover_image);
+        $this->assertSame('images/blog/our-own-photo.jpg', BlogPost::firstWhere('slug', 'how-to-store-ghee')->cover_image);
+        $this->assertSame('Our kitchen', BlogPost::firstWhere('slug', 'how-to-store-ghee')->cover_image_alt);
+    }
+
     public function test_seeder_creates_drafts_and_does_not_overwrite_edits(): void
     {
         $this->seed(BlogPostSeeder::class);
