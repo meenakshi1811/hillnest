@@ -35,6 +35,10 @@
 <!-- Header -->
 <header id="header">
   <div class="header-inner">
+    <button type="button" class="nav-menu-toggle" id="nav-menu-toggle" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-mobile-menu-toggle>
+      <svg width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h11"/></svg>
+    </button>
+
     <nav class="nav-left">
       <a href="{{ route('home') }}">Home</a>
       <a href="{{ route('shop.index') }}">Shop</a>
@@ -105,6 +109,96 @@
     </form>
   </div>
 </header>
+
+{{-- Phone menu. Lives outside #header: the header's backdrop-filter would trap a fixed panel inside it. --}}
+<div class="mobile-menu" id="mobile-menu" hidden>
+  <div class="mobile-menu__scrim" data-mobile-menu-close></div>
+  <div class="mobile-menu__panel" role="dialog" aria-modal="true" aria-label="Menu">
+    <div class="mobile-menu__head">
+      <a href="{{ route('home') }}" class="mobile-menu__logo" aria-label="HillNest home">
+        <img src="{{ asset('images/logo.png') }}" alt="HillNest" width="52" height="52">
+      </a>
+      <button type="button" class="mobile-menu__close" aria-label="Close menu" data-mobile-menu-close>
+        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" viewBox="0 0 24 24" aria-hidden="true"><path d="M18 6 6 18M6 6l12 12"/></svg>
+      </button>
+    </div>
+
+    <ul class="mobile-menu__links">
+      <li><a href="{{ route('home') }}" @if(request()->routeIs('home')) aria-current="page" @endif>Home</a></li>
+      <li><a href="{{ route('shop.index') }}" @if(request()->routeIs('shop.*')) aria-current="page" @endif>Shop Ghee</a></li>
+      <li><a href="{{ route('about') }}" @if(request()->routeIs('about')) aria-current="page" @endif>Our Story</a></li>
+      <li><a href="{{ route('blog.index') }}" @if(request()->routeIs('blog.*')) aria-current="page" @endif>Blog</a></li>
+      <li><a href="{{ route('contact') }}" @if(request()->routeIs('contact')) aria-current="page" @endif>Contact Us</a></li>
+    </ul>
+
+    <ul class="mobile-menu__account">
+      @auth
+        <li><a href="{{ route('account.orders') }}">My Orders</a></li>
+        <li><a href="{{ route('account.profile') }}">My Profile</a></li>
+        <li>
+          <form method="POST" action="{{ route('logout') }}">
+            @csrf
+            <button type="submit">Logout</button>
+          </form>
+        </li>
+      @else
+        <li><a href="{{ route('login') }}">Log in</a></li>
+        <li><a href="{{ route('register') }}">Create an account</a></li>
+      @endauth
+    </ul>
+
+    <div class="mobile-menu__foot">
+      @if($shippingService->freeDeliveryLabel())
+        <p>🚚 {{ $shippingService->freeDeliveryLabel() }}</p>
+      @endif
+      <p>Pure A2 bilona ghee from Chhajpur, Upper Shimla</p>
+    </div>
+  </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+  var menu = document.getElementById('mobile-menu');
+  var toggle = document.getElementById('nav-menu-toggle');
+  if (!menu || !toggle) return;
+  var lastFocus = null;
+
+  function openMenu() {
+    lastFocus = document.activeElement;
+    menu.hidden = false;
+    requestAnimationFrame(function () { menu.classList.add('is-open'); });
+    toggle.setAttribute('aria-expanded', 'true');
+    document.documentElement.classList.add('mobile-menu-open');
+    var first = menu.querySelector('.mobile-menu__links a');
+    if (first) setTimeout(function () { first.focus(); }, 60);
+  }
+
+  function closeMenu() {
+    menu.classList.remove('is-open');
+    toggle.setAttribute('aria-expanded', 'false');
+    document.documentElement.classList.remove('mobile-menu-open');
+    setTimeout(function () { menu.hidden = true; }, 220);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  toggle.addEventListener('click', function () {
+    if (menu.hidden) openMenu(); else closeMenu();
+  });
+  menu.querySelectorAll('[data-mobile-menu-close]').forEach(function (el) {
+    el.addEventListener('click', closeMenu);
+  });
+  menu.querySelectorAll('.mobile-menu__links a, .mobile-menu__account a').forEach(function (a) {
+    a.addEventListener('click', function () { closeMenu(); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !menu.hidden) closeMenu();
+  });
+  // Rotating to a wide screen while the menu is open: put it away.
+  window.addEventListener('resize', function () {
+    if (!menu.hidden && window.innerWidth > 640) closeMenu();
+  });
+});
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function () {

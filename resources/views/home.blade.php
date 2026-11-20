@@ -324,6 +324,9 @@
           </div>
         </article>
       </div>
+
+      {{-- Phones show this instead of the chapters above; the full story is on the About page. --}}
+      <a href="{{ route('about') }}" class="founders-readmore">Read our full story <span aria-hidden="true">→</span></a>
     </div>
 
     <ul class="founders-trust" aria-label="What HillNest stands for">

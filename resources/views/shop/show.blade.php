@@ -319,9 +319,49 @@
         @endif
     </div>
 </section>
+
+@if($product->stock > 0)
+{{-- Phone only: keeps "Add to Cart" in reach once the main button scrolls away. --}}
+<div class="pdp-sticky" data-pdp-sticky aria-hidden="true">
+    <div class="pdp-sticky__info">
+        <span class="pdp-sticky__name">{{ $product->card_title }}</span>
+        <span class="pdp-sticky__price">₹{{ number_format($product->price, 0) }}</span>
+    </div>
+    <button type="button" class="pdp-sticky__btn" data-pdp-sticky-btn tabindex="-1">Add to Cart</button>
+</div>
+@endif
 @endsection
 
 @push('scripts')
+<script>
+  (function () {
+    var bar = document.querySelector('[data-pdp-sticky]');
+    var main = document.querySelector('.product-detail__cart');
+    if (!bar || !main || !('IntersectionObserver' in window)) return;
+    var btn = bar.querySelector('[data-pdp-sticky-btn]');
+
+    function syncLabel() {
+      btn.textContent = main.classList.contains('cart-action--in-cart') ? 'View Cart' : 'Add to Cart';
+    }
+
+    new IntersectionObserver(function (entries) {
+      var show = !entries[0].isIntersecting && entries[0].boundingClientRect.top < 0;
+      bar.classList.toggle('is-visible', show);
+      bar.setAttribute('aria-hidden', show ? 'false' : 'true');
+      btn.tabIndex = show ? 0 : -1;
+      document.body.classList.toggle('has-pdp-sticky', show);
+    }).observe(main);
+
+    new MutationObserver(syncLabel).observe(main, { attributes: true, attributeFilter: ['class'] });
+    syncLabel();
+
+    btn.addEventListener('click', function () {
+      var add = main.querySelector('[data-cart-add]');
+      if (add) { add.click(); return; }
+      window.location.href = @json(route('cart.index'));
+    });
+  })();
+</script>
 <script>
   if (typeof fbq === 'function') {
     fbq('track', 'ViewContent', {
