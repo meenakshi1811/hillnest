@@ -76,6 +76,8 @@
       <div class="hero-jar-container">
         <div class="hero-jar">
           <picture>
+            {{-- Phones hide this block (see .hero-visual in style.css); a 1px blank stops the jar image downloading there. --}}
+            <source media="(max-width: 640px)" srcset="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==">
             <source srcset="{{ asset('images/homepage_image.webp') }}?v={{ @filemtime(public_path('images/homepage_image.webp')) }}" type="image/webp">
             <img
               src="{{ asset('images/homepage_image.png') }}?v={{ @filemtime(public_path('images/homepage_image.png')) }}"
