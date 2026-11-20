@@ -123,10 +123,33 @@
                 <x-cart-action :product="$product" :show-quantity="true" variant="page" />
                 @endif
 
+                @inject('shippingService', 'App\Services\ShippingService')
+                <ul class="product-detail-delivery">
+                    @if($shippingService->freeDeliveryLabel())
+                    <li>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 5v3h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
+                        <span>{{ $shippingService->freeDeliveryLabel() }}</span>
+                    </li>
+                    @endif
+                    <li>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><path d="M3.3 7.7 12 12.5l8.7-4.8"/><path d="M12 22.5V12.5"/></svg>
+                        <span>Dispatched from Upper Shimla in 1–2 working days · <a href="{{ route('shipping') }}">Delivery details</a></span>
+                    </li>
+                </ul>
+
                 <ul class="product-detail-trust">
-                    <li><span aria-hidden="true">🌿</span> Pure A2 Bilona</li>
-                    <li><span aria-hidden="true">🏔</span> From Upper Shimla</li>
-                    <li><span aria-hidden="true">🫙</span> Small-batch crafted</li>
+                    <li>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22c4-3 7-7 7-12a7 7 0 0 0-14 0c0 5 3 9 7 12z"/><path d="M12 22V9"/><path d="M12 14l-3-3M12 12l3-3"/></svg>
+                        <span>Pure A2 Bilona</span>
+                    </li>
+                    <li>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 20 6-11 4 6 3-4 5 9z"/><path d="m8 11 1-2 1.5 2.3"/></svg>
+                        <span>From Upper Shimla</span>
+                    </li>
+                    <li>
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="6" y="3" width="12" height="4" rx="1"/><path d="M7 7v12a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V7"/><path d="M7 12h10"/></svg>
+                        <span>Small-batch crafted</span>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -334,6 +357,51 @@
 
 @push('scripts')
 <script>
+  // Phones: the info panels below the buy box fold into an accordion (Description starts open).
+  (function () {
+    var phone = window.matchMedia('(max-width: 640px)');
+    var panels = document.querySelectorAll('.product-detail-panel, .product-detail-highlights');
+
+    panels.forEach(function (panel, i) {
+      var h2 = panel.querySelector('h2');
+      if (!h2) return;
+      var id = 'pdp-panel-' + i;
+      var btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'pdp-acc__btn';
+      btn.setAttribute('aria-controls', id);
+      btn.innerHTML = '<span>' + h2.innerHTML + '</span><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg>';
+      h2.innerHTML = '';
+      h2.appendChild(btn);
+
+      var body = document.createElement('div');
+      body.className = 'pdp-acc__body';
+      body.id = id;
+      while (h2.nextSibling) body.appendChild(h2.nextSibling);
+      panel.appendChild(body);
+      panel.classList.add('pdp-acc');
+      if (i === 0) panel.classList.add('is-open');
+
+      btn.addEventListener('click', function () {
+        if (!phone.matches) return;
+        panel.classList.toggle('is-open');
+        sync();
+      });
+    });
+
+    function sync() {
+      panels.forEach(function (panel) {
+        var btn = panel.querySelector('.pdp-acc__btn');
+        if (!btn) return;
+        var open = !phone.matches || panel.classList.contains('is-open');
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+        btn.tabIndex = phone.matches ? 0 : -1;
+      });
+    }
+    (phone.addEventListener ? phone.addEventListener('change', sync) : phone.addListener(sync));
+    sync();
+  })();
+
   (function () {
     var bar = document.querySelector('[data-pdp-sticky]');
     var main = document.querySelector('.product-detail__cart');
